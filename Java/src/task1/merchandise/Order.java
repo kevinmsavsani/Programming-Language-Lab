@@ -8,16 +8,7 @@ public class Order {
         System.out.println(String.format("%d   |   %d   |   %d   |   %d \n",Constant.totalSmall,Constant.totalMedium,Constant.totalLarge,Constant.totalCap));
     }
 
-    public static int pickOrder(){
-        synchronized (Constant.orderNumber) {
-            Constant.orderNumber++;
-            if (Constant.orderNumber < Constant.numberOfOrder) {
-                return Constant.orderNumber;
-            } else {
-                return -1;
-            }
-        }
-    }
+
 
     public static void orderProcess(Integer orderNumber){
 
