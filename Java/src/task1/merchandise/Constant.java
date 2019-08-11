@@ -2,17 +2,26 @@ package task1.merchandise;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 public class Constant {
     public static String fileName = "src/task1/merchandise/input.txt";
-    //public static List<String> order = new ArrayList<>();
-    public static List<Triplet<Integer, Character, Integer>> orderN = new ArrayList<>();
+    public static List<Triplet<Integer, Character, Integer>> orderList = new ArrayList<>();
 
     public static int numberOfOrder;
     public static int totalSmall = 4;
     public static int totalMedium = 5;
     public static int totalLarge = 2;
     public static int totalCap = 4;
+
+    public static Integer orderNumber = -1;
+
+    public static Character small = 'S';
+    public static Character medium = 'M';
+    public static Character large = 'L';
+    public static Character cap = 'C';
+
+    public static Boolean print = true;
+
+
 }
