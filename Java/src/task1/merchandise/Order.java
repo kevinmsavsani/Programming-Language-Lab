@@ -8,10 +8,9 @@ public class Order {
         System.out.println(String.format("%d   |   %d   |   %d   |   %d \n",Constant.totalSmall,Constant.totalMedium,Constant.totalLarge,Constant.totalCap));
     }
 
-    public static int pickOrder(){
-        Constant.orderNumber++;
-        if (Constant.orderNumber < Constant.numberOfOrder) {
-            return Constant.orderNumber;
+    public static int pickOrder(Integer orderNumber){
+        if (orderNumber <= Constant.numberOfOrder) {
+            return orderNumber-1;
         } else {
             return -1;
         }

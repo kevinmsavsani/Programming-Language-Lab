@@ -13,7 +13,7 @@ public class Setup extends Thread {
     @Override
     public void run(){
 //      while(true) {
-        int orderNumber = order.pickOrder();
+        int orderNumber = order.pickOrder(Integer.parseInt(getName()));
 
 //      if (orderNumber < 0) {
         // Stop the thread
