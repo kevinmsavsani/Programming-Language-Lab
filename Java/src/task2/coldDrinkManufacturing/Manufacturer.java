@@ -39,10 +39,18 @@ public class Manufacturer {
     public static void main(String[]args) throws FileNotFoundException {
         File file = new File(Constant.fileName);
         Scanner scanner = new Scanner(file);
+        String line;
+        String[] lineVector;
 
-        Constant.totalB1Bottles = scanner.nextInt();
-        Constant.totalB2Bottles = scanner.nextInt();
-        Constant.observationTime = scanner.nextInt();
+        line = scanner.nextLine();
+
+        //separate all values by comma
+        lineVector = line.split(", ");
+
+        //parsing the values to Integer
+        Constant.totalB1Bottles=Integer.parseInt(lineVector[0]);
+        Constant.totalB2Bottles=Integer.parseInt(lineVector[1]);
+        Constant.observationTime=Integer.parseInt(lineVector[2]);
 
         Constant.unfinishedTrayB1Bottles = Constant.totalB1Bottles;
         Constant.unfinishedTrayB2Bottles = Constant.totalB2Bottles;
