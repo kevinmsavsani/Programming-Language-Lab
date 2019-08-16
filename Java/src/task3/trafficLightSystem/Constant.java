@@ -16,4 +16,7 @@ public class Constant {
     public static List<String> directions = new ArrayList<>();
     public static Vector vehicleTimeStatus = new Vector();
     public static Vector vehicleStatus = new Vector();
+    public static int westSouthWait = 0;
+    public static int eastWestWait = 0;
+    public static int southEastWait = 0;
 }

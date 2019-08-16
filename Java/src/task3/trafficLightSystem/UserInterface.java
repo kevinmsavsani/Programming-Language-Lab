@@ -20,7 +20,6 @@ public class UserInterface {
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
         JButton addButton = new JButton("Add More Cars");
-        JButton clearButton = new JButton("Clear");
         JButton statusButton = new JButton("Status Button");
 
         directions.add("South");
@@ -39,18 +38,18 @@ public class UserInterface {
         sourceDirectionList.setBounds(350, 50, 100, 150);
         destinationDirection.setBounds(50, 250, 250, 30);
         destinationDirectionList.setBounds(350, 250, 100, 150);
-        addButton.setBounds(100, 400, 200, 40);
-        clearButton.setBounds(300, 400, 200, 40);
+        addButton.setBounds(200, 430, 200, 40);
         outputTableScrollPane.setBounds(0, 500, 600, 200);
         statusButton.setBounds(200, 700, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
             String item2 = directions.get(destinationDirectionList.getSelectedIndex());
+
             Constant.userDetails.add(new Triplet<>(Constant.userDetails.size()+1,item1,item2));
             Constant.vehicleStatus.add("Pass");
             Constant.vehicleTimeStatus.add("--");
-            User userInfo = new User(Constant.userDetails.size());
+            User userInfo = new User(Constant.userDetails.size() , directionWaitTime(item1,item2));
             userInfo.start();
             outputTable.setRowCount(0);
             for (Triplet<Integer, String, String> user : Constant.userDetails)
@@ -58,24 +57,27 @@ public class UserInterface {
                 outputTable.addRow(new Object[]{user.getValue0() , Constant.vehicleStatus.get(user.getValue0()-1)});
             }
             if (Constant.userDetails.size() > 0) {
-                clearButton.setEnabled(true);
                 statusButton.setEnabled(true);
             } else {
-                clearButton.setEnabled(false);
                 statusButton.setEnabled(false);
             }
         });
 
-        clearButton.addActionListener(actionEvent -> {
-            Constant.userDetails.clear();
-            outputTable.setRowCount(0);
-            statusButton.setEnabled(false);
-            clearButton.setEnabled(false);
-        });
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                outputTable.setRowCount(0);
+                for (Triplet<Integer, String, String> user : Constant.userDetails)
+                {
+                    outputTable.addRow(new Object[]{user.getValue0() , Constant.vehicleStatus.get(user.getValue0()-1)});
+                }
+            }
+        };
+        Timer timer = new Timer(1000 ,taskPerformer);
+        timer.setRepeats(true);
+        timer.start();
 
         statusButton.addActionListener(actionEvent -> generateStatusGui());
 
-        clearButton.setEnabled(false);
         statusButton.setEnabled(false);
 
         frame.add(sourceDirection);
@@ -83,13 +85,27 @@ public class UserInterface {
         frame.add(destinationDirection);
         frame.add(destinationDirectionList);
         frame.add(addButton);
-        frame.add(clearButton);
         frame.add(outputTableScrollPane);
         frame.add(statusButton);
 
         frame.setSize(600, 800);//600 width and 800 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
+    }
+
+    private static int directionWaitTime(String item1, String item2) {
+        if(item1.equalsIgnoreCase(Constant.southDirection) && item2.equalsIgnoreCase(Constant.eastDirection)){
+            return Constant.southEastWait++;
+        }
+        else if(item1.equalsIgnoreCase(Constant.westDirection) && item2.equalsIgnoreCase(Constant.southDirection)){
+            return Constant.westSouthWait++;
+        }
+        else if(item1.equalsIgnoreCase(Constant.eastDirection) && item2.equalsIgnoreCase(Constant.westDirection)){
+            return Constant.eastWestWait++;
+        }
+        else {
+            return 0;
+        }
     }
 
     public static void generateStatusGui() {
