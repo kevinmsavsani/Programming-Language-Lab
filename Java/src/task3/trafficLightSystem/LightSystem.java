@@ -6,8 +6,8 @@ public class LightSystem {
         TrafficLight trafficLight = new TrafficLight();
         trafficLight.start();
 
-        User user = new User();
-        user.start();
+        UserGUI userGUI = new UserGUI();
+        userGUI.start();
     }
 
     public static void main(String[]args){

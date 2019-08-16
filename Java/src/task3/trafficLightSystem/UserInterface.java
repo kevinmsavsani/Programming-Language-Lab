@@ -6,18 +6,17 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
+
+import static task3.trafficLightSystem.Constant.directions;
 
 public class UserInterface {
-    public static List<String> directions = new ArrayList<>();
-    public static List<Triplet<Integer, String, String>> userDetails = new ArrayList<>();
 
     public static void generateGui() {
         JFrame frame = new JFrame(); //creating instance of JFrame
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
         JButton submitButton = new JButton("Submit");
-        JButton addButton = new JButton("Add More Users");
+        JButton addButton = new JButton("Add More Cars");
         JButton clearButton = new JButton("Clear");
         JButton statusButton = new JButton("Status Button");
 
@@ -46,60 +45,17 @@ public class UserInterface {
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
             String item2 = directions.get(destinationDirectionList.getSelectedIndex());
-            userDetails.add(new Triplet<>(userDetails.size()+1,item1,item2 ));
+            Constant.userDetails.add(new Triplet<>(Constant.userDetails.size()+1,item1,item2));
+            Constant.vehicleStatus.add("Pass");
+            Constant.vehicleTimeStatus.add("--");
+            User userInfo = new User(Constant.userDetails.size());
+            userInfo.start();
             outputTable.setRowCount(0);
-            Date date = new Date();
-            for (Triplet<Integer, String, String> user : userDetails)
+            for (Triplet<Integer, String, String> user : Constant.userDetails)
             {
-                if(user.getValue1().equalsIgnoreCase(user.getValue2())){
-                    outputTable.addRow(new Object[]{user.getValue0(),"Pass"});
-                }
-                else if((user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.westDirection)) ||
-                        (user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) ||
-                        (user.getValue1().equalsIgnoreCase(Constant.eastDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection))){
-                    outputTable.addRow(new Object[]{user.getValue0() ,"Pass"});
-                }
-                else if(user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)){
-                    if (Constant.greenTrafficlight == 1){
-                        outputTable.addRow(new Object[]{user.getValue0() ,"Pass"});
-                    }else {
-                        long time = 60 - ((date.getTime()/1000)-Constant.startTrafficLightTime);
-                        if (Constant.greenTrafficlight==2){
-                            time += 60;
-                        }else {
-                            time += 0;
-                        }
-                        outputTable.addRow(new Object[]{user.getValue0() , "Wait"});
-                    }
-                }
-                else if(user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection)){
-                    if (Constant.greenTrafficlight == 2){
-                        outputTable.addRow(new Object[]{user.getValue0() , "Pass"});
-                    }else {
-                        long time = 60 - ((date.getTime()/1000)-Constant.startTrafficLightTime);
-                        if (Constant.greenTrafficlight==3){
-                            time += 60;
-                        }else {
-                            time += 0;
-                        }
-                        outputTable.addRow(new Object[]{user.getValue0(), "Wait"});
-                    }
-                }
-                else if(user.getValue1().equalsIgnoreCase(Constant.eastDirection) && user.getValue2().equalsIgnoreCase(Constant.westDirection)){
-                    if (Constant.greenTrafficlight == 3){
-                        outputTable.addRow(new Object[]{user.getValue0() , "Pass"});
-                    }else {
-                        long time = 60 - ((date.getTime()/1000)-Constant.startTrafficLightTime);
-                        if (Constant.greenTrafficlight==1){
-                            time += 60;
-                        }else {
-                            time += 0;
-                        }
-                        outputTable.addRow(new Object[]{user.getValue0() , "Wait"});
-                    }
-                }
+                outputTable.addRow(new Object[]{user.getValue0() , Constant.vehicleStatus.get(user.getValue0()-1)});
             }
-            if (userDetails.size() > 0) {
+            if (Constant.userDetails.size() > 0) {
                 submitButton.setEnabled(true);
                 clearButton.setEnabled(true);
                 statusButton.setEnabled(false);
@@ -111,7 +67,7 @@ public class UserInterface {
         });
 
         clearButton.addActionListener(actionEvent -> {
-            userDetails.clear();
+            Constant.userDetails.clear();
             outputTable.setRowCount(0);
             submitButton.setEnabled(false);
             statusButton.setEnabled(false);
@@ -147,75 +103,8 @@ public class UserInterface {
 
     public static void generateStatusGui() {
         JFrame frame = new JFrame(); //creating instance of JFrame
-        //JPanel p1 = new JPanel(new BorderLayout());
         JPanel p2 = new JPanel(new BorderLayout());
         JPanel p3 = new JPanel(new BorderLayout());
-
-//        JLabel sourceDirection = new JLabel("Source Direction");
-//        JLabel destinationDirection = new JLabel("Destination Direction");
-//        JButton submitButton = new JButton("Submit");
-//        JButton addButton = new JButton("Add More Users");
-//        JButton clearButton = new JButton("Clear");
-//        directions.add("South");
-//        directions.add("East");
-//        directions.add("West");
-//        JList sourceDirectionList = new JList(directions.toArray());
-//        JList destinationDirectionList = new JList(directions.toArray());
-//
-//
-//        DefaultTableModel outputTable = new DefaultTableModel(new String[]{"Vehicle Number", "Status"}, 0);
-//        JTable outputJTable = new JTable(outputTable);
-//        JScrollPane outputTableScrollPane = new JScrollPane(outputJTable);
-//
-//        // x axis, y axis, width, height
-//        sourceDirection.setBounds(50, 50, 250, 30);
-//        sourceDirectionList.setBounds(350, 50, 100, 150);
-//        destinationDirection.setBounds(50, 250, 250, 30);
-//        destinationDirectionList.setBounds(350, 250, 100, 150);
-//        addButton.setBounds(100, 400, 200, 40);
-//        clearButton.setBounds(300, 400, 200, 40);
-//        outputTableScrollPane.setBounds(0, 500, 600, 200);
-//        submitButton.setBounds(100, 700, 200, 40);
-//
-//        addButton.addActionListener(actionEvent -> {
-//            String item1 = directions.get(sourceDirectionList.getSelectedIndex());
-//            String item2 = directions.get(destinationDirectionList.getSelectedIndex());
-//            userDetails.add(new Triplet<>(userDetails.size()+1,item1,item2 ));
-//            outputTable.setRowCount(0);
-//            if (userDetails.size() > 0) {
-//                submitButton.setEnabled(true);
-//                clearButton.setEnabled(true);
-//            } else {
-//                clearButton.setEnabled(false);
-//                submitButton.setEnabled(false);
-//            }
-//        });
-//
-//        clearButton.addActionListener(actionEvent -> {
-//            userDetails.clear();
-//            outputTable.setRowCount(0);
-//            submitButton.setEnabled(false);
-//            clearButton.setEnabled(false);
-//        });
-//
-//        submitButton.addActionListener(actionEvent -> {
-//            String message = "Hii";
-//            JOptionPane.showMessageDialog(frame, message);
-//        });
-//
-//        clearButton.setEnabled(false);
-//        submitButton.setEnabled(false);
-//
-//        p1.add(sourceDirection);
-//        p1.add(sourceDirectionList);
-//        p1.add(destinationDirection);
-//        p1.add(destinationDirectionList);
-//        p1.add(addButton);
-//        p1.add(clearButton);
-//        p1.add(outputTableScrollPane);
-//        p1.add(submitButton);
-//
-//        p1.setLayout(null);//using no layout managers
 
         JButton refresh = new JButton("Refresh"); //creating instance of JButton
         DefaultTableModel trafficLightDetails = new DefaultTableModel(new String[]{"Traffic Light", "Status", "Time"}, 0);
@@ -234,12 +123,11 @@ public class UserInterface {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         p2.add(trafficLightScrollPane, BorderLayout.CENTER);
         p3.add(outputStatusScrollPane, BorderLayout.CENTER);
-        //tp.add("User Input", p1);
         tp.add("Traffic Light Status", p2);
         tp.add("Vehicle Status", p3);
         frame.add(tp, BorderLayout.CENTER);
         frame.add(refresh, BorderLayout.PAGE_END);
-        frame.setVisible(true); //making the frame visible
+        frame.setVisible(true);
     }
 
 
@@ -263,55 +151,9 @@ public class UserInterface {
         }
 
         outputStatusDetails.setRowCount(0);
-        for (Triplet<Integer, String, String> user : userDetails)
+        for (Triplet<Integer, String, String> user : Constant.userDetails)
         {
-            if(user.getValue1().equalsIgnoreCase(user.getValue2())){
-                outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Pass", "--"});
-            }
-            else if((user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.westDirection)) ||
-                    (user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) ||
-                    (user.getValue1().equalsIgnoreCase(Constant.eastDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection))){
-                outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Pass", "--"});
-            }
-            else if(user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)){
-                if (Constant.greenTrafficlight == 1){
-                    outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Pass", "--"});
-                }else {
-                    time = 60 - ((date.getTime()/1000)-Constant.startTrafficLightTime);
-                    if (Constant.greenTrafficlight==2){
-                        time += 60;
-                    }else {
-                        time += 0;
-                    }
-                    outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Wait", time});
-                }
-            }
-            else if(user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection)){
-                if (Constant.greenTrafficlight == 2){
-                    outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Pass", "--"});
-                }else {
-                    time = 60 - ((date.getTime()/1000)-Constant.startTrafficLightTime);
-                    if (Constant.greenTrafficlight==3){
-                        time += 60;
-                    }else {
-                        time += 0;
-                    }
-                    outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Wait", time});
-                }
-            }
-            else if(user.getValue1().equalsIgnoreCase(Constant.eastDirection) && user.getValue2().equalsIgnoreCase(Constant.westDirection)){
-                if (Constant.greenTrafficlight == 3){
-                    outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Pass", "--"});
-                }else {
-                    time = 60 - ((date.getTime()/1000)-Constant.startTrafficLightTime);
-                    if (Constant.greenTrafficlight==1){
-                        time += 60;
-                    }else {
-                        time += 0;
-                    }
-                    outputStatusDetails.addRow(new Object[]{user.getValue0() ,user.getValue1(), user.getValue2(), "Wait", time});
-                }
-            }
+            outputStatusDetails.addRow(new Object[]{user.getValue0(),user.getValue1(),user.getValue2(),Constant.vehicleStatus.get(user.getValue0()-1),Constant.vehicleTimeStatus.get(user.getValue0()-1)});
         }
     }
 }
