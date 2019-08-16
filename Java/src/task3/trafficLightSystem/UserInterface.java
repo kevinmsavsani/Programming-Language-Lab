@@ -1,10 +1,14 @@
 package task3.trafficLightSystem;
 
+import org.javatuples.Quintet;
 import org.javatuples.Triplet;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 import static task3.trafficLightSystem.Constant.directions;
@@ -15,7 +19,6 @@ public class UserInterface {
         JFrame frame = new JFrame(); //creating instance of JFrame
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
-        JButton submitButton = new JButton("Submit");
         JButton addButton = new JButton("Add More Cars");
         JButton clearButton = new JButton("Clear");
         JButton statusButton = new JButton("Status Button");
@@ -39,8 +42,7 @@ public class UserInterface {
         addButton.setBounds(100, 400, 200, 40);
         clearButton.setBounds(300, 400, 200, 40);
         outputTableScrollPane.setBounds(0, 500, 600, 200);
-        submitButton.setBounds(100, 700, 200, 40);
-        statusButton.setBounds(300, 700, 200, 40);
+        statusButton.setBounds(200, 700, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
@@ -56,12 +58,10 @@ public class UserInterface {
                 outputTable.addRow(new Object[]{user.getValue0() , Constant.vehicleStatus.get(user.getValue0()-1)});
             }
             if (Constant.userDetails.size() > 0) {
-                submitButton.setEnabled(true);
                 clearButton.setEnabled(true);
-                statusButton.setEnabled(false);
+                statusButton.setEnabled(true);
             } else {
                 clearButton.setEnabled(false);
-                submitButton.setEnabled(false);
                 statusButton.setEnabled(false);
             }
         });
@@ -69,21 +69,13 @@ public class UserInterface {
         clearButton.addActionListener(actionEvent -> {
             Constant.userDetails.clear();
             outputTable.setRowCount(0);
-            submitButton.setEnabled(false);
             statusButton.setEnabled(false);
             clearButton.setEnabled(false);
-        });
-
-        submitButton.addActionListener(actionEvent -> {
-            String message = "Hii";
-            JOptionPane.showMessageDialog(frame, message);
-            statusButton.setEnabled(true);
         });
 
         statusButton.addActionListener(actionEvent -> generateStatusGui());
 
         clearButton.setEnabled(false);
-        submitButton.setEnabled(false);
         statusButton.setEnabled(false);
 
         frame.add(sourceDirection);
@@ -93,7 +85,6 @@ public class UserInterface {
         frame.add(addButton);
         frame.add(clearButton);
         frame.add(outputTableScrollPane);
-        frame.add(submitButton);
         frame.add(statusButton);
 
         frame.setSize(600, 800);//600 width and 800 height
@@ -106,7 +97,6 @@ public class UserInterface {
         JPanel p2 = new JPanel(new BorderLayout());
         JPanel p3 = new JPanel(new BorderLayout());
 
-        JButton refresh = new JButton("Refresh"); //creating instance of JButton
         DefaultTableModel trafficLightDetails = new DefaultTableModel(new String[]{"Traffic Light", "Status", "Time"}, 0);
         DefaultTableModel outputStatusTable = new DefaultTableModel(new String[]{"Vehicle", "Source", "Destination","Status", "Remaining Time"}, 0);
 
@@ -116,9 +106,15 @@ public class UserInterface {
         JScrollPane outputStatusScrollPane = new JScrollPane(statusTable);
 
         JTabbedPane tp = new JTabbedPane();
-        refresh.addActionListener(actionEvent -> refreshAction(trafficLightDetails, outputStatusTable));
         refreshAction( trafficLightDetails, outputStatusTable);
 
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                refreshAction( trafficLightDetails, outputStatusTable);            }
+        };
+        Timer timer = new Timer(1000 ,taskPerformer);
+        timer.setRepeats(true);
+        timer.start();
         frame.setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         p2.add(trafficLightScrollPane, BorderLayout.CENTER);
@@ -126,7 +122,6 @@ public class UserInterface {
         tp.add("Traffic Light Status", p2);
         tp.add("Vehicle Status", p3);
         frame.add(tp, BorderLayout.CENTER);
-        frame.add(refresh, BorderLayout.PAGE_END);
         frame.setVisible(true);
     }
 
