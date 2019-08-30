@@ -10,6 +10,7 @@ import org.javatuples.Triplet;
 public class Constant {
     public static long startTime;
     public static long programTime;
+    public static int vehicleNumber=0;
     public static long startTrafficLightTime;
     public static int greenTrafficlight = 1;
     public static String southDirection = "South";

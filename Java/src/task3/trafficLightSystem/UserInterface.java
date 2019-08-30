@@ -56,16 +56,11 @@ public class UserInterface {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
             String item2 = directions.get(destinationDirectionList.getSelectedIndex());
             Integer arrivalTime = (Integer) carTime.getValue();
-            Constant.userDetails.add(new Quartet<>(Constant.userDetails.size()+1,item1,item2,arrivalTime));
-            Constant.vehicleStatus.add("Pass");
-            Constant.vehicleTimeStatus.add("--");
-            //User userInfo = new User(Constant.userDetails.size() , directionWaitTime(item1,item2));
-            //userInfo.start();
-            if (Constant.userDetails.size() > 0) {
-                statusButton.setEnabled(true);
-            } else {
-                statusButton.setEnabled(false);
-            }
+            //Constant.userDetails.add(new Quartet<>(Constant.userDetails.size()+1,item1,item2,arrivalTime));
+            //Constant.vehicleStatus.add("Pass");
+            //Constant.vehicleTimeStatus.add("--");
+            User userInfo = new User(++Constant.vehicleNumber,item1,item2,arrivalTime);
+            userInfo.start();
         });
 
         ActionListener taskPerformer = new ActionListener() {
@@ -79,6 +74,13 @@ public class UserInterface {
                 }
                 TimeTable.setRowCount(0);
                 TimeTable.addRow(new Object[]{"Current Time" , (Constant.programTime - Constant.startTime)/1000});
+
+                if (Constant.userDetails.size() > 0  && !statusButton.isEnabled()) {
+                    statusButton.setEnabled(true);
+                }
+                if (Constant.userDetails.size() == 0){
+                    statusButton.setEnabled(false);
+                }
             }
         };
         Timer timer = new Timer(1000 ,taskPerformer);
