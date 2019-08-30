@@ -1,5 +1,6 @@
 package task3.trafficLightSystem;
 
+import org.javatuples.Quartet;
 import org.javatuples.Quintet;
 import org.javatuples.Triplet;
 
@@ -14,10 +15,11 @@ public class User extends Thread {
         this.waitTime = waitTime*6;
     }
 
+    // Add status is passed and add extra 60 sec time for car becoming more han one going from one lane to other
     private void updateUserDetails() {
         long time;
         Date date = new Date();
-        Triplet<Integer, String, String> user = Constant.userDetails.get(vehicleNumber);
+        Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(vehicleNumber);
         if (user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) {
             if (Constant.greenTrafficlight == 1) {
                 if (waitTime > ((date.getTime() / 1000) - Constant.startTrafficLightTime)){
@@ -91,7 +93,7 @@ public class User extends Thread {
         while (true) {
             updateUserDetails();
             try {
-                sleep(1000);
+                sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

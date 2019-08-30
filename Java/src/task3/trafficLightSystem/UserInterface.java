@@ -1,5 +1,6 @@
 package task3.trafficLightSystem;
 
+import org.javatuples.Quartet;
 import org.javatuples.Quintet;
 import org.javatuples.Triplet;
 
@@ -19,8 +20,11 @@ public class UserInterface {
         JFrame frame = new JFrame(); //creating instance of JFrame
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
+        JLabel carArrivalTime = new JLabel("Car Arrival Time");
         JButton addButton = new JButton("Add More Cars");
         JButton statusButton = new JButton("Status Button");
+        SpinnerModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 1000, 1);
+        JSpinner carTime = new JSpinner(spinnerNumberModel);
 
         directions.add("South");
         directions.add("West");
@@ -33,29 +37,30 @@ public class UserInterface {
         JTable outputJTable = new JTable(outputTable);
         JScrollPane outputTableScrollPane = new JScrollPane(outputJTable);
 
+        DefaultTableModel TimeTable = new DefaultTableModel(new String[]{"Time", "Status"}, 0);
+        JTable timeJTable = new JTable(TimeTable);
+        JScrollPane timeTableScrollPane = new JScrollPane(timeJTable);
         // x axis, y axis, width, height
-        sourceDirection.setBounds(50, 50, 250, 30);
-        sourceDirectionList.setBounds(350, 50, 100, 150);
+        timeTableScrollPane.setBounds(80,20,400,40);
+        sourceDirection.setBounds(50, 80, 250, 30);
+        sourceDirectionList.setBounds(350, 80, 100, 150);
         destinationDirection.setBounds(50, 250, 250, 30);
         destinationDirectionList.setBounds(350, 250, 100, 150);
-        addButton.setBounds(200, 430, 200, 40);
-        outputTableScrollPane.setBounds(0, 500, 600, 200);
-        statusButton.setBounds(200, 700, 200, 40);
+        carArrivalTime.setBounds(50, 430, 250, 30);
+        carTime.setBounds(350, 430, 100, 30);
+        addButton.setBounds(200, 530, 200, 40);
+        outputTableScrollPane.setBounds(0, 600, 600, 200);
+        statusButton.setBounds(200, 800, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
             String item2 = directions.get(destinationDirectionList.getSelectedIndex());
-
-            Constant.userDetails.add(new Triplet<>(Constant.userDetails.size()+1,item1,item2));
+            Integer arrivalTime = (Integer) carTime.getValue();
+            Constant.userDetails.add(new Quartet<>(Constant.userDetails.size()+1,item1,item2,arrivalTime));
             Constant.vehicleStatus.add("Pass");
             Constant.vehicleTimeStatus.add("--");
-            User userInfo = new User(Constant.userDetails.size() , directionWaitTime(item1,item2));
-            userInfo.start();
-            outputTable.setRowCount(0);
-            for (Triplet<Integer, String, String> user : Constant.userDetails)
-            {
-                outputTable.addRow(new Object[]{user.getValue0() , Constant.vehicleStatus.get(user.getValue0()-1)});
-            }
+            //User userInfo = new User(Constant.userDetails.size() , directionWaitTime(item1,item2));
+            //userInfo.start();
             if (Constant.userDetails.size() > 0) {
                 statusButton.setEnabled(true);
             } else {
@@ -66,10 +71,14 @@ public class UserInterface {
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 outputTable.setRowCount(0);
-                for (Triplet<Integer, String, String> user : Constant.userDetails)
+                for (Quartet<Integer, String, String, Integer> user : Constant.userDetails)
                 {
-                    outputTable.addRow(new Object[]{user.getValue0() , Constant.vehicleStatus.get(user.getValue0()-1)});
+                    if ( user.getValue3() < (Constant.programTime - Constant.startTime)/1000) {
+                        outputTable.addRow(new Object[]{user.getValue0(), Constant.vehicleStatus.get(user.getValue0() - 1)});
+                    }
                 }
+                TimeTable.setRowCount(0);
+                TimeTable.addRow(new Object[]{"Current Time" , (Constant.programTime - Constant.startTime)/1000});
             }
         };
         Timer timer = new Timer(1000 ,taskPerformer);
@@ -79,33 +88,20 @@ public class UserInterface {
         statusButton.addActionListener(actionEvent -> generateStatusGui());
 
         statusButton.setEnabled(false);
-
+        frame.add(timeTableScrollPane);
         frame.add(sourceDirection);
         frame.add(sourceDirectionList);
         frame.add(destinationDirection);
         frame.add(destinationDirectionList);
+        frame.add(carArrivalTime);
+        frame.add(carTime);
         frame.add(addButton);
         frame.add(outputTableScrollPane);
         frame.add(statusButton);
 
-        frame.setSize(600, 800);//600 width and 800 height
+        frame.setSize(600, 1000);//600 width and 1000 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
-    }
-
-    private static int directionWaitTime(String item1, String item2) {
-        if(item1.equalsIgnoreCase(Constant.southDirection) && item2.equalsIgnoreCase(Constant.eastDirection)){
-            return Constant.southEastWait++;
-        }
-        else if(item1.equalsIgnoreCase(Constant.westDirection) && item2.equalsIgnoreCase(Constant.southDirection)){
-            return Constant.westSouthWait++;
-        }
-        else if(item1.equalsIgnoreCase(Constant.eastDirection) && item2.equalsIgnoreCase(Constant.westDirection)){
-            return Constant.eastWestWait++;
-        }
-        else {
-            return 0;
-        }
     }
 
     public static void generateStatusGui() {
@@ -162,9 +158,11 @@ public class UserInterface {
         }
 
         outputStatusDetails.setRowCount(0);
-        for (Triplet<Integer, String, String> user : Constant.userDetails)
+        for (Quartet<Integer, String, String,Integer> user : Constant.userDetails)
         {
-            outputStatusDetails.addRow(new Object[]{user.getValue0(),user.getValue1(),user.getValue2(),Constant.vehicleStatus.get(user.getValue0()-1),Constant.vehicleTimeStatus.get(user.getValue0()-1)});
+            if ( user.getValue3() < (Constant.programTime - Constant.startTime)/1000) {
+                outputStatusDetails.addRow(new Object[]{user.getValue0(), user.getValue1(), user.getValue2(), Constant.vehicleStatus.get(user.getValue0() - 1), Constant.vehicleTimeStatus.get(user.getValue0() - 1)});
+            }
         }
     }
 }
