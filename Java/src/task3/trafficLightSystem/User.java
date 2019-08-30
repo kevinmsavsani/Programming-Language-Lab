@@ -13,6 +13,7 @@ public class User extends Thread {
     private String sourceDirection;
     private String destinationDirection;
     private int index;
+    private int numCarWait;
 
     public  User(int vehicleNumber, String sourceDirection, String destinationDirection, int arrivalTime){
         this.vehicleNumber = vehicleNumber-1;
@@ -30,79 +31,112 @@ public class User extends Thread {
         }
     }
 
-    // Add status is passed and add extra 60 sec time for car becoming more han one going from one lane to other
+    private void updateTime() {
+        this.waitTime--;
+        Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
+        if (this.waitTime == 0) {
+            Constant.vehicleStatus.setElementAt("Pass", this.index);
+            Constant.vehicleTimeStatus.setElementAt("--", this.index);
+        }
+    }
+
+    // Add 120sec get time accordingly and remove completely from list so change wait time of each thread as new value added to list
     private void updateUserDetails() {
         long time;
         Date date = new Date();
-        Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(index);
+        Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(this.index);
+
+
+
         if (user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) {
             if (Constant.greenTrafficlight == 1) {
-                if (waitTime > ((date.getTime() / 1000) - Constant.startTrafficLightTime)){
-                    time = waitTime - ((date.getTime() / 1000) - Constant.startTrafficLightTime);
-                    Constant.vehicleStatus.setElementAt("Wait", index);
-                    Constant.vehicleTimeStatus.setElementAt(time, index);
+                if (this.waitTime > 0 ){
+                    time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
+                    if (time < this.waitTime) {
+                        long numCarExit = time/6;
+                        this.numCarWait -= numCarExit;
+                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait-1)/10)*120) - 6;
+                    }
+                    Constant.vehicleStatus.setElementAt("Wait", this.index);
+                    Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
                 } else {
-                    Constant.vehicleStatus.setElementAt("Pass", index);
-                    Constant.vehicleTimeStatus.setElementAt("--", index);
+                    Constant.vehicleStatus.setElementAt("Pass", this.index);
+                    Constant.vehicleTimeStatus.setElementAt("--", this.index);
                 }
             } else {
-                time = 60 - ((date.getTime() / 1000) - Constant.startTrafficLightTime);
+                time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
                 if (Constant.greenTrafficlight == 2) {
                     time += 60;
                 } else {
                     time += 0;
                 }
-                time += waitTime;
-                Constant.vehicleStatus.setElementAt("Wait", index);
-                Constant.vehicleTimeStatus.setElementAt(time, index);
+                this.waitTime += time;
+                Constant.vehicleStatus.setElementAt("Wait", this.index);
+                Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
             }
-        } else if (user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection)) {
+        }
+
+
+
+
+
+        else if (user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection)) {
             if (Constant.greenTrafficlight == 2) {
-                if (waitTime > ((date.getTime() / 1000) - Constant.startTrafficLightTime)){
-                    time = waitTime - ((date.getTime() / 1000) - Constant.startTrafficLightTime);
-                    Constant.vehicleStatus.setElementAt("Wait", index);
-                    Constant.vehicleTimeStatus.setElementAt(time, index);
+                if (this.waitTime > 0 ){
+                    time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
+                    if (time < this.waitTime) {
+                        long numCarExit = time/6;
+                        this.numCarWait -= numCarExit;
+                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait-1)/10)*120) - 6;
+                    }
+                    Constant.vehicleStatus.setElementAt("Wait", this.index);
+                    Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
                 } else {
-                    Constant.vehicleStatus.setElementAt("Pass", index);
-                    Constant.vehicleTimeStatus.setElementAt("--", index);
+                    Constant.vehicleStatus.setElementAt("Pass", this.index);
+                    Constant.vehicleTimeStatus.setElementAt("--", this.index);
                 }
             } else {
-                time = 60 - ((date.getTime() / 1000) - Constant.startTrafficLightTime);
+                time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
                 if (Constant.greenTrafficlight == 3) {
                     time += 60;
                 } else {
                     time += 0;
                 }
-                time += waitTime;
-                Constant.vehicleStatus.setElementAt("Wait", index);
-                Constant.vehicleTimeStatus.setElementAt(time, index);
+                this.waitTime += time;
+                Constant.vehicleStatus.setElementAt("Wait", this.index);
+                Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
             }
         }
         else if (user.getValue1().equalsIgnoreCase(Constant.eastDirection) && user.getValue2().equalsIgnoreCase(Constant.westDirection)) {
             if (Constant.greenTrafficlight == 3) {
-                if (waitTime > ((date.getTime() / 1000) - Constant.startTrafficLightTime)){
-                    time = waitTime - ((date.getTime() / 1000) - Constant.startTrafficLightTime);
-                    Constant.vehicleStatus.setElementAt("Wait", index);
-                    Constant.vehicleTimeStatus.setElementAt(time, index);
+                if (this.waitTime > 0 ){
+                    time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
+                    if (time < this.waitTime) {
+                        long numCarExit = time/6;
+                        this.numCarWait -= numCarExit;
+                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait-1)/10)*120) - 6;
+                    }
+                    Constant.vehicleStatus.setElementAt("Wait", this.index);
+                    Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
                 } else {
-                    Constant.vehicleStatus.setElementAt("Pass", index);
-                    Constant.vehicleTimeStatus.setElementAt("--", index);
+                    Constant.vehicleStatus.setElementAt("Pass", this.index);
+                    Constant.vehicleTimeStatus.setElementAt("--", this.index);
                 }
             } else {
-                time = 60 - ((date.getTime() / 1000) - Constant.startTrafficLightTime);
+                time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
                 if (Constant.greenTrafficlight == 1) {
                     time += 60;
                 } else {
                     time += 0;
                 }
-                time += waitTime;
-                Constant.vehicleStatus.setElementAt("Wait", index);
-                Constant.vehicleTimeStatus.setElementAt(time, index);
+                this.waitTime += time;
+                Constant.vehicleStatus.setElementAt("Wait", this.index);
+                Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
             }
         }
     }
 
-    private static int directionWaitTime(String item1, String item2) {
+    private static int directionWaitTimeAdd(String item1, String item2) {
         if(item1.equalsIgnoreCase(Constant.southDirection) && item2.equalsIgnoreCase(Constant.eastDirection)){
             return Constant.southEastWait++;
         }
@@ -117,6 +151,18 @@ public class User extends Thread {
         }
     }
 
+    private static void directionWaitTimeRemove(String item1, String item2) {
+        if(item1.equalsIgnoreCase(Constant.southDirection) && item2.equalsIgnoreCase(Constant.eastDirection)){
+            Constant.southEastWait--;
+        }
+        else if(item1.equalsIgnoreCase(Constant.westDirection) && item2.equalsIgnoreCase(Constant.southDirection)){
+            Constant.westSouthWait--;
+        }
+        else if(item1.equalsIgnoreCase(Constant.eastDirection) && item2.equalsIgnoreCase(Constant.westDirection)){
+            Constant.eastWestWait--;
+        }
+    }
+
     @Override
     public void run() {
         while (true) {
@@ -124,7 +170,8 @@ public class User extends Thread {
                 Constant.userDetails.add(new Quartet<>(vehicleNumber+1,sourceDirection,destinationDirection,arrivalTime));
                 Constant.vehicleStatus.add("Pass");
                 Constant.vehicleTimeStatus.add("--");
-                this.waitTime = directionWaitTime(sourceDirection,destinationDirection)*6;
+                this.numCarWait = directionWaitTimeAdd(this.sourceDirection,this.destinationDirection);
+                this.waitTime = (this.numCarWait*6) + (((this.numCarWait)/10)*120) ;
                 getIndex();
                 break;
             }
@@ -134,10 +181,22 @@ public class User extends Thread {
                 e.printStackTrace();
             }
         }
+        updateUserDetails();
         while (true) {
-            updateUserDetails();
+            updateTime();
+            if (Constant.vehicleStatus.get(this.index).equals("Pass")){
+                try {
+                    sleep(6000);
+                    Constant.vehicleStatus.setElementAt("Passed", this.index);
+                    Constant.vehicleTimeStatus.setElementAt("--", this.index);
+                    directionWaitTimeRemove(this.sourceDirection,this.destinationDirection);
+                    stop();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             try {
-                sleep(500);
+                sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

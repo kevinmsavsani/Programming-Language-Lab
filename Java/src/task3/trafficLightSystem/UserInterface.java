@@ -59,8 +59,10 @@ public class UserInterface {
             //Constant.userDetails.add(new Quartet<>(Constant.userDetails.size()+1,item1,item2,arrivalTime));
             //Constant.vehicleStatus.add("Pass");
             //Constant.vehicleTimeStatus.add("--");
-            User userInfo = new User(++Constant.vehicleNumber,item1,item2,arrivalTime);
-            userInfo.start();
+            if (arrivalTime > (Constant.programTime - Constant.startTime)/1000) {
+                User userInfo = new User(++Constant.vehicleNumber, item1, item2, arrivalTime);
+                userInfo.start();
+            }
         });
 
         ActionListener taskPerformer = new ActionListener() {
@@ -126,7 +128,7 @@ public class UserInterface {
             public void actionPerformed(ActionEvent evt) {
                 refreshAction( trafficLightDetails, outputStatusTable);            }
         };
-        Timer timer = new Timer(1000 ,taskPerformer);
+        Timer timer = new Timer(100 ,taskPerformer);
         timer.setRepeats(true);
         timer.start();
         frame.setLayout(new BorderLayout());
