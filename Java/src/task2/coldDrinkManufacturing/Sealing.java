@@ -4,11 +4,20 @@ public class Sealing extends Thread {
 
     public int pickBottle() {
         if(Constant.sealingTimeTaken == 0){
-            Constant.unfinishedTrayB2Bottles--;
-            Constant.unfinishedTraySealingInput = 1;
-            Constant.packagingB2Tray++;
-            Constant.sealedB2Bottles++;
-            return 2;
+            if (Constant.unfinishedTrayB2Bottles > 0) {
+                Constant.unfinishedTrayB2Bottles--;
+                Constant.unfinishedTraySealingInput = 1;
+                Constant.packagingB2Tray++;
+                Constant.sealedB2Bottles++;
+                return 2;
+            } else if (Constant.unfinishedTrayB1Bottles > 0) {
+                Constant.unfinishedTrayB1Bottles--;
+                Constant.unfinishedTraySealingInput = 1;
+                Constant.packagingB1Tray++;
+                Constant.sealedB1Bottles++;
+                return 1;
+            }
+            else return 0;
         }
         if (Constant.sealingTraySize > 0)
         {
@@ -54,19 +63,36 @@ public class Sealing extends Thread {
         if (Constant.packagingB1Tray == Constant.packagingB1TraySize || Constant.packagingB2Tray == Constant.packagingB2TraySize){
             return pickBottle();
         }
-        if(Constant.unfinishedTraySealingInput == 1){
-            Constant.unfinishedTrayB1Bottles--;
-            Constant.unfinishedTraySealingInput = 2;
-            Constant.packagingB1Tray++;
-            Constant.sealedB1Bottles++;
-            return 1;
+        if(Constant.unfinishedTraySealingInput == 1) {
+            if (Constant.unfinishedTrayB1Bottles > 0) {
+                Constant.unfinishedTrayB1Bottles--;
+                Constant.unfinishedTraySealingInput = 2;
+                Constant.packagingB1Tray++;
+                Constant.sealedB1Bottles++;
+                return 1;
+            }
+            if (Constant.unfinishedTrayB2Bottles > 0) {
+                Constant.unfinishedTrayB2Bottles--;
+                Constant.unfinishedTraySealingInput = 2;
+                Constant.packagingB2Tray++;
+                Constant.sealedB2Bottles++;
+                return 2;
+            }
         }
-        if(Constant.unfinishedTraySealingInput == 2){
-            Constant.unfinishedTrayB2Bottles--;
-            Constant.unfinishedTraySealingInput = 1;
-            Constant.packagingB2Tray++;
-            Constant.sealedB2Bottles++;
-            return 2;
+        if(Constant.unfinishedTraySealingInput == 2) {
+            if (Constant.unfinishedTrayB2Bottles > 0) {
+                Constant.unfinishedTrayB2Bottles--;
+                Constant.unfinishedTraySealingInput = 1;
+                Constant.packagingB2Tray++;
+                Constant.sealedB2Bottles++;
+                return 2;
+            } else if (Constant.unfinishedTrayB1Bottles > 0) {
+                Constant.unfinishedTrayB1Bottles--;
+                Constant.unfinishedTraySealingInput = 1;
+                Constant.packagingB1Tray++;
+                Constant.sealedB1Bottles++;
+                return 1;
+            }
         }
         return 0;
     }

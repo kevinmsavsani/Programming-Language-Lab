@@ -19,7 +19,7 @@ public class SealingThread extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(Constant.sealingTimeTaken+3 > Constant.observationTime) {
+            if(Constant.sealingTimeTaken+3 > Constant.observationTime ) {
                 // Stop the thread
                 System.out.println("Thread " + getName() + " Stopped!");
                 stop();
