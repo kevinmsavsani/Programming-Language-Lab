@@ -15,10 +15,10 @@ public class Manufacturer {
         System.out.println("Bottle Type      Status      Count");
         System.out.println("    B1          Packaged       "+Constant.packagedB1Bottles);
         System.out.println("    B1          Sealed         "+Constant.sealedB1Bottles);
-        System.out.println("    B1          In Godown      "+Constant.godownB1Bottles);
+        System.out.println("    B1          In Godown      "+Constant.godownB1.size());
         System.out.println("    B2          Packaged       "+Constant.packagedB2Bottles);
         System.out.println("    B2          Sealed         "+Constant.sealedB2Bottles);
-        System.out.println("    B2          In Godown      "+Constant.godownB2Bottles);
+        System.out.println("    B2          In Godown      "+Constant.godownB2.size());
 
     }
 
@@ -52,8 +52,13 @@ public class Manufacturer {
         Constant.totalB2Bottles=Integer.parseInt(lineVector[1]);
         Constant.observationTime=Integer.parseInt(lineVector[2]);
 
-        Constant.unfinishedTrayB1Bottles = Constant.totalB1Bottles;
-        Constant.unfinishedTrayB2Bottles = Constant.totalB2Bottles;
+        for (int i = 0; i < Constant.totalB1Bottles; i++) {
+            Constant.unfinishedTrayB1.add(1);
+        }
+
+        for (int i = 0; i < Constant.totalB2Bottles; i++) {
+            Constant.unfinishedTrayB2.add(2);
+        }
 
         Manufacturer manufacturer = new Manufacturer();
 
