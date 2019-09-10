@@ -18,6 +18,7 @@ public class UserInterface {
 
     public static void generateGui() {
         JFrame frame = new JFrame(); //creating instance of JFrame
+        frame.setTitle("Programming Lab Assignment 1");
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
         JLabel carArrivalTime = new JLabel("Car Arrival Time");

@@ -20,6 +20,7 @@ public class Packaging {
         }
         if (Constant.packagingB1.size() > 0)
         {
+            GodownCounter.incrementB1();
             Constant.godownB1.add(Constant.packagingB1.remove());
             Constant.trayPackagingInput = 2;
             Constant.packagedB1Bottles++;
@@ -27,6 +28,7 @@ public class Packaging {
         }
         if (Constant.packagingB2.size() > 0)
         {
+            GodownCounter.incrementB2();
             Constant.godownB2.add(Constant.packagingB2.remove());
             Constant.trayPackagingInput = 1;
             Constant.packagedB2Bottles++;

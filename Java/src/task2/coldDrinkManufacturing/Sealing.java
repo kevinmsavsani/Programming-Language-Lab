@@ -22,12 +22,14 @@ public class Sealing extends Thread {
             int sealingTrayFirstElement = Constant.sealing.remove();
             if (sealingTrayFirstElement == 1)
             {
+                GodownCounter.incrementB1();
                 Constant.godownB1.add(sealingTrayFirstElement);
                 Constant.sealedB1Bottles++;
                 return 3;
             }
             if (sealingTrayFirstElement == 2)
             {
+                GodownCounter.incrementB2();
                 Constant.godownB2.add(sealingTrayFirstElement);
                 Constant.sealedB2Bottles++;
                 return 4;
