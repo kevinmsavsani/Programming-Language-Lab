@@ -73,9 +73,13 @@ public class TrafficLightGui extends JFrame {
         timer.setRepeats(true);
         timer.start();
 
-        Label lable1 = new Label("T1");
-        Label lable2 = new Label("T2");
-        Label lable3 = new Label("T3");
+        JLabel lable1 = new JLabel("T1", SwingConstants.CENTER);
+        Font font = new Font("Courier", Font.BOLD,24);
+        lable1.setFont(font);
+        JLabel lable2 = new JLabel("T2", SwingConstants.CENTER);
+        lable2.setFont(font);
+        JLabel lable3 = new JLabel("T3", SwingConstants.CENTER);
+        lable3.setFont(font);
 
 
         JPanel p1 = new JPanel();

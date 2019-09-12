@@ -10,7 +10,7 @@ import org.javatuples.Triplet;
 public class Merchandise{
 
     private List<Setup> Setups; // List of Setup Threads
-    private Order order;
+    private Order order = new Order();
 
     private void startMachine() {
         for (Setup setup : Setups)
@@ -49,7 +49,9 @@ public class Merchandise{
             Constant.orderList.add(new Triplet<>(index,type,count));
         }
 
-        Order.printInventory();
+        System.out.println("Inventory --");
+        System.out.println("S   |   M   |   L   |   C");
+        System.out.println(String.format("%d   |   %d   |   %d   |   %d \n",Constant.totalSmall,Constant.totalMedium,Constant.totalLarge,Constant.totalCap));
 
         Merchandise merchandise = new Merchandise();
 
