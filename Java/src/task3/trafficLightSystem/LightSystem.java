@@ -16,6 +16,10 @@ public class LightSystem {
 
         UserGUI userGUI = new UserGUI();
         userGUI.start();
+
+        TrafficLightGui trafficLightGui = new TrafficLightGui();
+        trafficLightGui.setVisible(true);
+
     }
 
     public static void main(String[]args){
