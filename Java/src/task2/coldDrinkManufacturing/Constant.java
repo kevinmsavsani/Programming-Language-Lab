@@ -2,6 +2,8 @@ package task2.coldDrinkManufacturing;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class Constant {
 
@@ -23,12 +25,12 @@ public class Constant {
     public static int sealedB1Bottles=0;
     public static int sealedB2Bottles=0;
 
-    public static Queue<Integer> unfinishedTrayB1 = new LinkedList<>();
-    public static Queue<Integer> unfinishedTrayB2 = new LinkedList<>();
-    public static Queue<Integer> packagingB1 = new LinkedList<>();
-    public static Queue<Integer> packagingB2 = new LinkedList<>();
-    public static Queue<Integer> sealing = new LinkedList<>();
-    public static Queue<Integer> godownB1 = new LinkedList<>();
-    public static Queue<Integer> godownB2 = new LinkedList<>();
+    public static BlockingQueue packagingB1 = new ArrayBlockingQueue(2);
+    public static BlockingQueue packagingB2 = new ArrayBlockingQueue(3);
+    public static BlockingQueue sealing = new ArrayBlockingQueue(2);
+    public static BlockingQueue godownB1 = new ArrayBlockingQueue(1024);
+    public static BlockingQueue godownB2 = new ArrayBlockingQueue(1024);
+    public static BlockingQueue unfinishedTrayB1 = new ArrayBlockingQueue(1024);
+    public static BlockingQueue unfinishedTrayB2 = new ArrayBlockingQueue(1024);
 
 }

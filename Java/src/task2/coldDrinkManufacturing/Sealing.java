@@ -19,7 +19,7 @@ public class Sealing extends Thread {
         }
         if (Constant.sealing.size() > 0)
         {
-            int sealingTrayFirstElement = Constant.sealing.remove();
+            int sealingTrayFirstElement = (int)Constant.sealing.remove();
             if (sealingTrayFirstElement == 1)
             {
                 GodownCounter.incrementB1();
