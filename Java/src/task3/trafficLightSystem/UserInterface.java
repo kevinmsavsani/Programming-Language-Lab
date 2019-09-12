@@ -61,8 +61,10 @@ public class UserInterface {
             //Constant.vehicleStatus.add("Pass");
             //Constant.vehicleTimeStatus.add("--");
             if (arrivalTime > (Constant.programTime - Constant.startTime)/1000) {
-                User userInfo = new User(++Constant.vehicleNumber, item1, item2, arrivalTime);
-                userInfo.start();
+                Constant.allUser.add(new Quartet<>(++Constant.vehicleNumber,item1,item2,arrivalTime));
+//                User userInfo = new User(++Constant.vehicleNumber, item1, item2, arrivalTime);
+//                userInfo.start();
+                System.out.println("car added");
             }
         });
 

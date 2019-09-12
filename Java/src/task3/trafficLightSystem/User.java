@@ -1,8 +1,6 @@
 package task3.trafficLightSystem;
 
 import org.javatuples.Quartet;
-import org.javatuples.Quintet;
-import org.javatuples.Triplet;
 
 import java.util.Date;
 
@@ -46,8 +44,6 @@ public class User extends Thread {
         Date date = new Date();
         Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(this.index);
 
-
-
         if (user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) {
             if (Constant.greenTrafficlight == 1) {
                 if (this.waitTime > 0 ){
@@ -75,10 +71,6 @@ public class User extends Thread {
                 Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
             }
         }
-
-
-
-
 
         else if (user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection)) {
             if (Constant.greenTrafficlight == 2) {
@@ -165,22 +157,13 @@ public class User extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            if (arrivalTime == (Constant.programTime - Constant.startTime)/1000) {
-                Constant.userDetails.add(new Quartet<>(vehicleNumber+1,sourceDirection,destinationDirection,arrivalTime));
-                Constant.vehicleStatus.add("Pass");
-                Constant.vehicleTimeStatus.add("--");
-                this.numCarWait = directionWaitTimeAdd(this.sourceDirection,this.destinationDirection);
-                this.waitTime = (this.numCarWait*6) + (((this.numCarWait)/10)*120) ;
-                getIndex();
-                break;
-            }
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
+        Constant.userDetails.add(new Quartet<>(vehicleNumber+1,sourceDirection,destinationDirection,arrivalTime));
+        Constant.vehicleStatus.add("Pass");
+        Constant.vehicleTimeStatus.add("--");
+        this.numCarWait = directionWaitTimeAdd(this.sourceDirection,this.destinationDirection);
+        this.waitTime = (this.numCarWait*6) + (((this.numCarWait)/10)*120) ;
+        getIndex();
         updateUserDetails();
         while (true) {
             updateTime();

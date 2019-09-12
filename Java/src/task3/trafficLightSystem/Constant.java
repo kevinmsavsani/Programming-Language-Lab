@@ -23,4 +23,5 @@ public class Constant {
     public static int westSouthWait = 0;
     public static int eastWestWait = 0;
     public static int southEastWait = 0;
+    public static List<Quartet<Integer, String, String, Integer>> allUser = new ArrayList<>();
 }

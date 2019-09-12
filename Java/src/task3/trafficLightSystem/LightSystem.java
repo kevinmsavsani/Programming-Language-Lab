@@ -14,6 +14,9 @@ public class LightSystem {
         TimeThread timeThread = new TimeThread();
         timeThread.start();
 
+        UserThread userThread = new UserThread();
+        userThread.start();
+
         UserGUI userGUI = new UserGUI();
         userGUI.start();
 
