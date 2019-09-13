@@ -8,25 +8,18 @@ import java.util.Date;
 
 public class TrafficLightGui{
     Signal green = new Signal(Color.green);
-    Signal yellow = new Signal(Color.yellow);
     Signal red = new Signal(Color.red);
     Signal green2 = new Signal(Color.green);
-    Signal yellow2 = new Signal(Color.yellow);
     Signal red2 = new Signal(Color.red);
     Signal green3 = new Signal(Color.green);
-    Signal yellow3 = new Signal(Color.yellow);
     Signal red3 = new Signal(Color.red);
 
-    public TrafficLightGui() {
-        JFrame frame = new JFrame(); //creating instance of JFrame
+    public void TrafficLightGui1(JPanel panel) {
         green.turnOn(false);
-        yellow.turnOn(false);
         red.turnOn(true);
         green2.turnOn(false);
-        yellow2.turnOn(false);
         red2.turnOn(true);
         green3.turnOn(false);
-        yellow3.turnOn(false);
         red3.turnOn(true);
 
         JLabel label1 = new JLabel("T1 ", SwingConstants.CENTER);
@@ -45,39 +38,30 @@ public class TrafficLightGui{
                 Date date = new Date();
                 if (Constant.greenTrafficlight == 1){
                     green.turnOn(true);
-                    yellow.turnOn(false);
                     red.turnOn(false);
                     green2.turnOn(false);
-                    yellow2.turnOn(true);
-                    red2.turnOn(false);
+                    red2.turnOn(true);
                     green3.turnOn(false);
-                    yellow3.turnOn(false);
                     red3.turnOn(true);
                     label1.setText("T1 "+ 0 );
                     label2.setText("T2 "+(60-((date.getTime()/1000)-Constant.startTrafficLightTime)));
                     label3.setText("T3 "+(120-((date.getTime()/1000)-Constant.startTrafficLightTime)));
                 } else if (Constant.greenTrafficlight == 2){
-                    yellow.turnOn(false);
                     green.turnOn(false);
                     red.turnOn(true);
                     green2.turnOn(true);
-                    yellow2.turnOn(false);
                     red2.turnOn(false);
                     green3.turnOn(false);
-                    yellow3.turnOn(true);
-                    red3.turnOn(false);
+                    red3.turnOn(true);
                     label1.setText("T1 "+(120-((date.getTime()/1000)-Constant.startTrafficLightTime)));
                     label2.setText("T2 "+ 0);
                     label3.setText("T3 "+(60-((date.getTime()/1000)-Constant.startTrafficLightTime)));
                 } else if (Constant.greenTrafficlight == 3){
-                    red.turnOn(false);
-                    yellow.turnOn(true);
+                    red.turnOn(true);
                     green.turnOn(false);
                     green2.turnOn(false);
-                    yellow2.turnOn(false);
                     red2.turnOn(true);
                     green3.turnOn(true);
-                    yellow3.turnOn(false);
                     red3.turnOn(false);
                     label1.setText("T1 "+(60-((date.getTime()/1000)-Constant.startTrafficLightTime)));
                     label2.setText("T2 "+(120-((date.getTime()/1000)-Constant.startTrafficLightTime)));
@@ -94,29 +78,23 @@ public class TrafficLightGui{
         p1.setLayout(new BoxLayout(p1,BoxLayout.PAGE_AXIS));
         p1.add(label1);
         p1.add(red);
-        p1.add(yellow);
         p1.add(green);
 
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.PAGE_AXIS));
         p2.add(label2);
         p2.add(red2);
-        p2.add(yellow2);
         p2.add(green2);
 
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.PAGE_AXIS));
         p3.add(label3);
         p3.add(red3);
-        p3.add(yellow3);
         p3.add(green3);
-        frame.setTitle("Traffic Lights");
-        frame.setSize(400,400);
-        frame.setLayout(new FlowLayout());
-        frame.add(p1,FlowLayout.LEFT);
-        frame.add(p2,FlowLayout.CENTER);
-        frame.add(p3,FlowLayout.RIGHT);
-        frame.setVisible(true);
+        panel.setLayout(new FlowLayout());
+        panel.add(p1,FlowLayout.LEFT);
+        panel.add(p2,FlowLayout.CENTER);
+        panel.add(p3,FlowLayout.RIGHT);
     }
 }
 

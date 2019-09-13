@@ -82,9 +82,6 @@ public class UserInterface {
                 if (Constant.userDetails.size() > 0  && !statusButton.isEnabled()) {
                     statusButton.setEnabled(true);
                 }
-                if (Constant.userDetails.size() == 0){
-                    statusButton.setEnabled(false);
-                }
             }
         };
         Timer timer = new Timer(1000 ,taskPerformer);
@@ -93,7 +90,7 @@ public class UserInterface {
 
         statusButton.addActionListener(actionEvent -> generateStatusGui());
 
-        statusButton.setEnabled(false);
+        statusButton.setEnabled(true);
         frame.add(timeTableScrollPane);
         frame.add(sourceDirection);
         frame.add(sourceDirectionList);
@@ -112,6 +109,9 @@ public class UserInterface {
 
     public static void generateStatusGui() {
         JFrame frame = new JFrame(); //creating instance of JFrame
+        JPanel panel = new JPanel();
+        TrafficLightGui trafficLightGui = new TrafficLightGui();
+        trafficLightGui.TrafficLightGui1(panel);
         JPanel p2 = new JPanel(new BorderLayout());
         JPanel p3 = new JPanel(new BorderLayout());
 
@@ -122,7 +122,6 @@ public class UserInterface {
         JTable statusTable = new JTable(outputStatusTable);
         JScrollPane trafficLightScrollPane = new JScrollPane(trafficLightTable);
         JScrollPane outputStatusScrollPane = new JScrollPane(statusTable);
-
         JTabbedPane tp = new JTabbedPane();
         refreshAction( trafficLightDetails, outputStatusTable);
 
@@ -139,6 +138,7 @@ public class UserInterface {
         p3.add(outputStatusScrollPane, BorderLayout.CENTER);
         tp.add("Traffic Light Status", p2);
         tp.add("Vehicle Status", p3);
+        frame.add(panel,BorderLayout.PAGE_START);
         frame.add(tp, BorderLayout.CENTER);
         frame.setVisible(true);
     }
