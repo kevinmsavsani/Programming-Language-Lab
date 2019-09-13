@@ -29,7 +29,7 @@ public class Packaging {
             }
             return 0;
         }
-        if (Constant.packagingB1.size() > 0)
+        if (Constant.trayPackagingInput == 1 && Constant.packagingB1.size() > 0)
         {
             SynchronizedCounter.incrementB1();
             Constant.godownB1.add(Constant.packagingB1.remove());
@@ -37,11 +37,27 @@ public class Packaging {
             Constant.packagedB1Bottles++;
             return 3;
         }
-        if (Constant.packagingB2.size() > 0)
+        if (Constant.trayPackagingInput == 2 && Constant.packagingB2.size() > 0)
         {
             SynchronizedCounter.incrementB2();
             Constant.godownB2.add(Constant.packagingB2.remove());
             Constant.trayPackagingInput = 1;
+            Constant.packagedB2Bottles++;
+            return 4;
+        }
+        if (Constant.trayPackagingInput == 2 && Constant.packagingB1.size() > 0)
+        {
+            SynchronizedCounter.incrementB1();
+            Constant.godownB1.add(Constant.packagingB1.remove());
+            Constant.trayPackagingInput = 1;
+            Constant.packagedB1Bottles++;
+            return 3;
+        }
+        if (Constant.trayPackagingInput == 1 && Constant.packagingB2.size() > 0)
+        {
+            SynchronizedCounter.incrementB2();
+            Constant.godownB2.add(Constant.packagingB2.remove());
+            Constant.trayPackagingInput = 2;
             Constant.packagedB2Bottles++;
             return 4;
         }

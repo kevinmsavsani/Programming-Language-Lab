@@ -18,7 +18,7 @@ public class Constant {
     public static int packagingB1TraySize=2;
     public static int packagingB2TraySize=3;
     public static int unfinishedTrayPackagingInput;
-    public static int trayPackagingInput;
+    public static int trayPackagingInput = 1;
     public static int unfinishedTraySealingInput;
     public static int packagedB1Bottles=0;
     public static int packagedB2Bottles=0;
