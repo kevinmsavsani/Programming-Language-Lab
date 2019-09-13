@@ -21,8 +21,6 @@ public class LightSystem {
         userGUI.start();
 
         TrafficLightGui trafficLightGui = new TrafficLightGui();
-        trafficLightGui.setVisible(true);
-
     }
 
     public static void main(String[]args){

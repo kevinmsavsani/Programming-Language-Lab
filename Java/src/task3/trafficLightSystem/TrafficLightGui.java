@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-public class TrafficLightGui extends JFrame {
+public class TrafficLightGui{
     Signal green = new Signal(Color.green);
     Signal yellow = new Signal(Color.yellow);
     Signal red = new Signal(Color.red);
@@ -17,10 +17,8 @@ public class TrafficLightGui extends JFrame {
     Signal yellow3 = new Signal(Color.yellow);
     Signal red3 = new Signal(Color.red);
 
-    public TrafficLightGui(){
-        super("Traffic Light");
-        getContentPane().setLayout(new FlowLayout());
-
+    public TrafficLightGui() {
+        JFrame frame = new JFrame(); //creating instance of JFrame
         green.turnOn(false);
         yellow.turnOn(false);
         red.turnOn(true);
@@ -112,11 +110,13 @@ public class TrafficLightGui extends JFrame {
         p3.add(red3);
         p3.add(yellow3);
         p3.add(green3);
-
-        getContentPane().add(p1);
-        getContentPane().add(p2);
-        getContentPane().add(p3);
-        pack();
+        frame.setTitle("Traffic Lights");
+        frame.setSize(400,400);
+        frame.setLayout(new FlowLayout());
+        frame.add(p1,FlowLayout.LEFT);
+        frame.add(p2,FlowLayout.CENTER);
+        frame.add(p3,FlowLayout.RIGHT);
+        frame.setVisible(true);
     }
 }
 
