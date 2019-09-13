@@ -91,10 +91,14 @@ public class TrafficLightGui{
         p3.add(label3);
         p3.add(red3);
         p3.add(green3);
-        panel.setLayout(new FlowLayout());
-        panel.add(p1,FlowLayout.LEFT);
-        panel.add(p2,FlowLayout.CENTER);
-        panel.add(p3,FlowLayout.RIGHT);
+
+        JPanel panelOutput = new JPanel();
+        GridLayout experimentLayout = new GridLayout(0,3);
+        panelOutput.setLayout(experimentLayout);
+        panelOutput.add(p1);
+        panelOutput.add(p2);
+        panelOutput.add(p3);
+        panel.add(panelOutput,BorderLayout.CENTER);
     }
 }
 

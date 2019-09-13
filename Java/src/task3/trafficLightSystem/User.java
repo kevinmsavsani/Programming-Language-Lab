@@ -168,10 +168,11 @@ public class User extends Thread {
 
     @Override
     public void run() {
-
-        Constant.userDetails.add(new Quartet<>(vehicleNumber+1,sourceDirection,destinationDirection,arrivalTime));
-        Constant.vehicleStatus.add("Pass");
-        Constant.vehicleTimeStatus.add("--");
+        synchronized (Constant.userDetails) {
+            Constant.userDetails.add(new Quartet<>(vehicleNumber + 1, sourceDirection, destinationDirection, arrivalTime));
+            Constant.vehicleStatus.add("Pass");
+            Constant.vehicleTimeStatus.add("--");
+        }
         this.numCarWait = directionWaitTimeAdd(this.sourceDirection,this.destinationDirection);
         this.waitTime = (this.numCarWait*6) + (((this.numCarWait)/10)*120) ;
         getIndex();
