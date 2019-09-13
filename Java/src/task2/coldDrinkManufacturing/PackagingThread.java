@@ -21,7 +21,7 @@ public class PackagingThread extends Thread {
             }
             if(Constant.packagingTimeTaken+2 > Constant.observationTime) {
                 // Stop the thread
-                System.out.println("Thread " + getName() + " Stopped!");
+                //System.out.println("Thread " + getName() + " Stopped!");
                 stop();
             }
         }

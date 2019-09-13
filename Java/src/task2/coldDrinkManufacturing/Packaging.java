@@ -8,7 +8,7 @@ public class Packaging {
         if(Constant.packagingTimeTaken == 0){
             if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
-                if(counter >= 0){
+                if(counter < 0){
                     return 0;
                 }
                 Constant.sealing.add(Constant.unfinishedTrayB1.remove());
@@ -17,7 +17,7 @@ public class Packaging {
                 return 1;
             } else if(Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
-                if(counter >= 0){
+                if(counter < 0){
                     return 0;
                 }
                 Constant.sealing.add(Constant.unfinishedTrayB2.remove());
@@ -55,7 +55,7 @@ public class Packaging {
         if(Constant.unfinishedTrayPackagingInput == 1) {
             if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
-                if(counter >= 0){
+                if(counter < 0){
                     return 0;
                 }
                 Constant.sealing.add(Constant.unfinishedTrayB1.remove());
@@ -64,7 +64,7 @@ public class Packaging {
                 return 1;
             } else if (Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
-                if(counter >= 0){
+                if(counter < 0){
                     return 0;
                 }
                 Constant.sealing.add(Constant.unfinishedTrayB2.remove());
@@ -76,7 +76,7 @@ public class Packaging {
         if(Constant.unfinishedTrayPackagingInput == 2){
             if (Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
-                if(counter >= 0){
+                if(counter < 0){
                     return 0;
                 }
                 Constant.sealing.add(Constant.unfinishedTrayB2.remove());
@@ -85,7 +85,7 @@ public class Packaging {
                 return 2;
             } else if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
-                if(counter >= 0){
+                if(counter < 0){
                     return 0;
                 }
                 Constant.sealing.add(Constant.unfinishedTrayB1.remove());

@@ -21,7 +21,7 @@ public class SealingThread extends Thread {
             }
             if(Constant.sealingTimeTaken+3 > Constant.observationTime ) {
                 // Stop the thread
-                System.out.println("Thread " + getName() + " Stopped!");
+                //System.out.println("Thread " + getName() + " Stopped!");
                 stop();
             }
         }
