@@ -14,6 +14,7 @@ public class Constant {
     public static int totalLarge = 2;
     public static int totalCap = 4;
 
+
     public static Character small = 'S';
     public static Character medium = 'M';
     public static Character large = 'L';

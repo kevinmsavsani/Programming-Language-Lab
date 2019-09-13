@@ -4,12 +4,12 @@ public class Sealing extends Thread {
 
     public int pickBottle() {
         if(Constant.sealingTimeTaken == 0){
-            if (Constant.totalB2Bottles > 0) {
+            if (Constant.unfinishedTrayB2.size() > 0) {
                 Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 1;
                 Constant.sealedB2Bottles++;
                 return 2;
-            } else if (Constant.totalB1Bottles > 0) {
+            } else if (Constant.unfinishedTrayB1.size() > 0) {
                 Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 1;
                 Constant.sealedB1Bottles++;
@@ -36,6 +36,11 @@ public class Sealing extends Thread {
             }
         }
         if (Constant.packagingB1.size() == Constant.packagingB1TraySize || Constant.packagingB2.size() == Constant.packagingB2TraySize){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return pickBottle();
         }
         if(Constant.unfinishedTraySealingInput == 1) {

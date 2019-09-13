@@ -34,9 +34,11 @@ public class Order {
         }
     }
 
-    public  static void orderProcess(Integer orderNumber){
+    /********** Method to process an order *************/
+    public static void orderProcess(Integer orderNumber){
 
         if(Constant.orderList.get(orderNumber).getValue1() == Constant.small) {
+            /******** synchronization for t-shirt of small size *********/
             smallLock.lock();
             if (Constant.orderList.get(orderNumber).getValue2() <= Constant.totalSmall) {
                 Constant.totalSmall -= Constant.orderList.get(orderNumber).getValue2();

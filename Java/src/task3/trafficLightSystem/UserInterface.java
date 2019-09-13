@@ -50,8 +50,8 @@ public class UserInterface {
         carArrivalTime.setBounds(50, 430, 250, 30);
         carTime.setBounds(350, 430, 100, 30);
         addButton.setBounds(200, 530, 200, 40);
-        outputTableScrollPane.setBounds(0, 600, 600, 200);
-        statusButton.setBounds(200, 800, 200, 40);
+        outputTableScrollPane.setBounds(0, 600, 600, 100);
+        statusButton.setBounds(200, 700, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());

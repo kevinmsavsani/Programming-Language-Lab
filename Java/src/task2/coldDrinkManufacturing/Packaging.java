@@ -1,5 +1,7 @@
 package task2.coldDrinkManufacturing;
 
+import static java.lang.Thread.sleep;
+
 public class Packaging {
 
     public int pickBottle() {
@@ -35,6 +37,12 @@ public class Packaging {
             return 4;
         }
         if (Constant.sealing.size() == 2){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             return pickBottle();
         }
         if(Constant.unfinishedTrayPackagingInput == 1) {

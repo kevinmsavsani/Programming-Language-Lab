@@ -12,12 +12,16 @@ public class Merchandise{
     private List<Setup> Setups; // List of Setup Threads
     private Order order = new Order();
 
+
+    /******* starting process for each order *******/
     private void startMachine() {
+
         for (Setup setup : Setups)
         {
             setup.start();
         }
 
+        /************ pause main thread till all orders are processed ***********/
         for (Setup setup : Setups)
         {
             try {
@@ -28,6 +32,7 @@ public class Merchandise{
         }
     }
 
+    /************** Creating array of threads for each order ******************/
     private Merchandise() {
         Setups = new ArrayList<>();
         for (int i = 0; i < Constant.numberOfOrder; i++) {
@@ -37,9 +42,12 @@ public class Merchandise{
     }
 
     public static void main(String[]args) throws FileNotFoundException {
+
+        /**************** Taking input from file ************/
         File file = new File(Constant.fileName);
         Scanner scanner = new Scanner(file);
 
+        /***************  Preparing  Order list ********/
         Constant.numberOfOrder = scanner.nextInt();
         int inputNumber = 0;
         while (scanner.hasNextLine()  && inputNumber++ < Constant.numberOfOrder) {
@@ -53,8 +61,10 @@ public class Merchandise{
         System.out.println("S   |   M   |   L   |   C");
         System.out.println(String.format("%d   |   %d   |   %d   |   %d \n",Constant.totalSmall,Constant.totalMedium,Constant.totalLarge,Constant.totalCap));
 
+
         Merchandise merchandise = new Merchandise();
 
+        /********* To start processing each order ************/
         merchandise.startMachine();
     }
 }
