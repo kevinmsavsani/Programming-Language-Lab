@@ -15,10 +15,10 @@ public class Manufacturer {
         System.out.println("Bottle Type      Status      Count");
         System.out.println("    B1          Packaged       "+Constant.packagedB1Bottles);
         System.out.println("    B1          Sealed         "+Constant.sealedB1Bottles);
-        System.out.println("    B1          In Godown      "+ GodownCounter.getB1Value());
+        System.out.println("    B1          In Godown      "+ SynchronizedCounter.getB1Value());
         System.out.println("    B2          Packaged       "+Constant.packagedB2Bottles);
         System.out.println("    B2          Sealed         "+Constant.sealedB2Bottles);
-        System.out.println("    B2          In Godown      "+ GodownCounter.getB2Value());
+        System.out.println("    B2          In Godown      "+ SynchronizedCounter.getB2Value());
 
     }
 

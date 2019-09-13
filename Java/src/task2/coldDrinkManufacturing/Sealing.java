@@ -1,15 +1,23 @@
 package task2.coldDrinkManufacturing;
 
 public class Sealing extends Thread {
-
     public int pickBottle() {
+        int counter = -1;
         if(Constant.sealingTimeTaken == 0){
             if (Constant.unfinishedTrayB2.size() > 0) {
+                counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
+                if(counter >= 0){
+                    return 0;
+                }
                 Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 1;
                 Constant.sealedB2Bottles++;
                 return 2;
             } else if (Constant.unfinishedTrayB1.size() > 0) {
+                counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
+                if(counter >= 0){
+                    return 0;
+                }
                 Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 1;
                 Constant.sealedB1Bottles++;
@@ -22,14 +30,14 @@ public class Sealing extends Thread {
             int sealingTrayFirstElement = (int)Constant.sealing.remove();
             if (sealingTrayFirstElement == 1)
             {
-                GodownCounter.incrementB1();
+                SynchronizedCounter.incrementB1();
                 Constant.godownB1.add(sealingTrayFirstElement);
                 Constant.sealedB1Bottles++;
                 return 3;
             }
             if (sealingTrayFirstElement == 2)
             {
-                GodownCounter.incrementB2();
+                SynchronizedCounter.incrementB2();
                 Constant.godownB2.add(sealingTrayFirstElement);
                 Constant.sealedB2Bottles++;
                 return 4;
@@ -45,12 +53,20 @@ public class Sealing extends Thread {
         }
         if(Constant.unfinishedTraySealingInput == 1) {
             if (Constant.unfinishedTrayB1.size() > 0) {
+                counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
+                if(counter >= 0){
+                    return 0;
+                }
                 Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 2;
                 Constant.sealedB1Bottles++;
                 return 1;
             }
             if (Constant.unfinishedTrayB2.size() > 0) {
+                counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
+                if(counter >= 0){
+                    return 0;
+                }
                 Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 2;
                 Constant.sealedB2Bottles++;
@@ -59,11 +75,19 @@ public class Sealing extends Thread {
         }
         if(Constant.unfinishedTraySealingInput == 2) {
             if (Constant.unfinishedTrayB2.size() > 0) {
+                counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
+                if(counter >= 0){
+                    return 0;
+                }
                 Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 1;
                 Constant.sealedB2Bottles++;
                 return 2;
             } else if (Constant.unfinishedTrayB1.size() > 0) {
+                counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
+                if(counter >= 0){
+                    return 0;
+                }
                 Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 1;
                 Constant.sealedB1Bottles++;
