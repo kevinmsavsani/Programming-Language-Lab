@@ -6,21 +6,23 @@ public class Sealing extends Thread {
         if(Constant.sealingTimeTaken == 0){
             if (Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
-                if(counter < 0){
-                    return 0;
-                }
-                Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 1;
-                Constant.sealedB2Bottles++;
+                if(counter >= 0){
+                    Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
+                    Constant.sealedB2Bottles++;
+                } else {
+                    return pickBottle();
+                }
                 return 2;
             } else if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
-                if(counter < 0){
-                    return 0;
-                }
-                Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 1;
-                Constant.sealedB1Bottles++;
+                if(counter >= 0){
+                    Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
+                    Constant.sealedB1Bottles++;
+                } else {
+                    return pickBottle();
+                }
                 return 1;
             }
             else return 0;
@@ -54,43 +56,47 @@ public class Sealing extends Thread {
         if(Constant.unfinishedTraySealingInput == 1) {
             if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
-                if(counter < 0){
-                    return 0;
-                }
-                Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 2;
-                Constant.sealedB1Bottles++;
+                if(counter >= 0){
+                    Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
+                    Constant.sealedB1Bottles++;
+                } else {
+                    return pickBottle();
+                }
                 return 1;
             }
             if (Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
-                if(counter < 0){
-                    return 0;
-                }
-                Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 2;
-                Constant.sealedB2Bottles++;
+                if(counter >= 0){
+                    Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
+                    Constant.sealedB2Bottles++;
+                } else {
+                    return pickBottle();
+                }
                 return 2;
             }
         }
         if(Constant.unfinishedTraySealingInput == 2) {
             if (Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
-                if(counter < 0){
-                    return 0;
-                }
-                Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
                 Constant.unfinishedTraySealingInput = 1;
-                Constant.sealedB2Bottles++;
+                if(counter >= 0){
+                    Constant.packagingB2.add(Constant.unfinishedTrayB2.remove());
+                    Constant.sealedB2Bottles++;
+                } else {
+                    return pickBottle();
+                }
                 return 2;
             } else if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();
-                if(counter < 0){
-                    return 0;
-                }
-                Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
                 Constant.unfinishedTraySealingInput = 1;
-                Constant.sealedB1Bottles++;
+                if(counter >= 0){
+                    Constant.packagingB1.add(Constant.unfinishedTrayB1.remove());
+                    Constant.sealedB1Bottles++;
+                } else {
+                    return pickBottle();
+                }
                 return 1;
             }
         }
