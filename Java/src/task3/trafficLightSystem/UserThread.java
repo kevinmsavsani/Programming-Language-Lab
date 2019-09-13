@@ -15,7 +15,6 @@ public class UserThread extends Thread {
                 if ( user.getValue3() == counter) {
                     User userInfo = new User(user.getValue0(), user.getValue1(), user.getValue2(), user.getValue3());
                     userInfo.start();
-                    System.out.println("user added");
                 }
             }
             while (true){

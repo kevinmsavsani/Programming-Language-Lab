@@ -25,6 +25,7 @@ public class User extends Thread {
         {
             if ( user.getValue0() == vehicleNumber+1) {
                 this.index = Constant.userDetails.indexOf(user);
+                break;
             }
         }
     }
