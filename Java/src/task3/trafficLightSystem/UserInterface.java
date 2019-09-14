@@ -60,8 +60,8 @@ public class UserInterface extends Thread {
         numCar.setBounds(50, 460, 250, 30);
         carNum.setBounds(350, 460, 100, 30);
         addButton.setBounds(200, 530, 200, 40);
-        outputTableScrollPane.setBounds(0, 600, 600, 240);
-        statusButton.setBounds(200, 870, 200, 40);
+        outputTableScrollPane.setBounds(0, 600, 600, 140);
+        statusButton.setBounds(200, 770, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
@@ -112,7 +112,7 @@ public class UserInterface extends Thread {
         frame.add(outputTableScrollPane);
         frame.add(statusButton);
 
-        frame.setSize(600, 1000);//600 width and 1000 height
+        frame.setSize(600, 900);//600 width and 1000 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
     }
@@ -144,7 +144,7 @@ public class UserInterface extends Thread {
         timer.setRepeats(true);
         timer.start();
         frame.setLayout(new BorderLayout());
-        frame.setSize(1000,1000);
+        frame.setSize(1000,900);
         p2.add(trafficLightScrollPane, BorderLayout.CENTER);
         p3.add(outputStatusScrollPane, BorderLayout.CENTER);
         tp.add("Traffic Light Status", p2);
