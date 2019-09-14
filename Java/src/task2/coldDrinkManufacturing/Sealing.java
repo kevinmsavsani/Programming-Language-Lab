@@ -3,10 +3,6 @@ package task2.coldDrinkManufacturing;
 public class Sealing extends Thread {
     public int pickBottle() {
 
-        if(Constant.packagingTimeTaken == Constant.observationTime) {
-            return -1;
-        }
-
         int counter = -1;
 
         if(Constant.sealingTimeTaken == 0){
@@ -52,12 +48,9 @@ public class Sealing extends Thread {
             }
         }
         if (Constant.packagingB1.size() == Constant.packagingB1TraySize || Constant.packagingB2.size() == Constant.packagingB2TraySize){
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return pickBottle();
+            SynchronizedCounter.updateSealingTimeCounter();
+            SynchronizedCounter.updateTimeCounter();
+            return -1;
         }
         if(Constant.unfinishedTraySealingInput == 1) {
             if (Constant.unfinishedTrayB1.size() > 0) {

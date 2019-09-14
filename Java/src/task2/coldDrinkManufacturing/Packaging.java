@@ -5,10 +5,6 @@ import static java.lang.Thread.sleep;
 public class Packaging {
     public int pickBottle() {
 
-        if(Constant.sealingTimeTaken == Constant.observationTime) {
-            return -1;
-        }
-
         int counter = -1;
 
         if(Constant.packagingTimeTaken == 0){
@@ -68,13 +64,9 @@ public class Packaging {
             return 4;
         }
         if (Constant.sealing.size() == 2){
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            return pickBottle();
+            SynchronizedCounter.updatePackingTimeCounter();
+            SynchronizedCounter.updateTimeCounter();
+            return -1;
         }
         if(Constant.unfinishedTrayPackagingInput == 1) {
             if (Constant.unfinishedTrayB1.size() > 0) {

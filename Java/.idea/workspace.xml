@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2ea95af-2551-4bf6-8703-4babf6e17654" name="Default Changelist" comment="Basic Solution">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="f2ea95af-2551-4bf6-8703-4babf6e17654" name="Default Changelist" comment="Tak 2 - Bug Fixes">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Constant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Constant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Merchandise.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Merchandise.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/Packaging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/Packaging.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/PackagingThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/PackagingThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/Sealing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/Sealing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/SealingThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/SealingThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/SynchronizedCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/SynchronizedCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/task2/coldDrinkManufacturing/input.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,6 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JavaFXApplication" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -35,7 +46,7 @@
     <property name="Repository.Attach.JavaDocs" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/programming.java" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -44,7 +55,12 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="task3.trafficLightSystem" />
+      <recent name="task2.coldDrinkManufacturing" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/task2/coldDrinkManufacturing" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
@@ -61,8 +77,24 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="Merchandise" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Manufacturer">
+    <configuration name="LightSystem" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-1.11.0-openjdk-amd64" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="task3.trafficLightSystem.LightSystem" />
+      <module name="Java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Manufacturer" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="task2.coldDrinkManufacturing.Manufacturer" />
+      <module name="Java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Merchandise" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="task1.merchandise.Merchandise" />
       <module name="Java" />
       <extension name="coverage">
@@ -75,11 +107,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Merchandise" />
-      </list>
-    </recent_temporary>
+    <list>
+      <item itemvalue="Application.Manufacturer" />
+      <item itemvalue="Application.LightSystem" />
+      <item itemvalue="Application.Merchandise" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -92,6 +124,224 @@
       <option name="presentableId" value="Default" />
       <updated>1565450136077</updated>
     </task>
+    <task id="LOCAL-00001" summary="Synchronized Output">
+      <created>1565797390288</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1565797390288</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Fixed Bug">
+      <created>1565801870517</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1565801870517</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Task 2 - Parallelized Solution">
+      <created>1565817566874</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1565817566874</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changed input format">
+      <created>1565838719048</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1565838719048</updated>
+    </task>
+    <task id="LOCAL-00005" summary="task3 - Gui setup done">
+      <created>1565886046211</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1565886046211</updated>
+    </task>
+    <task id="LOCAL-00006" summary="task3 - Basic Solution">
+      <created>1565889422981</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1565889422981</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Parallelized Users">
+      <created>1565969895061</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1565969895061</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Automated Refresh">
+      <created>1565976864982</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1565976864982</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added Car Wait Time">
+      <created>1565979519961</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1565979519961</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Arrival Time Added">
+      <created>1567149013815</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1567149013815</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Changed User Update Timing">
+      <created>1567152290882</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1567152290882</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added Extra Wait Time">
+      <created>1567163825845</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1567163825845</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Bug Fixes - Task 2">
+      <created>1567348974157</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1567348974157</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Queue Data Structure added">
+      <created>1567660103482</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1567660103482</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Godown count synchronized">
+      <created>1568124497329</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1568124497329</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Traffic Light Added">
+      <created>1568291737890</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1568291737890</updated>
+    </task>
+    <task id="LOCAL-00017" summary="task 1 - Lock Synchronization added">
+      <created>1568309954948</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1568309954948</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Task 2 - Blocking Queue added">
+      <created>1568312988461</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1568312988461</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Changed Thread call">
+      <created>1568320832002</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1568320832002</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Task 3 - Bug Fixes">
+      <created>1568343907430</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1568343907430</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Traffic Light WaitTime added">
+      <created>1568363885102</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1568363885102</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Task 3 - Bug Fixes">
+      <created>1568381815544</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1568381815544</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Task 3 - Improved UI">
+      <created>1568387346496</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1568387346496</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Task 2 - Bug Fixes">
+      <created>1568400795470</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1568400795470</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Tak 2 - Bug Fixes">
+      <created>1568400985676</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1568400985676</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Tak 2 - Bug Fixes">
+      <created>1568402958215</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1568402958215</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Tak 2 - Bug Fixes">
+      <created>1568403357850</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1568403357850</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Tak 3 - UI Improved">
+      <created>1568411116473</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1568411116473</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Task 3 - Number of car arriving added">
+      <created>1568438217858</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1568438217858</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Tak 2 - Bug Fixes">
+      <created>1568472434967</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1568472434967</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Task 2 - Bug Fixes">
+      <created>1568479241345</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1568479241345</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -99,10 +349,40 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Task 2 - Parallelized Solution" />
+    <MESSAGE value="Changed input format" />
+    <MESSAGE value="task3 - Gui setup done" />
+    <MESSAGE value="task3 - Basic Solution" />
+    <MESSAGE value="Parallelized Users" />
+    <MESSAGE value="Automated Refresh" />
+    <MESSAGE value="Added Car Wait Time" />
+    <MESSAGE value="Arrival Time Added" />
+    <MESSAGE value="Changed User Update Timing" />
+    <MESSAGE value="Added Extra Wait Time" />
+    <MESSAGE value="Bug Fixes - Task 2" />
+    <MESSAGE value="Queue Data Structure added" />
+    <MESSAGE value="Godown count synchronized" />
+    <MESSAGE value="Traffic Light Added" />
+    <MESSAGE value="task 1 - Lock Synchronization added" />
+    <MESSAGE value="Task 2 - Blocking Queue added" />
+    <MESSAGE value="Changed Thread call" />
+    <MESSAGE value="Traffic Light WaitTime added" />
+    <MESSAGE value="Task 3 - Bug Fixes" />
+    <MESSAGE value="Task 3 - Improved UI" />
+    <MESSAGE value="Tak 3 - UI Improved" />
+    <MESSAGE value="Tak 3 - Number of car arriving added" />
+    <MESSAGE value="Task 3 - Number of car arriving added" />
+    <MESSAGE value="Tak 2 - Bug Fixes" />
+    <MESSAGE value="Task 2 - Bug Fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Task 2 - Bug Fixes" />
   </component>
 </project>

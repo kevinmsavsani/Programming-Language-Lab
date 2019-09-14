@@ -14,24 +14,18 @@ public class SealingThread extends Thread {
     @Override
     public void run(){
         while (true) {
-            int bottleType=sealing.pickBottle();
-            Constant.sealingTimeTaken+=3;
-            try {
-                sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(Constant.sealingTimeTaken+3 > Constant.observationTime || Constant.packagingTimeTaken == Constant.observationTime || bottleType == -1) {
-                // Stop the thread
-                //System.out.println("Thread " + getName() + " Stopped!");
-                try {
-                    sleep(abs(Constant.observationTime-Constant.sealingTimeTaken));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Constant.sealingTimeTaken = Constant.observationTime;
+            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+3 || (Constant.totalB1Bottles == SynchronizedCounter.getB1Value() && Constant.totalB2Bottles == SynchronizedCounter.getB2Value())) {
                 stop();
             }
+            if (SynchronizedCounter.getSealingTimeCounterValue()<=SynchronizedCounter.getTimeCounterValue()) {
+                int bottleType = sealing.pickBottle();
+                if (bottleType >=0) {
+                    SynchronizedCounter.incrementSealingTimeCounter();
+                    SynchronizedCounter.updateTimeCounter();
+                }
+            }
+            Constant.sealingTimeTaken += 2;
+
         }
     }
 }
