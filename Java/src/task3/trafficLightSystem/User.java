@@ -38,7 +38,6 @@ public class User extends Thread {
         }
     }
 
-    // Add 120sec get time accordingly and remove completely from list so change wait time of each thread as new value added to list
     private void updateUserDetails() {
         long time;
         Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(this.index);

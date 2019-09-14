@@ -1,7 +1,5 @@
 package task2.coldDrinkManufacturing;
 
-import static java.lang.Math.abs;
-
 public class SealingThread extends Thread {
 
     private Sealing sealing;
@@ -14,18 +12,16 @@ public class SealingThread extends Thread {
     @Override
     public void run(){
         while (true) {
-            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+3 || (Constant.totalB1Bottles == SynchronizedCounter.getB1Value() && Constant.totalB2Bottles == SynchronizedCounter.getB2Value())) {
+            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+3 || (Constant.totalB1Bottles == SynchronizedCounter.getGodownB1Value() && Constant.totalB2Bottles == SynchronizedCounter.getGodownB2Value())) {
                 stop();
             }
             if (SynchronizedCounter.getSealingTimeCounterValue()<=SynchronizedCounter.getTimeCounterValue()) {
-                int bottleType = sealing.pickBottle();
+                int bottleType = sealing.sealBottle();
                 if (bottleType >=0) {
                     SynchronizedCounter.incrementSealingTimeCounter();
                     SynchronizedCounter.updateTimeCounter();
                 }
             }
-            Constant.sealingTimeTaken += 2;
-
         }
     }
 }

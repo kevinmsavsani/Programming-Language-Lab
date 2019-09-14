@@ -1,7 +1,5 @@
 package task2.coldDrinkManufacturing;
 
-import static java.lang.Math.abs;
-
 public class PackagingThread extends Thread {
     private Packaging packaging;
 
@@ -13,17 +11,16 @@ public class PackagingThread extends Thread {
     @Override
     public void run(){
         while(true) {
-            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+2 || (Constant.totalB1Bottles == SynchronizedCounter.getB1Value() && Constant.totalB2Bottles == SynchronizedCounter.getB2Value())) {
+            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+2 || (Constant.totalB1Bottles == SynchronizedCounter.getGodownB1Value() && Constant.totalB2Bottles == SynchronizedCounter.getGodownB2Value())) {
                 stop();
             }
             if (SynchronizedCounter.getPackingTimeCounterValue()<=SynchronizedCounter.getTimeCounterValue()) {
-                int bottleType = packaging.pickBottle();
+                int bottleType = packaging.packageBottle();
                 if (bottleType >= 0) {
                     SynchronizedCounter.incrementPackingTimeCounter();
                     SynchronizedCounter.updateTimeCounter();
                 }
             }
-            Constant.packagingTimeTaken += 2;
         }
     }
 }

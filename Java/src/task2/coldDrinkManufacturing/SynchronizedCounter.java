@@ -12,12 +12,12 @@ public class SynchronizedCounter {
     private static final AtomicInteger sealingTimeCounter = new AtomicInteger(0);
 
 
-    public static int getB1Value() {
+    public static int getGodownB1Value() {
         return goDownCounterB1.get();
     }
-    public static void incrementB1() {
+    public static void incrementGodownB1() {
         while(true) {
-            int existingValue = getB1Value();
+            int existingValue = getGodownB1Value();
             int newValue = existingValue + 1;
             if(goDownCounterB1.compareAndSet(existingValue, newValue)) {
                 return;
@@ -25,12 +25,12 @@ public class SynchronizedCounter {
         }
     }
 
-    public static int getB2Value() {
+    public static int getGodownB2Value() {
         return goDownCounterB2.get();
     }
-    public static void incrementB2() {
+    public static void incrementGodownB2() {
         while(true) {
-            int existingValue = getB2Value();
+            int existingValue = getGodownB2Value();
             int newValue = existingValue + 1;
             if(goDownCounterB2.compareAndSet(existingValue, newValue)) {
                 return;
