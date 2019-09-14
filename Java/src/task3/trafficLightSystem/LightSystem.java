@@ -6,8 +6,8 @@ public class LightSystem {
 
     private void startSystem() {
         Date date = new Date();
-
         Constant.startTime = date.getTime()/1000;
+
         TrafficLight trafficLight = new TrafficLight();
         trafficLight.start();
 
@@ -17,8 +17,8 @@ public class LightSystem {
         UserThread userThread = new UserThread();
         userThread.start();
 
-        UserGUI userGUI = new UserGUI();
-        userGUI.start();
+        UserInterface userInterface = new UserInterface();
+        userInterface.start();
     }
 
     public static void main(String[]args){

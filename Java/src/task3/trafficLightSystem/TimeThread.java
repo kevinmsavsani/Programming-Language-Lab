@@ -1,7 +1,5 @@
 package task3.trafficLightSystem;
 
-import org.javatuples.Quartet;
-
 import java.util.Date;
 
 public class TimeThread extends Thread {

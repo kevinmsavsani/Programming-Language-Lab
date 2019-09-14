@@ -1,8 +1,6 @@
 package task3.trafficLightSystem;
 
 import org.javatuples.Quartet;
-import org.javatuples.Quintet;
-import org.javatuples.Triplet;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -10,14 +8,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 
 import static task3.trafficLightSystem.Constant.directions;
 
-public class UserInterface {
+public class UserInterface extends Thread {
+
+    @Override
+    public void run() {
+        generateGui();
+    }
 
     public static void generateGui() {
         JFrame frame = new JFrame(); //creating instance of JFrame
+
         frame.setTitle("Programming Lab Assignment 1");
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
@@ -25,9 +28,9 @@ public class UserInterface {
         JLabel numCar = new JLabel("No. Car Arriving");
         JButton addButton = new JButton("Add More Cars");
         JButton statusButton = new JButton("Status Button");
+
         SpinnerModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 10000, 1);
         SpinnerModel spinnerNumberModelCars = new SpinnerNumberModel(1, 1, 100, 1);
-
         JSpinner carTime = new JSpinner(spinnerNumberModel);
         JSpinner carNum = new JSpinner(spinnerNumberModelCars);
 
@@ -45,6 +48,7 @@ public class UserInterface {
         DefaultTableModel TimeTable = new DefaultTableModel(new String[]{"Time", "Status"}, 0);
         JTable timeJTable = new JTable(TimeTable);
         JScrollPane timeTableScrollPane = new JScrollPane(timeJTable);
+
         // x axis, y axis, width, height
         timeTableScrollPane.setBounds(80,20,400,40);
         sourceDirection.setBounds(50, 90, 250, 30);
@@ -56,8 +60,8 @@ public class UserInterface {
         numCar.setBounds(50, 460, 250, 30);
         carNum.setBounds(350, 460, 100, 30);
         addButton.setBounds(200, 530, 200, 40);
-        outputTableScrollPane.setBounds(0, 600, 600, 200);
-        statusButton.setBounds(200, 830, 200, 40);
+        outputTableScrollPane.setBounds(0, 600, 600, 240);
+        statusButton.setBounds(200, 870, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
@@ -108,13 +112,15 @@ public class UserInterface {
         frame.add(outputTableScrollPane);
         frame.add(statusButton);
 
-        frame.setSize(600, 950);//600 width and 1000 height
+        frame.setSize(600, 1000);//600 width and 1000 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
     }
 
     public static void generateStatusGui() {
         JFrame frame = new JFrame(); //creating instance of JFrame
+        frame.setTitle("Traffic Light System Status");
+
         JPanel panel = new JPanel();
         TrafficLightGui trafficLightGui = new TrafficLightGui();
         trafficLightGui.TrafficLightGui1(panel);
@@ -123,13 +129,12 @@ public class UserInterface {
 
         DefaultTableModel trafficLightDetails = new DefaultTableModel(new String[]{"Traffic Light", "Status", "Time"}, 0);
         DefaultTableModel outputStatusTable = new DefaultTableModel(new String[]{"Vehicle", "Source", "Destination","Status", "Remaining Time"}, 0);
-
         JTable trafficLightTable = new JTable(trafficLightDetails);
         JTable statusTable = new JTable(outputStatusTable);
         JScrollPane trafficLightScrollPane = new JScrollPane(trafficLightTable);
         JScrollPane outputStatusScrollPane = new JScrollPane(statusTable);
+
         JTabbedPane tp = new JTabbedPane();
-        refreshAction( trafficLightDetails, outputStatusTable);
 
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -139,7 +144,7 @@ public class UserInterface {
         timer.setRepeats(true);
         timer.start();
         frame.setLayout(new BorderLayout());
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setSize(1000,1000);
         p2.add(trafficLightScrollPane, BorderLayout.CENTER);
         p3.add(outputStatusScrollPane, BorderLayout.CENTER);
         tp.add("Traffic Light Status", p2);

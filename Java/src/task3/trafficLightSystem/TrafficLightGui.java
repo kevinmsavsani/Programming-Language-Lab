@@ -4,26 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 public class TrafficLightGui{
-    Signal green = new Signal(Color.green);
-    Signal red = new Signal(Color.red);
-    Signal green2 = new Signal(Color.green);
-    Signal red2 = new Signal(Color.red);
-    Signal green3 = new Signal(Color.green);
-    Signal red3 = new Signal(Color.red);
+    SignalLight greenT1 = new SignalLight(Color.green);
+    SignalLight redT1 = new SignalLight(Color.red);
+    SignalLight greenT2 = new SignalLight(Color.green);
+    SignalLight redT2 = new SignalLight(Color.red);
+    SignalLight greenT3 = new SignalLight(Color.green);
+    SignalLight redT3 = new SignalLight(Color.red);
 
     public void TrafficLightGui1(JPanel panel) {
-        green.turnOn(false);
-        red.turnOn(true);
-        green2.turnOn(false);
-        red2.turnOn(true);
-        green3.turnOn(false);
-        red3.turnOn(true);
+        greenT1.turnOn(false);
+        redT1.turnOn(true);
+        greenT2.turnOn(false);
+        redT2.turnOn(true);
+        greenT3.turnOn(false);
+        redT3.turnOn(true);
 
-        JLabel label1 = new JLabel("T1 ", SwingConstants.CENTER);
         Font font = new Font("Courier", Font.BOLD,24);
+        JLabel label1 = new JLabel("T1 ", SwingConstants.CENTER);
         label1.setFont(font);
         JLabel label2 = new JLabel("T2 ", SwingConstants.CENTER);
         label2.setFont(font);
@@ -32,36 +31,37 @@ public class TrafficLightGui{
 
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                refreshSignal();            }
+                refreshSignal();
+            }
 
             private void refreshSignal() {
                 if (Constant.greenTrafficlight == 1){
-                    green.turnOn(true);
-                    red.turnOn(false);
-                    green2.turnOn(false);
-                    red2.turnOn(true);
-                    green3.turnOn(false);
-                    red3.turnOn(true);
+                    greenT1.turnOn(true);
+                    redT1.turnOn(false);
+                    greenT2.turnOn(false);
+                    redT2.turnOn(true);
+                    greenT3.turnOn(false);
+                    redT3.turnOn(true);
                     label1.setText("T1 "+ 0 );
                     label2.setText("T2 "+(60-(Constant.programTime-Constant.startTrafficLightTime)));
                     label3.setText("T3 "+(120-(Constant.programTime-Constant.startTrafficLightTime)));
                 } else if (Constant.greenTrafficlight == 2){
-                    green.turnOn(false);
-                    red.turnOn(true);
-                    green2.turnOn(true);
-                    red2.turnOn(false);
-                    green3.turnOn(false);
-                    red3.turnOn(true);
+                    greenT1.turnOn(false);
+                    redT1.turnOn(true);
+                    greenT2.turnOn(true);
+                    redT2.turnOn(false);
+                    greenT3.turnOn(false);
+                    redT3.turnOn(true);
                     label1.setText("T1 "+(120-(Constant.programTime-Constant.startTrafficLightTime)));
                     label2.setText("T2 "+ 0);
                     label3.setText("T3 "+(60-(Constant.programTime-Constant.startTrafficLightTime)));
                 } else if (Constant.greenTrafficlight == 3){
-                    red.turnOn(true);
-                    green.turnOn(false);
-                    green2.turnOn(false);
-                    red2.turnOn(true);
-                    green3.turnOn(true);
-                    red3.turnOn(false);
+                    redT1.turnOn(true);
+                    greenT1.turnOn(false);
+                    greenT2.turnOn(false);
+                    redT2.turnOn(true);
+                    greenT3.turnOn(true);
+                    redT3.turnOn(false);
                     label1.setText("T1 "+(60-(Constant.programTime-Constant.startTrafficLightTime)));
                     label2.setText("T2 "+(120-(Constant.programTime-Constant.startTrafficLightTime)));
                     label3.setText("T3 "+0);
@@ -76,20 +76,20 @@ public class TrafficLightGui{
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.PAGE_AXIS));
         p1.add(label1);
-        p1.add(red);
-        p1.add(green);
+        p1.add(redT1);
+        p1.add(greenT1);
 
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.PAGE_AXIS));
         p2.add(label2);
-        p2.add(red2);
-        p2.add(green2);
+        p2.add(redT2);
+        p2.add(greenT2);
 
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.PAGE_AXIS));
         p3.add(label3);
-        p3.add(red3);
-        p3.add(green3);
+        p3.add(redT3);
+        p3.add(greenT3);
 
         JPanel panelOutput = new JPanel();
         GridLayout experimentLayout = new GridLayout(0,3);
@@ -98,40 +98,5 @@ public class TrafficLightGui{
         panelOutput.add(p2);
         panelOutput.add(p3);
         panel.add(panelOutput,BorderLayout.CENTER);
-    }
-}
-
-class Signal extends JPanel {
-
-    Color on;
-    int radius = 40;
-    int border = 10;
-    boolean change;
-
-    Signal(Color color) {
-        on = color;
-        change = true;
-    }
-
-    public void turnOn(boolean a) {
-        change = a;
-        repaint();
-    }
-
-    public Dimension getPreferredSize() {
-        int size = (radius + border) * 2;
-        return new Dimension(size, size);
-    }
-
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(0, 0, 100, 100);
-
-        if (change) {
-            g.setColor(on);
-        } else {
-            g.setColor(on.darker().darker().darker());
-        }
-        g.fillOval(border, border, 2 * radius, 2 * radius);
     }
 }

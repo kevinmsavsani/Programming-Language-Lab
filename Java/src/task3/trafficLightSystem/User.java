@@ -18,26 +18,6 @@ public class User extends Thread {
         this.arrivalTime = arrivalTime;
     }
 
-    private void getIndex() {
-        synchronized (Constant.userDetails) {
-            for (Quartet<Integer, String, String, Integer> user : Constant.userDetails) {
-                if (user.getValue0() == vehicleNumber + 1) {
-                    this.index = Constant.userDetails.indexOf(user);
-                    break;
-                }
-            }
-        }
-    }
-
-    private void updateTime() {
-        this.waitTime--;
-        Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
-        if (this.waitTime <= 0) {
-            Constant.vehicleStatus.setElementAt("Pass", this.index);
-            Constant.vehicleTimeStatus.setElementAt("--", this.index);
-        }
-    }
-
     private void updateUserDetails() {
         long time;
         Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(this.index);
@@ -135,6 +115,27 @@ public class User extends Thread {
         }
     }
 
+    private void getIndex() {
+        synchronized (Constant.userDetails) {
+            for (Quartet<Integer, String, String, Integer> user : Constant.userDetails) {
+                if (user.getValue0() == vehicleNumber + 1) {
+                    this.index = Constant.userDetails.indexOf(user);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void updateTime() {
+        this.waitTime--;
+        Constant.vehicleTimeStatus.setElementAt(this.waitTime, this.index);
+
+        if (this.waitTime <= 0) {
+            Constant.vehicleStatus.setElementAt("Pass", this.index);
+            Constant.vehicleTimeStatus.setElementAt("--", this.index);
+        }
+    }
+
     private synchronized static int directionWaitTimeAdd(String item1, String item2) {
         if(item1.equalsIgnoreCase(Constant.southDirection) && item2.equalsIgnoreCase(Constant.eastDirection)){
             return Constant.southEastWait++;
@@ -164,18 +165,21 @@ public class User extends Thread {
 
     @Override
     public void run() {
+
         synchronized (Constant.userDetails) {
             Constant.userDetails.add(new Quartet<>(vehicleNumber + 1, sourceDirection, destinationDirection, arrivalTime));
             Constant.vehicleStatus.add("Pass");
             Constant.vehicleTimeStatus.add("--");
         }
+
         this.numCarWait = directionWaitTimeAdd(this.sourceDirection,this.destinationDirection);
         this.waitTime = (this.numCarWait*6) + (((this.numCarWait)/10)*120) ;
         getIndex();
         updateUserDetails();
+
         while (true) {
             updateTime();
-            if (Constant.vehicleStatus.get(this.index).equals("Pass")){
+            if (Constant.vehicleStatus.get(this.index).equals("Pass")) {
                 try {
                     sleep(6000);
                     Constant.vehicleStatus.setElementAt("Passed", this.index);
@@ -186,6 +190,7 @@ public class User extends Thread {
                     e.printStackTrace();
                 }
             }
+
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
