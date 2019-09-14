@@ -4,7 +4,13 @@ import static java.lang.Thread.sleep;
 
 public class Packaging {
     public int pickBottle() {
+
+        if(Constant.sealingTimeTaken == Constant.observationTime) {
+            return -1;
+        }
+
         int counter = -1;
+
         if(Constant.packagingTimeTaken == 0){
             if (Constant.unfinishedTrayB1.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB1Value();

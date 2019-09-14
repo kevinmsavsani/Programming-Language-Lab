@@ -2,7 +2,13 @@ package task2.coldDrinkManufacturing;
 
 public class Sealing extends Thread {
     public int pickBottle() {
+
+        if(Constant.packagingTimeTaken == Constant.observationTime) {
+            return -1;
+        }
+
         int counter = -1;
+
         if(Constant.sealingTimeTaken == 0){
             if (Constant.unfinishedTrayB2.size() > 0) {
                 counter = SynchronizedCounter.decrementUnFinishedTrayB2Value();
