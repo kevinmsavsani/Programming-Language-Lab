@@ -35,7 +35,6 @@ public class TrafficLightGui{
                 refreshSignal();            }
 
             private void refreshSignal() {
-                Date date = new Date();
                 if (Constant.greenTrafficlight == 1){
                     green.turnOn(true);
                     red.turnOn(false);
@@ -44,8 +43,8 @@ public class TrafficLightGui{
                     green3.turnOn(false);
                     red3.turnOn(true);
                     label1.setText("T1 "+ 0 );
-                    label2.setText("T2 "+(60-((date.getTime()/1000)-Constant.startTrafficLightTime)));
-                    label3.setText("T3 "+(120-((date.getTime()/1000)-Constant.startTrafficLightTime)));
+                    label2.setText("T2 "+(60-(Constant.programTime-Constant.startTrafficLightTime)));
+                    label3.setText("T3 "+(120-(Constant.programTime-Constant.startTrafficLightTime)));
                 } else if (Constant.greenTrafficlight == 2){
                     green.turnOn(false);
                     red.turnOn(true);
@@ -53,9 +52,9 @@ public class TrafficLightGui{
                     red2.turnOn(false);
                     green3.turnOn(false);
                     red3.turnOn(true);
-                    label1.setText("T1 "+(120-((date.getTime()/1000)-Constant.startTrafficLightTime)));
+                    label1.setText("T1 "+(120-(Constant.programTime-Constant.startTrafficLightTime)));
                     label2.setText("T2 "+ 0);
-                    label3.setText("T3 "+(60-((date.getTime()/1000)-Constant.startTrafficLightTime)));
+                    label3.setText("T3 "+(60-(Constant.programTime-Constant.startTrafficLightTime)));
                 } else if (Constant.greenTrafficlight == 3){
                     red.turnOn(true);
                     green.turnOn(false);
@@ -63,8 +62,8 @@ public class TrafficLightGui{
                     red2.turnOn(true);
                     green3.turnOn(true);
                     red3.turnOn(false);
-                    label1.setText("T1 "+(60-((date.getTime()/1000)-Constant.startTrafficLightTime)));
-                    label2.setText("T2 "+(120-((date.getTime()/1000)-Constant.startTrafficLightTime)));
+                    label1.setText("T1 "+(60-(Constant.programTime-Constant.startTrafficLightTime)));
+                    label2.setText("T2 "+(120-(Constant.programTime-Constant.startTrafficLightTime)));
                     label3.setText("T3 "+0);
                 }
             }

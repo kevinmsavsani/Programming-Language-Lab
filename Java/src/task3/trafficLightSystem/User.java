@@ -2,8 +2,6 @@ package task3.trafficLightSystem;
 
 import org.javatuples.Quartet;
 
-import java.util.Date;
-
 public class User extends Thread {
     private int vehicleNumber;
     private long waitTime;
@@ -43,9 +41,8 @@ public class User extends Thread {
     // Add 120sec get time accordingly and remove completely from list so change wait time of each thread as new value added to list
     private void updateUserDetails() {
         long time;
-        Date date = new Date();
         Quartet<Integer, String, String,Integer> user = Constant.userDetails.get(this.index);
-        time = 60 - ( (date.getTime() / 1000) - Constant.startTrafficLightTime );
+        time = 60 - ( Constant.programTime - Constant.startTrafficLightTime );
         if (user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) {
             if (Constant.greenTrafficlight == 1) {
                 if ( this.waitTime > 0 ) {

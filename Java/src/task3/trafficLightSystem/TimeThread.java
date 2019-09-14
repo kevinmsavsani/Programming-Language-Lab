@@ -10,9 +10,9 @@ public class TimeThread extends Thread {
     public void run() {
         while(true) {
             Date date = new Date();
-            Constant.programTime = date.getTime();
+            Constant.programTime = date.getTime()/1000;
             try {
-                sleep(1000);
+                sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

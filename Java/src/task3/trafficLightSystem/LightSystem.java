@@ -7,7 +7,7 @@ public class LightSystem {
     private void startSystem() {
         Date date = new Date();
 
-        Constant.startTime = date.getTime();
+        Constant.startTime = date.getTime()/1000;
         TrafficLight trafficLight = new TrafficLight();
         trafficLight.start();
 

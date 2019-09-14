@@ -22,10 +22,14 @@ public class UserInterface {
         JLabel sourceDirection = new JLabel("Source Direction");
         JLabel destinationDirection = new JLabel("Destination Direction");
         JLabel carArrivalTime = new JLabel("Car Arrival Time");
+        JLabel numCar = new JLabel("No. Car Arriving");
         JButton addButton = new JButton("Add More Cars");
         JButton statusButton = new JButton("Status Button");
-        SpinnerModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 1000, 1);
+        SpinnerModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 10000, 1);
+        SpinnerModel spinnerNumberModelCars = new SpinnerNumberModel(1, 1, 100, 1);
+
         JSpinner carTime = new JSpinner(spinnerNumberModel);
+        JSpinner carNum = new JSpinner(spinnerNumberModelCars);
 
         directions.add("South");
         directions.add("West");
@@ -43,27 +47,27 @@ public class UserInterface {
         JScrollPane timeTableScrollPane = new JScrollPane(timeJTable);
         // x axis, y axis, width, height
         timeTableScrollPane.setBounds(80,20,400,40);
-        sourceDirection.setBounds(50, 80, 250, 30);
-        sourceDirectionList.setBounds(350, 80, 100, 150);
-        destinationDirection.setBounds(50, 250, 250, 30);
-        destinationDirectionList.setBounds(350, 250, 100, 150);
-        carArrivalTime.setBounds(50, 430, 250, 30);
-        carTime.setBounds(350, 430, 100, 30);
+        sourceDirection.setBounds(50, 90, 250, 30);
+        sourceDirectionList.setBounds(350, 90, 100, 130);
+        destinationDirection.setBounds(50, 240, 250, 30);
+        destinationDirectionList.setBounds(350, 240, 100, 130);
+        carArrivalTime.setBounds(50, 400, 250, 30);
+        carTime.setBounds(350, 400, 100, 30);
+        numCar.setBounds(50, 460, 250, 30);
+        carNum.setBounds(350, 460, 100, 30);
         addButton.setBounds(200, 530, 200, 40);
-        outputTableScrollPane.setBounds(0, 600, 600, 100);
-        statusButton.setBounds(200, 700, 200, 40);
+        outputTableScrollPane.setBounds(0, 600, 600, 200);
+        statusButton.setBounds(200, 830, 200, 40);
 
         addButton.addActionListener(actionEvent -> {
             String item1 = directions.get(sourceDirectionList.getSelectedIndex());
             String item2 = directions.get(destinationDirectionList.getSelectedIndex());
             Integer arrivalTime = (Integer) carTime.getValue();
-            //Constant.userDetails.add(new Quartet<>(Constant.userDetails.size()+1,item1,item2,arrivalTime));
-            //Constant.vehicleStatus.add("Pass");
-            //Constant.vehicleTimeStatus.add("--");
-            if (arrivalTime > (Constant.programTime - Constant.startTime)/1000) {
-                Constant.allUser.add(new Quartet<>(++Constant.vehicleNumber,item1,item2,arrivalTime));
-//                User userInfo = new User(++Constant.vehicleNumber, item1, item2, arrivalTime);
-//                userInfo.start();
+            Integer numCarArriving = (Integer) carNum.getValue();
+            if (arrivalTime > (Constant.programTime - Constant.startTime)) {
+                for (int i = 0; i < numCarArriving; i++) {
+                    Constant.allUser.add(new Quartet<>(++Constant.vehicleNumber,item1,item2,arrivalTime));
+                }
             }
         });
 
@@ -72,12 +76,12 @@ public class UserInterface {
                 outputTable.setRowCount(0);
                 for (Quartet<Integer, String, String, Integer> user : Constant.userDetails)
                 {
-                    if ( user.getValue3() < (Constant.programTime - Constant.startTime)/1000) {
+                    if ( user.getValue3() < (Constant.programTime - Constant.startTime)) {
                         outputTable.addRow(new Object[]{user.getValue0(), Constant.vehicleStatus.get(user.getValue0() - 1)});
                     }
                 }
                 TimeTable.setRowCount(0);
-                TimeTable.addRow(new Object[]{"Current Time" , (Constant.programTime - Constant.startTime)/1000});
+                TimeTable.addRow(new Object[]{"Current Time" , (Constant.programTime - Constant.startTime)});
 
                 if (Constant.userDetails.size() > 0  && !statusButton.isEnabled()) {
                     statusButton.setEnabled(true);
@@ -98,11 +102,13 @@ public class UserInterface {
         frame.add(destinationDirectionList);
         frame.add(carArrivalTime);
         frame.add(carTime);
+        frame.add(numCar);
+        frame.add(carNum);
         frame.add(addButton);
         frame.add(outputTableScrollPane);
         frame.add(statusButton);
 
-        frame.setSize(600, 1000);//600 width and 1000 height
+        frame.setSize(600, 950);//600 width and 1000 height
         frame.setLayout(null);//using no layout managers
         frame.setVisible(true);//making the frame visible
     }
@@ -147,26 +153,24 @@ public class UserInterface {
     private static void refreshAction(DefaultTableModel trafficLightDetails, DefaultTableModel outputStatusDetails) {
 
         trafficLightDetails.setRowCount(0);
-        Date date = new Date();
-        long time = (date.getTime() / 1000);
         if (Constant.greenTrafficlight==1){
-            trafficLightDetails.addRow(new Object[]{"T1", "Green", time - Constant.startTrafficLightTime});
+            trafficLightDetails.addRow(new Object[]{"T1", "Green", Constant.programTime - Constant.startTrafficLightTime});
             trafficLightDetails.addRow(new Object[]{"T2", "Red", "--"});
             trafficLightDetails.addRow(new Object[]{"T3", "Red", "--"});
         } else if (Constant.greenTrafficlight==2){
             trafficLightDetails.addRow(new Object[]{"T1", "Red", "--"});
-            trafficLightDetails.addRow(new Object[]{"T2", "Green", time - Constant.startTrafficLightTime});
+            trafficLightDetails.addRow(new Object[]{"T2", "Green", Constant.programTime - Constant.startTrafficLightTime});
             trafficLightDetails.addRow(new Object[]{"T3", "Red", "--"});
         } else if (Constant.greenTrafficlight==3){
             trafficLightDetails.addRow(new Object[]{"T1", "Red", "--"});
             trafficLightDetails.addRow(new Object[]{"T2", "Red", "--"});
-            trafficLightDetails.addRow(new Object[]{"T3", "Green", time - Constant.startTrafficLightTime});
+            trafficLightDetails.addRow(new Object[]{"T3", "Green", Constant.programTime - Constant.startTrafficLightTime});
         }
 
         outputStatusDetails.setRowCount(0);
         for (Quartet<Integer, String, String,Integer> user : Constant.userDetails)
         {
-            if ( user.getValue3() < (Constant.programTime - Constant.startTime)/1000) {
+            if ( user.getValue3() < (Constant.programTime - Constant.startTime)) {
                 outputStatusDetails.addRow(new Object[]{user.getValue0(), user.getValue1(), user.getValue2(), Constant.vehicleStatus.get(user.getValue0() - 1), Constant.vehicleTimeStatus.get(user.getValue0() - 1)});
             }
         }

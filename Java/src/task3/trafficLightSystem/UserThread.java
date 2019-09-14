@@ -8,7 +8,7 @@ public class UserThread extends Thread {
     private long counter = 0;
     @Override
     public void run() {
-        counter = (Constant.programTime - Constant.startTime)/1000;
+        counter = (Constant.programTime - Constant.startTime);
         while (true) {
             for (Quartet<Integer, String, String,Integer> user : Constant.allUser)
             {
@@ -18,7 +18,7 @@ public class UserThread extends Thread {
                 }
             }
             while (true){
-                if(counter < (Constant.programTime - Constant.startTime)/1000){
+                if(counter < (Constant.programTime - Constant.startTime)){
                     counter++;
                     break;
                 } else {
