@@ -164,15 +164,21 @@ public class User extends Thread {
     }
 
     // add a user for going from source to destination to aid in calculating waiting time
-    private synchronized static int directionWaitTimeAdd(String source, String destination) {
+    private static int directionWaitTimeAdd(String source, String destination) {
         if(source.equalsIgnoreCase(Constant.southDirection) && destination.equalsIgnoreCase(Constant.eastDirection)){
-            return Constant.southEastWait++;
+            synchronized (Constant.southEastWait) {
+                return Constant.southEastWait++;
+            }
         }
         else if(source.equalsIgnoreCase(Constant.westDirection) && destination.equalsIgnoreCase(Constant.southDirection)){
-            return Constant.westSouthWait++;
+            synchronized (Constant.westSouthWait) {
+                return Constant.westSouthWait++;
+            }
         }
-        else if(source.equalsIgnoreCase(Constant.eastDirection) && destination.equalsIgnoreCase(Constant.westDirection)){
-            return Constant.eastWestWait++;
+        else if(source.equalsIgnoreCase(Constant.eastDirection) && destination.equalsIgnoreCase(Constant.westDirection)) {
+            synchronized (Constant.eastWestWait) {
+                return Constant.eastWestWait++;
+            }
         }
         else {
             return 0;
@@ -182,13 +188,19 @@ public class User extends Thread {
     // remove user from waiting counter for going from source to destination direction
     private static void directionWaitTimeRemove(String source, String destination) {
         if(source.equalsIgnoreCase(Constant.southDirection) && destination.equalsIgnoreCase(Constant.eastDirection)){
-            Constant.southEastWait--;
+            synchronized (Constant.southEastWait) {
+                Constant.southEastWait--;
+            }
         }
         else if(source.equalsIgnoreCase(Constant.westDirection) && destination.equalsIgnoreCase(Constant.southDirection)){
-            Constant.westSouthWait--;
+            synchronized (Constant.westSouthWait) {
+                Constant.westSouthWait--;
+            }
         }
-        else if(source.equalsIgnoreCase(Constant.eastDirection) && destination.equalsIgnoreCase(Constant.westDirection)){
-            Constant.eastWestWait--;
+        else if(source.equalsIgnoreCase(Constant.eastDirection) && destination.equalsIgnoreCase(Constant.westDirection)) {
+            synchronized (Constant.eastWestWait) {
+                Constant.eastWestWait--;
+            }
         }
     }
 

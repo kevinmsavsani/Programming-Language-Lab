@@ -19,12 +19,12 @@ public class Constant {
     public static List<String> directions = new ArrayList<>();      // contains direction name list
     public static Vector vehicleTimeStatus = new Vector();      // Contains all vehicle wait time status in term of time except vehicle starting in future
     public static Vector vehicleStatus = new Vector();      // Contains all vehicle wait time status in term of boolean except vehicle starting in future
-    public static int westSouthWait = 0;       // Contains number of car waiting to go from west to south direction
-    public static int eastWestWait = 0;         // Contains number of car waiting to go from east to west direction
-    public static int southEastWait = 0;        // Contains number of car waiting to go from south to east direction
+    public static Integer westSouthWait = 0;       // Contains number of car waiting to go from west to south direction
+    public static Integer eastWestWait = 0;         // Contains number of car waiting to go from east to west direction
+    public static Integer southEastWait = 0;        // Contains number of car waiting to go from south to east direction
     public static List<Quartet<Integer, String, String, Integer>> allUser = new ArrayList<>();      // Contains all vehicle entry
 
-    public static long westSouthExtraWait = 0;       // Contains number of car waiting to go from west to south direction
-    public static long eastWestExtraWait = 0;         // Contains number of car waiting to go from east to west direction
-    public static long southEastExtraWait = 0;        // Contains number of car waiting to go from south to east direction
+    public static long westSouthExtraWait = 0;       // Contains time to go from west to south direction if green light is T2
+    public static long eastWestExtraWait = 0;         // Contains time to go from east to west direction if green light is T3
+    public static long southEastExtraWait = 0;        // Contains time to go from south to east direction if green light is T1
 }

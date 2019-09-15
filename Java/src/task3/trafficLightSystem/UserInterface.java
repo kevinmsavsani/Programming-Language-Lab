@@ -45,6 +45,8 @@ public class UserInterface extends Thread {
         directions.add("East");
         JList sourceDirectionList = new JList(directions.toArray());
         JList destinationDirectionList = new JList(directions.toArray());
+        sourceDirectionList.setSelectedIndex(0);
+        destinationDirectionList.setSelectedIndex(2);
 
         // vehicle status table created
         DefaultTableModel outputTable = new DefaultTableModel(new String[]{"Vehicle Number", "Status"}, 0);
@@ -101,9 +103,6 @@ public class UserInterface extends Thread {
                 TimeTable.setRowCount(0);
                 TimeTable.addRow(new Object[]{"Current Time" , (Constant.programTime - Constant.startTime)});
 
-                if (Constant.userDetails.size() > 0  && !statusButton.isEnabled()) {
-                    statusButton.setEnabled(true);
-                }
             }
         };
         Timer timer = new Timer(1000 ,taskPerformer);       // timer of 0.1sec set to start action listener
