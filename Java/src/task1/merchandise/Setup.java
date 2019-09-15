@@ -1,6 +1,6 @@
 package task1.merchandise;
 
-/******  ***********/
+/****** Class which setup each order thread and then process the order to give output with help of order class ***********/
 public class Setup extends Thread {
     private Merchandise merchandise;
     private Order order;
