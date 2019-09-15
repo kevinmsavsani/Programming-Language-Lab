@@ -8,14 +8,15 @@ Task 1
 	Order_ID Order_type Quantity
 
 
-[S-> T shirt small, M-> T shirt medium, L-> T shirt large, C-> Cap]
+[S-> T-Shirt small, M-> T-Shirt medium, L-> T-Shirt large, C-> Cap]
 
 2. Run Merchandise.java 
 
 Task 2
 1. Input to be given in Input.txt file with format as follows
 
-	No._of_bottle_type_B1  No._of_bottle_type_B2  Time_duration_for_observation
+	No._of_bottle_type_B1,  No._of_bottle_type_B2,  Time_duration_for_observation
+	Eg. 50, 50, 100
 
 2. Run Manufacturer.java 
 
