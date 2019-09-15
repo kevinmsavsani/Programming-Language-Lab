@@ -34,7 +34,7 @@ public class User extends Thread {
                         this.numCarWait -= numCarExit;      // subtract number of car which can go before traffic light changes from total car waiting to go through same path
 
                         // calculate wait time by by adding time for each car waiting to take 6sec each and only 10 car can pass in 60 sec of traffic light time and remaing car wait for 120 sec more
-                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait-1)/10)*120);
+                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait)/10)*120);
                         this.waitTime = carWait;
                     }
                     // vehicle status updated
@@ -71,7 +71,7 @@ public class User extends Thread {
                         this.numCarWait -= numCarExit;      // subtract number of car which can go before traffic light changes from total car waiting to go through same path
 
                         // calculate wait time by by adding time for each car waiting to take 6sec each and only 10 car can pass in 60 sec of traffic light time and remaing car wait for 120 sec more
-                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait-1)/10)*120);
+                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait)/10)*120);
                         this.waitTime = carWait;
                     }
                     // vehicle status updated
@@ -107,7 +107,7 @@ public class User extends Thread {
                         this.numCarWait -= numCarExit;      // subtract number of car which can go before traffic light changes from total car waiting to go through same path
 
                         // calculate wait time by by adding time for each car waiting to take 6sec each and only 10 car can pass in 60 sec of traffic light time and remaing car wait for 120 sec more
-                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait-1)/10)*120);
+                        long carWait = time + 120 + (this.numCarWait*6) + (((this.numCarWait)/10)*120);
                         this.waitTime = carWait;
                     }
                     // vehicle status updated
