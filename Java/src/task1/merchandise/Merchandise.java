@@ -56,7 +56,7 @@ public class Merchandise{
             int count = scanner.nextInt();
             Constant.orderList.add(new Triplet<>(index,type,count));
         }
-
+        /****** print inventory **********/
         System.out.println("Inventory --");
         System.out.println("S   |   M   |   L   |   C");
         System.out.println(String.format("%d   |   %d   |   %d   |   %d \n",Constant.totalSmall,Constant.totalMedium,Constant.totalLarge,Constant.totalCap));
