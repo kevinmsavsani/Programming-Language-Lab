@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Manufacturer {
+
+    //objects of different threads
     Packaging packaging = new Packaging();
     Sealing sealing = new Sealing();
     PackagingThread packagingThread = new PackagingThread(packaging,"Packaging");
@@ -24,9 +26,11 @@ public class Manufacturer {
 
     private void startMachine() {
 
+        // starting packaging and sealing threads
         packagingThread.start();
         sealingThread.start();
 
+        // join to ensure main thread stops after both thread
         try {
             packagingThread.join();
             sealingThread.join();

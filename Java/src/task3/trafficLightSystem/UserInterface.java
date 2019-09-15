@@ -168,6 +168,7 @@ public class UserInterface extends Thread {
         frame.setLayout(new BorderLayout());
         frame.setSize(1000,900);
 
+
         // traffic light and vehicle status table added to panel
         p2.add(trafficLightScrollPane, BorderLayout.CENTER);
         p3.add(outputStatusScrollPane, BorderLayout.CENTER);

@@ -3,6 +3,8 @@ package task2.coldDrinkManufacturing;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+
+/************* Class for global variables ***********/
 public class Constant {
 
     public static String fileName = "src/task2/coldDrinkManufacturing/input.txt";
