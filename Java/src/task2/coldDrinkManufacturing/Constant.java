@@ -9,7 +9,7 @@ public class Constant {
 
     public static String fileName = "src/task2/coldDrinkManufacturing/input.txt";
 
-    public static int totalB1Bottles;      // contains total B1 bottles
+    public static int totalB1Bottles;      // contains total B1
     public static int totalB2Bottles;       // contains total B2 bottles
     public static int observationTime;    // contains time at which output to be displayed
 
