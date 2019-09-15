@@ -23,4 +23,8 @@ public class Constant {
     public static int eastWestWait = 0;         // Contains number of car waiting to go from east to west direction
     public static int southEastWait = 0;        // Contains number of car waiting to go from south to east direction
     public static List<Quartet<Integer, String, String, Integer>> allUser = new ArrayList<>();      // Contains all vehicle entry
+
+    public static long westSouthExtraWait = 0;       // Contains number of car waiting to go from west to south direction
+    public static long eastWestExtraWait = 0;         // Contains number of car waiting to go from east to west direction
+    public static long southEastExtraWait = 0;        // Contains number of car waiting to go from south to east direction
 }

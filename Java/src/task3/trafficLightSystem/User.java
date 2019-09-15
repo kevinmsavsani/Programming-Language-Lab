@@ -28,8 +28,10 @@ public class User extends Thread {
         // check if user going from south to east
         if (user.getValue1().equalsIgnoreCase(Constant.southDirection) && user.getValue2().equalsIgnoreCase(Constant.eastDirection)) {
             if (Constant.greenTrafficlight == 1) {      // checks if traffic light on is T1
-                if ( this.waitTime > 0 ) {          // checks if there is any car waiting to go through same path
+                if ( this.numCarWait > 0 ) {          // checks if there is any car waiting to go through same path
+                    time = Constant.southEastExtraWait;
                     if (time < this.waitTime + 6) {     // checks if car can pass before light changes
+
                         long numCarExit = time/6;       // get number of car which can pass before traffic light changes
                         this.numCarWait -= numCarExit;      // subtract number of car which can go before traffic light changes from total car waiting to go through same path
 
@@ -65,7 +67,8 @@ public class User extends Thread {
         // check if user going from west to south
         else if (user.getValue1().equalsIgnoreCase(Constant.westDirection) && user.getValue2().equalsIgnoreCase(Constant.southDirection)) {
             if (Constant.greenTrafficlight == 2) {      // checks if traffic light on is T2
-                if ( this.waitTime > 0 ) {          // checks if there is any car waiting to go through same path
+                if ( this.numCarWait > 0 ) {          // checks if there is any car waiting to go through same path
+                    time = Constant.westSouthExtraWait;
                     if (time < this.waitTime + 6) {     // checks if car can pass before light changes
                         long numCarExit = time/6;       // get number of car which can pass before traffic light changes
                         this.numCarWait -= numCarExit;      // subtract number of car which can go before traffic light changes from total car waiting to go through same path
@@ -101,7 +104,8 @@ public class User extends Thread {
         // check if user going from east to west
         else if (user.getValue1().equalsIgnoreCase(Constant.eastDirection) && user.getValue2().equalsIgnoreCase(Constant.westDirection)) {
             if (Constant.greenTrafficlight == 3) {      // checks if traffic light on is T3
-                if ( this.waitTime > 0 ) {          // checks if there is any car waiting to go through same path
+                if ( this.numCarWait > 0 ) {          // checks if there is any car waiting to go through same path
+                    time = Constant.eastWestExtraWait;
                     if (time < this.waitTime + 6) {     // checks if car can pass before light changes
                         long numCarExit = time/6;       // get number of car which can pass before traffic light changes
                         this.numCarWait -= numCarExit;      // subtract number of car which can go before traffic light changes from total car waiting to go through same path
@@ -188,6 +192,19 @@ public class User extends Thread {
         }
     }
 
+    // store remaining time for traffic light change from  car which just previously went to pass state
+    private void directionExtraWaitTime(String source, String destination) {
+        if(source.equalsIgnoreCase(Constant.southDirection) && destination.equalsIgnoreCase(Constant.eastDirection)){
+            Constant.southEastExtraWait=60-(Constant.programTime - Constant.startTrafficLightTime );
+        }
+        else if(source.equalsIgnoreCase(Constant.westDirection) && destination.equalsIgnoreCase(Constant.southDirection)){
+            Constant.westSouthExtraWait=60-(Constant.programTime - Constant.startTrafficLightTime );
+        }
+        else if(source.equalsIgnoreCase(Constant.eastDirection) && destination.equalsIgnoreCase(Constant.westDirection)){
+            Constant.eastWestExtraWait=60-(Constant.programTime - Constant.startTrafficLightTime );
+        }
+    }
+
     @Override
     public void run() {
         // added user in list with its status in another vector
@@ -206,6 +223,7 @@ public class User extends Thread {
             updateTime();   // continuously decrement waiting time after every 1sec and update its status
             if (Constant.vehicleStatus.get(this.index).equals("Pass")) {    // check if vehicle as status pass
                 try {
+                    directionExtraWaitTime(this.sourceDirection,this.destinationDirection);
                     sleep(6000);        // vehicle take 6sec to pass
                     // update status to passed
                     Constant.vehicleStatus.setElementAt("Passed", this.index);
