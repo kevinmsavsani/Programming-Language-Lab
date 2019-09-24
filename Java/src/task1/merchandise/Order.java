@@ -41,7 +41,7 @@ public class Order {
         if(Constant.orderList.get(orderNumber).getValue1() == Constant.small) {
             /******** synchronization for t-shirt of small size *********/
             smallLock.lock();
-            if (Constant.orderList.get(orderNumber).getValue2() <= Constant.totalSmall) {
+            if (Constant.orderList.get(orderNumber).getValue2() >=0 && Constant.orderList.get(orderNumber).getValue2() <= Constant.totalSmall) {
                 Constant.totalSmall -= Constant.orderList.get(orderNumber).getValue2();
                 printInventory(Constant.orderList.get(orderNumber).getValue0(),true);
             } else {
@@ -52,7 +52,7 @@ public class Order {
         else if(Constant.orderList.get(orderNumber).getValue1() == Constant.medium) {
             /******** synchronization for t-shirt of medium size *********/
             mediumLock.lock();
-            if (Constant.orderList.get(orderNumber).getValue2() <= Constant.totalMedium) {
+            if (Constant.orderList.get(orderNumber).getValue2() >=0 && Constant.orderList.get(orderNumber).getValue2() <= Constant.totalMedium) {
                 Constant.totalMedium -= Constant.orderList.get(orderNumber).getValue2();
                 printInventory(Constant.orderList.get(orderNumber).getValue0(),true);
             } else {
@@ -63,7 +63,7 @@ public class Order {
         else if(Constant.orderList.get(orderNumber).getValue1() == Constant.large) {
             /******** synchronization for t-shirt of large size *********/
             largeLock.lock();
-            if (Constant.orderList.get(orderNumber).getValue2() <= Constant.totalLarge) {
+            if (Constant.orderList.get(orderNumber).getValue2() >=0 && Constant.orderList.get(orderNumber).getValue2() <= Constant.totalLarge) {
                 Constant.totalLarge -= Constant.orderList.get(orderNumber).getValue2();
                 printInventory(Constant.orderList.get(orderNumber).getValue0(),true);
             } else {
@@ -75,7 +75,7 @@ public class Order {
         else if(Constant.orderList.get(orderNumber).getValue1() == Constant.cap) {
             /******** synchronization for cap *********/
             capLock.lock();
-                if (Constant.orderList.get(orderNumber).getValue2() <= Constant.totalCap) {
+                if (Constant.orderList.get(orderNumber).getValue2() >=0 && Constant.orderList.get(orderNumber).getValue2() <= Constant.totalCap) {
                     Constant.totalCap -= Constant.orderList.get(orderNumber).getValue2();
                     printInventory(Constant.orderList.get(orderNumber).getValue0(),true);
                 } else {
