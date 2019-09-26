@@ -52,13 +52,15 @@ public class Manufacturer {
         lineVector = line.split(", ");
 
         //parsing the values to Integer
-        Constant.totalB1Bottles=Integer.parseInt(lineVector[0]);
+        Constant.totalB1Bottles= Integer.parseInt(lineVector[0]);
         Constant.totalB2Bottles=Integer.parseInt(lineVector[1]);
         Constant.observationTime=Integer.parseInt(lineVector[2]);
 
         Manufacturer manufacturer = new Manufacturer();
 
-        manufacturer.startMachine();
+        if(Constant.observationTime >= 0 ){
+            manufacturer.startMachine();
+        }
 
         manufacturer.printOutput();
     }

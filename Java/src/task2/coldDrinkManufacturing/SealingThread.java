@@ -15,7 +15,11 @@ public class SealingThread extends Thread {
     public void run(){
         while (true) {
             // condition to stop thread
-            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+3 || (Constant.totalB1Bottles == SynchronizedCounter.getGodownB1Value() && Constant.totalB2Bottles == SynchronizedCounter.getGodownB2Value())) {
+            if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+3
+                    || (Constant.totalB1Bottles == SynchronizedCounter.getGodownB1Value()
+                    && Constant.totalB2Bottles == SynchronizedCounter.getGodownB2Value())) {
+                SynchronizedCounter.incrementSealingTimeCounter();
+
                 stop();
             }
             if (SynchronizedCounter.getSealingTimeCounterValue()<=SynchronizedCounter.getTimeCounterValue()) {
