@@ -96,32 +96,6 @@ uniq_shortest_path(X, Y, MinCost, Path) :-
 % Prolog Conventions
 
 
-find_shortest_path([], _, MinPath, MinPath).
-
-find_shortest_path([Path|Paths], MinLen, _, Output) :-
-    length(Path, N),
-    N < MinLen,
-    find_shortest_path(Paths, N, Path, Output).
-
-find_shortest_path([Path|Paths], MinLen, MinPath, Output) :-
-    length(Path, N),
-    N >= MinLen,
-    find_shortest_path(Paths, MinLen, MinPath, Output).
-
-optimal(L) :-
-    optimal(_, _, L, _, _).
-
-optimal(Start, End, L, Count, PathLength) :-
-    start(Start),
-    end(End),
-    findall(Path, routing(Start, End, Path), Paths),
-    find_shortest_path(Paths, 1000 , [], L),
-    length(L, PathLength),
-    length(Paths, Count).
-
-
-
-
 % to get min weight path
 %path(S,D,TDist):-
 %    edge(S,D,TDist).
@@ -129,3 +103,27 @@ optimal(Start, End, L, Count, PathLength) :-
 %    edge(S,X,TD1), path(X,D,TD2), TDist=TD1+TD2.
 %
 %aggregate(min(D), path(g1,g17,D), D).
+
+
+% findminpath(g1,g17,W,P).
+findapath(X, Y, W, [X,Y], _) :- edge(X, Y, W).
+findapath(X, Y, W, [X|P], V) :- \+ member(X, V),
+                                 edge(X, Z, W1),
+                                 findapath(Z, Y, W2, P, [X|V]),
+                                 W is W1 + W2.
+
+:-dynamic(solution/2).
+findminpath(X, Y, W, P) :- \+ solution(_, _),
+                           findapath(X, Y, W1, P1, []),
+                           assertz(solution(W1, P1)),
+                           !,
+                           findminpath(X,Y,W,P).
+
+findminpath(X, Y, _, _) :- findapath(X, Y, W1, P1, []),
+                           solution(W2, P2),
+                           W1 < W2,
+                           retract(solution(W2, P2)),
+                           asserta(solution(W1, P1)),
+                           fail.
+
+findminpath(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
