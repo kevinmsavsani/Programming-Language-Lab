@@ -127,3 +127,16 @@ findminpath(X, Y, _, _) :- findapath(X, Y, W1, P1, []),
                            fail.
 
 findminpath(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
+
+
+
+% check first element is start(X).
+% valid([g1, g6, g8, g9, g8, g7, g10, g15, g13, g14, g18, g17]).
+check(X,[]) :- end(X).
+check(X,[Xt|Xs]) :- edge(X,Xt,_).
+check(X,[Xt|Xs]) :- edge(Xt,X,_).
+
+valid([]).
+valid([X|Xs]) :-
+    valid(Xs),
+    check(X,Xs).
