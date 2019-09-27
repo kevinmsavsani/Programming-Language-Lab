@@ -1,5 +1,5 @@
 
-decode(S1,Sum,C) :-
+decode(S1,Sum) :-
     string_chars(S1, L1),
     list_sum(L1,Sum,C).
 %    decode_List(L1).
