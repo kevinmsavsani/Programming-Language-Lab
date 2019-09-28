@@ -40,12 +40,10 @@ edge(g14,g17,5).
 edge(g14,g18,4).
 edge(g17,g18,8).
 
-edge(g15,g16,5).
 start(g1).
 start(g2).
 start(g3).
 start(g4).
-end(g16).
 end(g17).
 
 
