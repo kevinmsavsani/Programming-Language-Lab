@@ -32,9 +32,9 @@ menu(diet,1,0,0).
 find_items(hungry,1,1,1) :- starter(A,X),mainDish(B,Y),dessert(C,Z),write("Items: "),write(A),write(" , "),write(B),write(" , "),write(C).
 find_items(notSoHungry,1,1,0) :- starter(A,X),mainDish(B,Y),write("Items: "),write(A),write(" , "),write(B).
 find_items(notSoHungry,0,1,1) :- mainDish(B,Y),dessert(C,Z),write("Items: "),write(B),write(" , "),write(C).
-find_items(diet,0,0,1) :- dessert(C,Z),Z<41,write("Items: "),write(C).
-find_items(diet,0,1,0) :- mainDish(B,Y),Y<41,write("Items: "),write(B).
-find_items(diet,1,0,0) :- starter(A,X),X<41,write("Items: "),write(A).
+find_items(diet,0,0,1) :- dessert(C,Z),Z=<40,write("Items: "),write(C).
+find_items(diet,0,1,0) :- mainDish(B,Y),Y=<40,write("Items: "),write(B).
+find_items(diet,1,0,0) :- starter(A,X),X=<40,write("Items: "),write(A).
 
 
 

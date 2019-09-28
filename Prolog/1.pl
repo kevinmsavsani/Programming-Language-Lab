@@ -10,6 +10,7 @@ decode(S1,Sum) :-
 %decode_List([H|T]) :- decode_head(H),decode_List(T).
 
 isNextGreaterThanSix([]) :- !.
+isNextLessThanSeven([]) :- !.
 isNextGreaterThanSix([X|Xs]) :- atom_number(X,N), N>6.
 isNextLessThanSeven([X|Xs]) :- atom_number(X,N), N<7.
 

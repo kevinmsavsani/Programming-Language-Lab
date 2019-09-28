@@ -147,4 +147,6 @@ find_shortest_path([(C, Path)|Paths], MinLen, MinPath, Output) :-
 
 optimal(X) :-
     findall((D,P),all_shortest_path(D,P), R),
-    find_shortest_path(R, 1000, [], X).
+    findall(W, edge(_, _, W), L),
+    sumlist(L, Sum),
+    find_shortest_path(R, Sum, [], X).
