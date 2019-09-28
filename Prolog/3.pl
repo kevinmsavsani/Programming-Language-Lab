@@ -69,27 +69,27 @@ all_path(Start,End,L) :-
 %    path(Y, Z, N1, T),
 %    N is N0 + N1.
 
-path(X, Y, N, Path) :- path(X, Y, N, [], Path).
 
-path(X, Y, N, Seen, [X]) :-
-    \+ memberchk(X, Seen),
-    edge(X, Y, N).
-path(X, Z, N, Seen, [X|T]) :-
-    \+ memberchk(X, Seen),
-    edge(X, Y, N0),
-    path(Y, Z, N1, [X|Seen], T),
-    \+ memberchk(X, T),
-    N is N0 + N1.
 
-memberchk(X, L) :- once(member(X, L)).
-member(X, [X|_]).
-member(X, [_|Xs]) :- member(X, Xs).
+% check first element is start(X).
+% valid([g1, g6, g8, g9, g8, g7, g10, g15, g13, g14, g18, g17]).
+% check(X,[]). for path not ending at exit
+% check_start([X|Xs]). for path not ending at opening gate
+check(X,[]) :- end(X).
+check(X,[Xt|Xs]) :- edge(X,Xt,_).
+check(X,[Xt|Xs]) :- edge(Xt,X,_).
 
-uniq_shortest_path(X, Y, MinCost, Path) :-
-    path(X, Y, MinCost, Path),
-    \+ (path(X, Y, LowerCost, OtherPath),
-        OtherPath \= Path,
-        LowerCost =< MinCost).
+check_start([X|Xs]) :- start(X).
+
+valid([]).
+valid(Xs) :-
+    check_start(Xs),valid_check(Xs).
+
+valid_check([]).
+valid_check([X|Xs]) :-
+    valid_check(Xs),
+    check(X,Xs).
+
 
 % Prolog Conventions
 
@@ -128,27 +128,23 @@ findminpath(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
 
 % find all shortest from all gate
 all_shortest_path(Weight,Path) :-
-    all_shortest_path(_,_,Weight,Path).
+    all_shortest_path(_,_, Weight,Path).
 all_shortest_path(Start,End,Weight,Path) :-
     start(Start),
     end(End),
     findminpath(Start, End, Weight, Path).
 
-% check first element is start(X).
-% valid([g1, g6, g8, g9, g8, g7, g10, g15, g13, g14, g18, g17]).
-% check(X,[]). for path not ending at exit
-% check_start([X|Xs]). for path not ending at opening gate
-check(X,[]) :- end(X).
-check(X,[Xt|Xs]) :- edge(X,Xt,_).
-check(X,[Xt|Xs]) :- edge(Xt,X,_).
 
-check_start([X|Xs]) :- start(X).
+find_shortest_path([], _, MinPath, MinPath).
 
-valid([]).
-valid(Xs) :-
-    check_start(Xs),valid_check(Xs).
+find_shortest_path([(C, Path)|Paths], MinLen, _, Output) :-
+    C < MinLen,
+    find_shortest_path(Paths, C, Path, Output).
 
-valid_check([]).
-valid_check([X|Xs]) :-
-    valid_check(Xs),
-    check(X,Xs).
+find_shortest_path([(C, Path)|Paths], MinLen, MinPath, Output) :-
+    C >= MinLen,
+    find_shortest_path(Paths, MinLen, MinPath, Output).
+
+optimal(X) :-
+    findall((D,P),all_shortest_path(D,P), R),
+    find_shortest_path(R, 1000, [], X).
