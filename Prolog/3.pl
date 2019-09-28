@@ -57,7 +57,7 @@ routing(FromCity, ToCity, [FromCity|Connections]) :-
   edge(FromCity, ToConnection, _),
   routing(ToConnection, ToCity, Connections).
 
-% find all edge from all gate
+% find all path from all gate
 all_path(L) :-
     all_path(_,_,L).
 all_path(Start,End,L) :-
@@ -96,7 +96,7 @@ uniq_shortest_path(X, Y, MinCost, Path) :-
 % Prolog Conventions
 
 
-% to get min weight path
+%%to get min weight path
 %path(S,D,TDist):-
 %    edge(S,D,TDist).
 %path(S,D,TDist):-
@@ -128,15 +128,29 @@ findminpath(X, Y, _, _) :- findapath(X, Y, W1, P1, []),
 
 findminpath(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
 
-
+% find all shortest from all gate
+all_shortest_path(Weight,Path) :-
+    all_shortest_path(_,_,Weight,Path).
+all_shortest_path(Start,End,Weight,Path) :-
+    start(Start),
+    end(End),
+    findminpath(Start, End, Weight, Path).
 
 % check first element is start(X).
 % valid([g1, g6, g8, g9, g8, g7, g10, g15, g13, g14, g18, g17]).
+% check(X,[]). for path not ending at exit
+% check_start([X|Xs]). for path not ending at opening gate
 check(X,[]) :- end(X).
 check(X,[Xt|Xs]) :- edge(X,Xt,_).
 check(X,[Xt|Xs]) :- edge(Xt,X,_).
 
+check_start([X|Xs]) :- start(X).
+
 valid([]).
-valid([X|Xs]) :-
-    valid(Xs),
+valid(Xs) :-
+    check_start(Xs),valid_check(Xs).
+
+valid_check([]).
+valid_check([X|Xs]) :-
+    valid_check(Xs),
     check(X,Xs).
