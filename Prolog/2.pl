@@ -50,8 +50,9 @@ sum([[A,H]|T], N) :- sum(T, N1), N is N1 + H.
 subset_sum(X, N) :- findall([A,Y],dessert(A,Y),R), subset(X,R), sum(X,M), M =< N, M > 0.
 
 
-writer([]) :- writeln("").
-writer([[A,H]|T]) :- write(A), write(" , "),writer(T).
+writer1([]) :- writeln("").
+writer1([[A,H]|T]) :-  write(" , "),write(A),writer1(T).
+writer([[A,H]|T]) :- write(A),writer1(T).
 
 find_items(diet,0,0,1) :- findall([A,Y],dessert(A,Y),R), subset(X,R), sum(X,M), M =< 40, M > 0,write("Items: "), writer(X).
 find_items(diet,0,1,0) :- findall([A,Y],mainDish(A,Y),R), subset(X,R), sum(X,M), M =< 40, M > 0,write("Items: "), writer(X).
