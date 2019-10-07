@@ -61,3 +61,12 @@ find_items(diet,1,0,0) :- findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), 
 find_items(notSoHungry,1,1,0) :- mainDish(B,C),findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), M+C =< 80,M > 0,write("Items: "), write(B),write(" , "),writer(X).
 find_items(notSoHungry,0,1,1) :- mainDish(B,C), findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), M+C =< 80, M > 0,write("Items: "), write(B),write(" , "), writer(X).
 
+
+%find_items(notSoHungry,1,1,0) :- findall([I,J],mainDish(I,J),K), subset(L,K), sum(L,C),findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), M+C =< 80,M > 0,write("Items: "), write(B),write(" , "),writer(X).
+%find_items(notSoHungry,0,1,1) :- findall([I,J],mainDish(I,J),K), subset(L,K), sum(L,C), findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), M+C =< 80, M > 0,write("Items: "), write(B),write(" , "), writer(X).
+
+
+
+%find_items(diet,0,0,1) :- dessert(I,J),findall([A,Y],dessert(A,Y),R), subset(X,R), sum(X,M), M+J =< 40,write("Items: "), writer(X).
+%find_items(diet,0,1,0) :- dessert(I,J),findall([A,Y],mainDish(A,Y),R), subset(X,R), sum(X,M), M+J =< 40,write("Items: "), writer(X).
+%find_items(diet,1,0,0) :- dessert(I,J),findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), M+J =< 40,write("Items: "), writer(X).
