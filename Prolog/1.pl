@@ -1,4 +1,5 @@
 
+
 decode(S1,Sum) :-
     string_chars(S1, L1),
     list_sum(L1,Sum,C).
@@ -16,15 +17,15 @@ isNextLessThanSeven([X|Xs]) :- atom_number(X,N), N<7.
 
 list_sum([], 1, 0).
 list_sum([X|Xs], Sum, Ci) :-
-    list_sum(Xs, S0 , C0),
     atom_number(X,N),
     N=0,
+    list_sum(Xs, S0 , C0),
     Sum is 0,
     Ci is S0.
 list_sum([X|Xs], Sum, Ci) :-
-    list_sum(Xs, S0, C0),
     atom_number(X,N),
     N=1,
+    list_sum(Xs, S0, C0),
     Sum is S0 +C0,
     Ci is S0.
 %    writeln(" "),
@@ -40,10 +41,10 @@ list_sum([X|Xs], Sum, Ci) :-
 %    write(" "),
 %    write(C0).
 list_sum([X|Xs], Sum, Ci) :-
-    list_sum(Xs, S0, C0),
     atom_number(X,N),
     N=2,
     isNextLessThanSeven(Xs),
+    list_sum(Xs, S0, C0),
     Sum is S0 + C0,
     Ci is S0.
 %    writeln(" "),
@@ -59,10 +60,10 @@ list_sum([X|Xs], Sum, Ci) :-
 %    write(" "),
 %    write(C0).
 list_sum([X|Xs], Sum, Ci) :-
-    list_sum(Xs, S0, C0),
     atom_number(X,N),
     N =2,
     isNextGreaterThanSix(Xs),
+    list_sum(Xs, S0, C0),
     Sum is S0,
     Ci is S0.
 %    writeln(" "),
@@ -78,9 +79,9 @@ list_sum([X|Xs], Sum, Ci) :-
 %    write(" "),
 %    write(C0).
 list_sum([X|Xs], Sum, Ci) :-
-    list_sum(Xs, S0, C0),
     atom_number(X,N),
     N>2,
+    list_sum(Xs, S0, C0),
     Sum is S0,
     Ci is S0.
 %    writeln(" "),
