@@ -64,10 +64,10 @@ writer([[A,H]|T]) :- write(A),writer1(T).
 
 
 % subset(X, Y) :- X is a subset of Y
-subset([[]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,write("b"),write(S),nl,S>M.
 subset([], [],0,M).
-subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1,write("d"),write(S),nl.
-subset([[H,A]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,write("b"),write(S),nl,S=<M.
+subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1.
+subset([[H,A]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S=<M.
+subset([[]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S>M,S =S1.
 
 find_items(diet,0,0,1) :- findall([A,Y],dessert(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
 find_items(diet,0,1,0) :- findall([A,Y],mainDish(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
