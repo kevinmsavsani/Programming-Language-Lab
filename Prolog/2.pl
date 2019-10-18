@@ -64,12 +64,13 @@ writer([[A,H]|T]) :- write(A),writer1(T).
 
 
 % subset(X, Y) :- X is a subset of Y
-subset([], [],0).
-subset([[H,A]|T1], [[H,A]|T2],S) :- subset(T1, T2, S1), S = S1 + A.
-subset(L, [_|T],S) :- subset(L, T , S1), S = S1.
+subset([[]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,write("b"),write(S),nl,S>M.
+subset([], [],0,M).
+subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1,write("d"),write(S),nl.
+subset([[H,A]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,write("b"),write(S),nl,S=<M.
 
-find_items(diet,0,0,1) :- findall([A,Y],dessert(A,Y),R), subset(X,R,M), M =< 40, M > 0,write("Items: "), writer(X).
-find_items(diet,0,1,0) :- findall([A,Y],mainDish(A,Y),R), subset(X,R,M), M =< 40, M > 0,write("Items: "), writer(X).
-find_items(diet,1,0,0) :- findall([A,Y],starter(A,Y),R), subset(X,R,M), M =< 40, M > 0,write("Items: "), writer(X).
-find_items(notSoHungry,1,1,0) :- mainDish(B,C),findall([A,Y],starter(A,Y),R), subset(X,R,M), M+C =< 80,M > 0,write("Items: "), write(B),write(" , "),writer(X).
-find_items(notSoHungry,0,1,1) :- mainDish(B,C), findall([A,Y],starter(A,Y),R), subset(X,R,M), M+C =<80, M > 0,write("Items: "), write(B),write(" , "), writer(X).
+find_items(diet,0,0,1) :- findall([A,Y],dessert(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
+find_items(diet,0,1,0) :- findall([A,Y],mainDish(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
+find_items(diet,1,0,0) :- findall([A,Y],starter(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
+find_items(notSoHungry,1,1,0) :- mainDish(B,C),findall([A,Y],starter(A,Y),R), subset(X,R,M,80-C),M > 0,write("Items: "), write(B),write(" , "),writer(X).
+find_items(notSoHungry,0,1,1) :- mainDish(B,C), findall([A,Y],starter(A,Y),R), subset(X,R,M,80-C), M > 0,write("Items: "), write(B),write(" , "), writer(X).
