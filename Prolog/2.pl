@@ -39,8 +39,8 @@ find_items(hungry,1,1,1) :- starter(A,X),mainDish(B,Y),dessert(C,Z),write("Items
 %
 %
 %% sum(L, N) :- sum of elements in L is equal to N
-%sum([], 0).
-%sum([[A,H]|T], N) :- sum(T, N1), N is N1 + H.
+sum([], 0).
+sum([[A,H]|T], N) :- sum(T, N1), N is N1 + H.
 
 
 
@@ -62,13 +62,21 @@ writer([[A,H]|T]) :- write(A),writer1(T).
 %find_items(diet,0,1,0) :- mainDish(I,J),findall([A,Y],mainDish(A,Y),R), subset(X,R), sum(X,M), M+J =< 40,write("Items: "), writer(X).
 %find_items(diet,1,0,0) :- starter(I,J),findall([A,Y],starter(A,Y),R), subset(X,R), sum(X,M), M+J =< 40,write("Items: "), writer(X).
 
-subseq([H,A],S1,M,S,[H,A]) :- S = S1 + A,S=<M.
-subseq([H,A],S1,M,S,[]) :- S = S1 + A,S>M,S=S1.
+subseq([H,A],S1,M,S,[H,A],N) :- P is A*N, S = S1 + P,S=<M.
+subseq([H,A],S1,M,S,[],N) :- P is A*N,S = S1 + P, S>M, S =S1.
 
+combine(R1,T1,[R1|T1]).
 % subset(X, Y) :- X is a subset of Y
 subset([], [],0,M).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,1), combine(R1,T1,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,2), combine(R1,T1,R2), append([R1],R2,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,3), combine(R1,T1,R2), append([R1],R2,R3),append([R1],R3,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,4), combine(R1,T1,R2), append([R1],R2,R3),append([R1],R3,R4),append([R1],R4,R).
 subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1.
-subset([R|T1], [H|T2],S,M) :- subset(T1, T2, S1,M), subseq(H,S1,M,S,R).
+
+append([],L,L).
+append([H|T],L2,[H|L3])  :-  append(T,L2,L3).
+
 
 find_items(diet,0,0,1) :- findall([A,Y],dessert(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
 find_items(diet,0,1,0) :- findall([A,Y],mainDish(A,Y),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
