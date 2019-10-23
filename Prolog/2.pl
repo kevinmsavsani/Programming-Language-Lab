@@ -69,9 +69,9 @@ combine(R1,T1,[R1|T1]).
 % subset(X, Y) :- X is a subset of Y
 subset([], [],0,M).
 subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,1), combine(R1,T1,R).
-subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,2), combine(R1,T1,R2), append([R1],R2,R).
-subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,3), combine(R1,T1,R2), append([R1],R2,R3),append([R1],R3,R).
-subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,4), combine(R1,T1,R2), append([R1],R2,R3),append([R1],R3,R4),append([R1],R4,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,2), combine(R1,T1,R2), combine(R1,R2,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,3), combine(R1,T1,R2), combine(R1,R2,R3),combine(R1,R3,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,4), combine(R1,T1,R2), combine(R1,R2,R3),combine(R1,R3,R4),combine(R1,R4,R).
 subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1.
 
 append([],L,L).
@@ -86,3 +86,4 @@ find_items(notSoHungry,0,1,1) :- mainDish(B,C), dessert(A,M), M+C =< 80, M > 0,w
 
 %find_items(notSoHungry,1,1,0) :- mainDish(B,C),findall([A,Y],starter(A,Y),R), subset(X,R,M,80-C),M > 0,write("Items: "), write(B),write(" , "),writer(X).
 %find_items(notSoHungry,0,1,1) :- mainDish(B,C), findall([A,Y],dessert(A,Y),R), subset(X,R,M,80-C), M > 0,write("Items: "), write(B),write(" , "), writer(X).
+
