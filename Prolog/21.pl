@@ -39,9 +39,11 @@ writer([[A,H]|T]) :- write(A),writer1(T).
 
 subseq([H,A],S1,M,S,[H,A],N,A) :- P is A*N, S = S1 + P,S=<M.
 
-adds([A],A).
-fill([], _, N,M) :- N < M.
-fill([X|Xs], X, N,M) :- succ(N0, N), fill(Xs, X, N0,M).
+adds([],0).
+adds([X,A],A).
+fill([], _, 0,M,S) :- N =0, S=0.
+fill([], _, N,M,S) :- N < M,N>0,S=0.
+fill([X|Xs], X, N,M,S) :- succ(N0, N), fill(Xs, X, N0,M,S1),adds(X,A),S is S1 +A.
 
 len([], LenResult):-
     LenResult is 0.
@@ -54,7 +56,7 @@ combine(R1,T1,[R1|T1]).
 % subset(X, Y) :- X is a subset of Y
 subset([], [],0,M).
 subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1.
-subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S,R1,1,A), N is div((M-S1),A), write(N),write(M),write(S1),write(A), fill(R2,R1,N,N),write("a"),len(R2,S5), write("b"),S4 is S5*A,S is S4+S1,append(R2,T1,R).
+subset(R, [H|T2],S,M) :- subset(T1, T2, S1,M),  subseq(H,S1,M,S6,R1,1,A), N is div((M-S1),A), fill(R2,R1,N,N,S4),S=S4+S1,append(R2,T1,R).
 
 append([],L,L).
 append([H|T],L2,[H|L3])  :-  append(T,L2,L3).
