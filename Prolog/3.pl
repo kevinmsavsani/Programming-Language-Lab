@@ -46,6 +46,35 @@ start(g3).
 start(g4).
 end(g17).
 
+%cycle ,undirected
+writer1([]) :- writeln("").
+writer1([H|T]) :-  write(" , "),write(H),writer1(T).
+writer([H|T]) :- write("Path: "),write(H),writer1(T).
+%
+%% if he specify from which gate to which gate
+%routing(FromCity, ToCity, [FromCity, ToCity]) :-
+%  edge(FromCity, ToCity, _).
+%
+%routing(FromCity, ToCity, [FromCity|Connections]) :-
+%  (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
+%  routing(ToConnection, ToCity, Connections).
+%
+%% find all path from all gate
+%all_path(L) :-
+%    all_path(_,_,L),
+%    writer(L).
+%all_path(Start,End,L) :-
+%    start(Start),
+%    end(End),
+%    routing(Start, End, L).
+
+
+show_path(X,Y,R):-show_path(X,Y,[],R),writer(R).
+
+show_path(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
+show_path(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
+                          show_path(Z,Y,[Z|L],R), \+member(X,R).
+
 
 % if he specify from which gate to which gate
 routing(FromCity, ToCity, [FromCity, ToCity]) :-
