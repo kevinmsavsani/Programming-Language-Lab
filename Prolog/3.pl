@@ -75,21 +75,34 @@ all_path(Start,End,L) :-
 % valid([g1, g6, g8, g9, g8, g7, g10, g15, g13, g14, g18, g17]).
 % check(X,[]). for path not ending at exit
 % check_start([X|Xs]). for path not ending at opening gate
-check(X,[]) :- end(X).
+%check(X,[]) :- end(X).
+%check(X,[Xt|Xs]) :- edge(X,Xt,_).
+%check(X,[Xt|Xs]) :- edge(Xt,X,_).
+%
+%check_start([X|Xs]) :- start(X).
+%
+%valid([]).
+%valid(Xs) :-
+%    check_start(Xs),valid_check(Xs).
+%
+%valid_check([]).
+%valid_check([X|Xs]) :-
+%    valid_check(Xs),
+%    check(X,Xs).
+
+check(X,[]).
 check(X,[Xt|Xs]) :- edge(X,Xt,_).
 check(X,[Xt|Xs]) :- edge(Xt,X,_).
 
-check_start([X|Xs]) :- start(X).
 
 valid([]).
 valid(Xs) :-
-    check_start(Xs),valid_check(Xs).
+    valid_check(Xs).
 
 valid_check([]).
 valid_check([X|Xs]) :-
     valid_check(Xs),
     check(X,Xs).
-
 
 % Prolog Conventions
 
