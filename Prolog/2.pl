@@ -22,10 +22,10 @@ menu(diet,0,0,1).
 menu(diet,0,1,0).
 menu(diet,1,0,0).
 
-subset([], [],0,M).
+subset([], [],0,_).
 subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1.
 subset([[H,A]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S=<M.
-subset([[]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S>M,S =S1.
+subset([[]|T1], [[_,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S>M,S =S1.
 
 
 find_items(hungry,1,1,1) :- starter(A,_),mainDish(B,_),dessert(C,_),write("Items: "),write(A),write(" , "),write(B),write(" , "),write(C).
@@ -58,5 +58,5 @@ find_items_repe(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), subset_re
 find_items_repe(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), subset_repe(X,R,M,40), M > 0,write("Items: "), writer(X).
 
 
-find_items_complex(notSoHungry,1,1,0) :- findall([I,J],mainDish(I,J),K), subset(K,L,C,80), findall([A,Y],starter(A,Y),R), subset(X,R,M,80-C), M>0, write("Items: "), write(B),write(" , "),writer(X).
-find_items_complex(notSoHungry,0,1,1) :- findall([I,J],mainDish(I,J),K), subset(K,L,C,80), findall([A,Y],dessert(A,Y),R), subset(X,R,M,80-C), M>0 , write("Items: "), write(B),write(" , "), writer(X).
+find_items_complex(notSoHungry,1,1,0) :- findall([I,J],mainDish(I,J),K), subset(K,L,C,80), findall([A,Y],starter(A,Y),R), subset(X,R,M,80-C), M>0, write("Items: "), writer(L),write(" , "),writer(X).
+find_items_complex(notSoHungry,0,1,1) :- findall([I,J],mainDish(I,J),K), subset(K,L,C,80), findall([A,Y],dessert(A,Y),R), subset(X,R,M,80-C), M>0 , write("Items: "), writer(L), write(" , "),writer(X).
