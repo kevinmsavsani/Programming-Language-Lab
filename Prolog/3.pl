@@ -46,82 +46,64 @@ start(g3).
 start(g4).
 end(g17).
 
-%cycle ,undirected
 writer1([]) :- writeln("").
 writer1([H|T]) :-  write(" , "),write(H),writer1(T).
 writer([H|T]) :- write("Path: "),write(H),writer1(T).
-%
-%% if he specify from which gate to which gate
-%routing(FromCity, ToCity, [FromCity, ToCity]) :-
-%  edge(FromCity, ToCity, _).
-%
-%routing(FromCity, ToCity, [FromCity|Connections]) :-
-%  (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
-%  routing(ToConnection, ToCity, Connections).
-%
-%% find all path from all gate
-%all_path(L) :-
-%    all_path(_,_,L),
-%    writer(L).
-%all_path(Start,End,L) :-
-%    start(Start),
-%    end(End),
-%    routing(Start, End, L).
 
 
-show_path(X,Y,R):-show_path(X,Y,[],R),writer(R).
+show_path_directed(X,Y,R):-show_path_directed(X,Y,[],R),writer(R).
 
-show_path(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
-show_path(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
-                          show_path(Z,Y,[Z|L],R), \+member(X,R).
+show_path_directed(X,Y,_,[X,Y]) :- edge(X,Y,_).
+show_path_directed(X,Y,L,[X|R]) :- edge(X,Z,_), \+member(Z,L),
+                          show_path_directed(Z,Y,[Z|L],R), \+member(X,R).
+
+show_path_undirected(X,Y,R):-show_path_undirected(X,Y,[],R),writer(R).
+
+show_path_undirected(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
+show_path_undirected(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
+                          show_path_undirected(Z,Y,[Z|L],R), \+member(X,R).
 
 
-% if he specify from which gate to which gate
-routing(FromCity, ToCity, [FromCity, ToCity]) :-
+routing_undirected(FromCity, ToCity, [FromCity, ToCity]) :-
   edge(FromCity, ToCity, _).
 
-routing(FromCity, ToCity, [FromCity|Connections]) :-
-  edge(FromCity, ToConnection, _),
-  routing(ToConnection, ToCity, Connections).
+routing_undirected(FromCity, ToCity, [FromCity|Connections]) :-
+  (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
+  routing_undirected(ToConnection, ToCity, Connections).
 
-% find all path from all gate
-all_path(L) :-
-    all_path(_,_,L).
+routing_directed(FromCity, ToCity, [FromCity, ToCity]) :-
+  edge(FromCity, ToCity, _).
+
+routing_directed(FromCity, ToCity, [FromCity|Connections]) :-
+  edge(FromCity, ToConnection, _),
+  routing_directed(ToConnection, ToCity, Connections).
+
+all_path :-
+    findall(_,all_path(_,_,_),_).
 all_path(Start,End,L) :-
     start(Start),
     end(End),
-    routing(Start, End, L).
-
-%path(X, Y, N, [X-Y]) :- edge(X, Y, N).
-%path(X, Z, N, [X-Y|T]) :-
-%    edge(X, Y, N0),
-%    path(Y, Z, N1, T),
-%    N is N0 + N1.
+    routing_directed(Start, End, L),writer(L).
 
 
+check_endpoints(X,[]) :- end(X).
+check_endpoints(X,[Xt|_]) :- edge(X,Xt,_).
+check_endpoints(X,[Xt|_]) :- edge(Xt,X,_).
 
-% check first element is start(X).
-% valid([g1, g6, g8, g9, g8, g7, g10, g15, g13, g14, g18, g17]).
-% check(X,[]). for path not ending at exit
-% check_start([X|Xs]). for path not ending at opening gate
-%check(X,[]) :- end(X).
-%check(X,[Xt|Xs]) :- edge(X,Xt,_).
-%check(X,[Xt|Xs]) :- edge(Xt,X,_).
-%
-%check_start([X|Xs]) :- start(X).
-%
-%valid([]).
-%valid(Xs) :-
-%    check_start(Xs),valid_check(Xs).
-%
-%valid_check([]).
-%valid_check([X|Xs]) :-
-%    valid_check(Xs),
-%    check(X,Xs).
+check_start([X|_]) :- start(X).
 
-check(X,[]).
-check(X,[Xt|Xs]) :- edge(X,Xt,_).
-check(X,[Xt|Xs]) :- edge(Xt,X,_).
+valid_endpoints([]).
+valid_endpoints(Xs) :-
+    check_start(Xs),valid_check_endpoints(Xs).
+
+valid_check_endpoints([]).
+valid_check_endpoints([X|Xs]) :-
+    valid_check_endpoints(Xs),
+    check_endpoints(X,Xs).
+
+check(_,[]).
+check(X,[Xt|_]) :- edge(X,Xt,_).
+check(X,[Xt|_]) :- edge(Xt,X,_).
 
 
 valid([]).
@@ -133,19 +115,7 @@ valid_check([X|Xs]) :-
     valid_check(Xs),
     check(X,Xs).
 
-% Prolog Conventions
 
-
-%%to get min weight path
-%path(S,D,TDist):-
-%    edge(S,D,TDist).
-%path(S,D,TDist):-
-%    edge(S,X,TD1), path(X,D,TD2), TDist=TD1+TD2.
-%
-%aggregate(min(D), path(g1,g17,D), D).
-
-
-% findminpath(g1,g17,W,P).
 findapath(X, Y, W, [X,Y], _) :- edge(X, Y, W).
 findapath(X, Y, W, [X|P], V) :- \+ member(X, V),
                                  edge(X, Z, W1),
@@ -168,7 +138,6 @@ findminpath(X, Y, _, _) :- findapath(X, Y, W1, P1, []),
 
 findminpath(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
 
-% find all shortest from all gate
 all_shortest_path(Weight,Path) :-
     all_shortest_path(_,_, Weight,Path).
 all_shortest_path(Start,End,Weight,Path) :-
@@ -183,7 +152,7 @@ find_shortest_path([(C, Path)|Paths], MinLen, _, Output) :-
     C < MinLen,
     find_shortest_path(Paths, C, Path, Output).
 
-find_shortest_path([(C, Path)|Paths], MinLen, MinPath, Output) :-
+find_shortest_path([(C, _)|Paths], MinLen, MinPath, Output) :-
     C >= MinLen,
     find_shortest_path(Paths, MinLen, MinPath, Output).
 
