@@ -28,17 +28,23 @@ subset([[H,A]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S=<M.
 subset([[]|T1], [[_,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S>M,S =S1.
 
 
-find_items(hungry,1,1,1) :- starter(A,_),mainDish(B,_),dessert(C,_),write("Items: "),write(A),write(" , "),write(B),write(" , "),write(C).
-find_items(notSoHungry,1,1,0) :- mainDish(B,C), starter(A,M), M+C =< 80,write("Items: "), write(A),write(" , "),write(B).
-find_items(notSoHungry,0,1,1) :- mainDish(B,C), dessert(A,M), M+C =< 80,write("Items: "), write(A),write(" , "), write(B).
-find_items(diet,0,0,1) :- findall([A,Y],(dessert(A,Y),Y=<40),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
-find_items(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
-find_items(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), subset(X,R,M,40), M > 0,write("Items: "), writer(X).
+find_item(hungry,1,1,1) :- starter(A,_),mainDish(B,_),dessert(C,_),write("Items: "),write(A),write(" , "),write(B),write(" , "),writeln(C).
+find_item(notSoHungry,1,1,0) :- mainDish(B,C), starter(A,M), M+C =< 80,write("Items: "), write(A),write(" , "),writeln(B).
+find_item(notSoHungry,0,1,1) :- mainDish(B,C), dessert(A,M), M+C =< 80,write("Items: "), write(A),write(" , "), writeln(B).
+find_item(diet,0,0,1,R) :- subset(X,R,M,40), M > 0,writer(X).
+find_item(diet,0,1,0,R) :- subset(X,R,M,40), M > 0,writer(X).
+find_item(diet,1,0,0,R) :- subset(X,R,M,40), M > 0,writer(X).
 
+find_items(hungry,1,1,1) :- findall(_,find_item(hungry,1,1,1),_).
+find_items(notSoHungry,1,1,0) :- findall(_,find_item(notSoHungry,1,1,0),_).
+find_items(notSoHungry,0,1,1) :- findall(_,find_item(notSoHungry,0,1,1),_).
+find_items(diet,0,0,1) :- findall([A,Y],(dessert(A,Y),Y=<40),R), findall(_,find_item(diet,0,0,1,R),_).
+find_items(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), findall(_,find_item(diet,0,1,0,R),_).
+find_items(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), findall(_,find_item(diet,1,0,0,R),_).
 
 writer1([]) :- writeln("").
 writer1([[A,_]|T]) :-  write(" , "),write(A),writer1(T).
-writer([[A,_]|T]) :- write(A),writer1(T).
+writer([[A,_]|T]) :- write("Items: "), write(A),writer1(T).
 
 adds([],0).
 adds([_,A],A).
@@ -53,10 +59,19 @@ subset_repe([], [],0,_).
 subset_repe(L, [_|T],S,M) :- subset_repe(L, T , S1,M), S = S1.
 subset_repe(R, [[H,A]|T2],S,M) :- subset_repe(T1, T2, S1,M-A),  N is div((M-S1),A), N>0, fill(R2,[H,A],N,N,S4),S is S4+S1,append(R2,T1,R).
 
-find_items_repe(diet,0,0,1) :- findall([A,Y],(dessert(A,Y),Y=<40),R), subset_repe(X,R,M,40), M > 0,write("Items: "), writer(X).
-find_items_repe(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), subset_repe(X,R,M,40), M > 0,write("Items: "), writer(X).
-find_items_repe(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), subset_repe(X,R,M,40), M > 0,write("Items: "), writer(X).
+find_item_repe(diet,0,0,1,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
+find_item_repe(diet,0,1,0,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
+find_item_repe(diet,1,0,0,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
 
+find_items_repe(diet,0,0,1) :- findall([A,Y],(dessert(A,Y),Y=<40),R), findall(_,find_item_repe(diet,0,0,1,R),_).
+find_items_repe(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), findall(_,find_item_repe(diet,0,1,0,R),_).
+find_items_repe(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), findall(_,find_item_repe(diet,1,0,0,R),_).
 
-find_items_complex(notSoHungry,1,1,0) :- findall([I,J],mainDish(I,J),K), subset(K,L,C,80), findall([A,Y],starter(A,Y),R), subset(X,R,M,80-C), M>0, write("Items: "), writer(L),write(" , "),writer(X).
-find_items_complex(notSoHungry,0,1,1) :- findall([I,J],mainDish(I,J),K), subset(K,L,C,80), findall([A,Y],dessert(A,Y),R), subset(X,R,M,80-C), M>0 , write("Items: "), writer(L), write(" , "),writer(X).
+writer3([]) :- write("").
+writer3([[A,_]|T]) :-  write(" , "),write(A),writer3(T).
+writer2([[A,_]|T]) :- write(A),writer3(T).
+find_item_complex(notSoHungry,1,1,0,K,R) :- subset(L,K,C,80),C>0, subset(X,R,M,80-C), M>0, write("Items: "), writer2(L),write(" , "),writer2(X),writeln("").
+find_item_complex(notSoHungry,0,1,1,K,R) :- subset(L,K,C,80),C>0, subset(X,R,M,80-C), M>0 , write("Items: "), writer2(L), write(" , "),writer2(X),writeln("").
+
+find_items_complex(notSoHungry,1,1,0) :- findall([I,J],mainDish(I,J),K), findall([A,Y],starter(A,Y),R),findall(_,find_item_complex(notSoHungry,0,1,1,K,R),_).
+find_items_complex(notSoHungry,0,1,1) :- findall([I,J],mainDish(I,J),K), findall([A,Y],dessert(A,Y),R),findall(_,find_item_complex(notSoHungry,0,1,1,K,R),_).
