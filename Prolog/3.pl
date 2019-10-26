@@ -1,4 +1,4 @@
-
+% fact containing all edges with start,end ,weight of edge
 edge(g1,g5,4).
 edge(g2,g5,6).
 edge(g3,g5,8).
@@ -40,80 +40,82 @@ edge(g14,g17,5).
 edge(g14,g18,4).
 edge(g17,g18,8).
 
+% start cantaing gate name for entry and end cantaing gate name for exit
 start(g1).
 start(g2).
 start(g3).
 start(g4).
 end(g17).
 
+% print list of path by taking head out recursively and printing it
 writer1([]) :- writeln("").
 writer1([H|T]) :-  write(" , "),write(H),writer1(T).
 writer([H|T]) :- write("Path: "),write(H),writer1(T).
 
-
-show_path_directed(X,Y,R):-show_path_directed(X,Y,[],R),writer(R).
-
-show_path_directed(X,Y,_,[X,Y]) :- edge(X,Y,_).
-show_path_directed(X,Y,L,[X|R]) :- edge(X,Z,_), \+member(Z,L),
-                          show_path_directed(Z,Y,[Z|L],R), \+member(X,R).
-
-show_path_undirected(X,Y,R):-show_path_undirected(X,Y,[],R),writer(R).
-
-show_path_undirected(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
-show_path_undirected(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
-                          show_path_undirected(Z,Y,[Z|L],R), \+member(X,R).
+% it give path without cycle considering given edge are directed
+path_without_cycle_directed(X,Y,_,[X,Y]) :- edge(X,Y,_).
+path_without_cycle_directed(X,Y,L,[X|R]) :- edge(X,Z,_), \+member(Z,L),
+                          path_without_cycle_directed(Z,Y,[Z|L],R), \+member(X,R).
+path_without_cycle_directed(X,Y,R):-path_without_cycle_directed(X,Y,[],R),writer(R).
 
 
-routing_undirected(FromCity, ToCity, [FromCity, ToCity]) :-
-  edge(FromCity, ToCity, _).
+% it give path without cycle considering given edge are undirected
+path_without_cycle_undirected(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
+path_without_cycle_undirected(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
+                          path_without_cycle_undirected(Z,Y,[Z|L],R), \+member(X,R).
+path_without_cycle_undirected(X,Y,R):-path_without_cycle_undirected(X,Y,[],R),writer(R).
 
-routing_undirected(FromCity, ToCity, [FromCity|Connections]) :-
-  (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
-  routing_undirected(ToConnection, ToCity, Connections).
 
-routing_directed(FromCity, ToCity, [FromCity, ToCity]) :-
-  edge(FromCity, ToCity, _).
+% it give path with cycle considering given edge are undirected
+path_undirected(FromCity, ToCity, [FromCity, ToCity]) :- edge(FromCity, ToCity, _).
+path_undirected(FromCity, ToCity, [FromCity|Connections]) :- (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
+                                                             path_undirected(ToConnection, ToCity, Connections).
 
-routing_directed(FromCity, ToCity, [FromCity|Connections]) :-
-  edge(FromCity, ToConnection, _),
-  routing_directed(ToConnection, ToCity, Connections).
+% it give path with cycle considering given edge are directed
+path_directed(FromCity, ToCity, [FromCity, ToCity]) :- edge(FromCity, ToCity, _).
+path_directed(FromCity, ToCity, [FromCity|Connections]) :- edge(FromCity, ToConnection, _),
+                                                           path_directed(ToConnection, ToCity, Connections).
 
+% print all path from jail to exit
 all_path :-
     findall(_,all_path(_,_,_),_).
 all_path(Start,End,L) :-
     start(Start),
     end(End),
-    routing_directed(Start, End, L),writer(L).
+    path_directed(Start, End, L),writer(L).
 
 
+% check if edge exist
+check(_,[]).
+check(X,[Xt|_]) :- edge(X,Xt,_).
+check(X,[Xt|_]) :- edge(Xt,X,_).
+
+% recursively go to end of list then check each pair that edge exist or not
+valid([]).
+valid([X|Xs]) :-
+    valid(Xs),
+    check(X,Xs).
+
+
+% check if edge exist and check last gate is exit
 check_endpoints(X,[]) :- end(X).
 check_endpoints(X,[Xt|_]) :- edge(X,Xt,_).
 check_endpoints(X,[Xt|_]) :- edge(Xt,X,_).
 
+% check if starting vertex is jail
 check_start([X|_]) :- start(X).
 
+% check if starting vertex is jail and then validate all other pair to have an edge
 valid_endpoints([]).
 valid_endpoints(Xs) :-
     check_start(Xs),valid_check_endpoints(Xs).
 
+% recursively go to end of list and check end to be exit and then check between each pair of path that edge exist or not
 valid_check_endpoints([]).
 valid_check_endpoints([X|Xs]) :-
     valid_check_endpoints(Xs),
     check_endpoints(X,Xs).
 
-check(_,[]).
-check(X,[Xt|_]) :- edge(X,Xt,_).
-check(X,[Xt|_]) :- edge(Xt,X,_).
-
-
-valid([]).
-valid(Xs) :-
-    valid_check(Xs).
-
-valid_check([]).
-valid_check([X|Xs]) :-
-    valid_check(Xs),
-    check(X,Xs).
 
 
 findapath(X, Y, W, [X,Y], _) :- edge(X, Y, W).
