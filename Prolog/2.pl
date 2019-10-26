@@ -36,7 +36,6 @@ writer([[A,_]|T]) :- write("Items: "), write(A),writer1(T).
 subset([], [],0,_).
 subset(L, [_|T],S,M) :- subset(L, T , S1,M), S = S1.
 subset([[H,A]|T1], [[H,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S=<M.
-subset([[]|T1], [[_,A]|T2],S,M) :- subset(T1, T2, S1,M), S = S1 + A,S>M,S =S1.
 
 % rules to get valid items list for perticular combination of status and menu
 % when hungry, get all items and ignore their calorie values
@@ -62,33 +61,42 @@ find_items(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), findall(_,find_
 
 % code section to print output with repeatation of same dish allowed logic same as above with one speacial condition commented below
 
+% adds give second element of list, here it contains nutrient
 adds([],0).
 adds([_,A],A).
-fill([], _, 0,_,S) :- S=0.
-fill([], _, N,M,S) :- N < M,N>0,S=0.
-fill([X|Xs], X, N,M,S) :- succ(N0, N), fill(Xs, X, N0,M,S1),adds(X,A),S is S1 +A.
 
-append([],L,L).
-append([H|T],L2,[H|L3])  :-  append(T,L2,L3).
+% fill is used to form list by repeating X, N times.
+fill([], _, 0,_,S) :- S=0.                      % terminating condition when N becomes zero
+fill([], _, N,M,S) :- N < M,N>0,S=0.            % condition which helps to return every sublist formed
+fill([X|Xs], X, N,M,S) :- succ(N0, N), fill(Xs, X, N0,M,S1),adds(X,A),S is S1 +A.   % call itself recursively for N times and add X to resulting list 
+                                                                                     % every time
 
-% for allowing repeatation here we are considring all subsets with head being fixed
-subset_repe([], [],0,_).
-subset_repe(L, [_|T],S,M) :- subset_repe(L, T , S1,M), S = S1.
-subset_repe(R, [[H,A]|T2],S,M) :- subset_repe(T1, T2, S1,M-A),  N is div((M-S1),A), N>0, fill(R2,[H,A],N,N,S4),S is S4+S1,append(R2,T1,R).
+% combine(X,Y,Z) used to combine X and Y list and give combine result in Z
+combine([],L,L).            % base case when it pass whole second list to resulting list
+combine([H|T],L1,[H|L2])  :-  combine(T,L1,L2).     % it recursively pass head from first list to resulting list till first list become empty
 
+% for allowing repeatation here we are considering all subsets with head being fixed
+subset_repe([], [],0,_).            % terminating case for recursion when input become empty
+subset_repe(L, [_|T],S,M) :- subset_repe(L, T , S1,M), S = S1.      % remove head from list recursively till it become empty
+subset_repe(R, [[H,A]|T2],S,M) :- subset_repe(T1, T2, S1,M-A),  N is div((M-S1),A), N>0, fill(R2,[H,A],N,N,S4),S is S4+S1,combine(R2,T1,R).     %   take head and get subset from remaining list, then add head number of time it can be added
+
+% find item for diet with repetition allowed
 find_item_repe(diet,0,0,1,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
 find_item_repe(diet,0,1,0,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
 find_item_repe(diet,1,0,0,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
 
+% it help to get all possible combination for diet with repetition
 find_items_repe(diet,0,0,1) :- findall([A,Y],(desert(A,Y),Y=<40),R), findall(_,find_item_repe(diet,0,0,1,R),_).
 find_items_repe(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), findall(_,find_item_repe(diet,0,1,0,R),_).
 find_items_repe(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), findall(_,find_item_repe(diet,1,0,0,R),_).
 
+% used to print the list by getting head and printing it
 writer3([]) :- write("").
 writer3([[A,_]|T]) :-  write(" , "),write(A),writer3(T).
 writer2([[A,_]|T]) :- write(A),writer3(T).
+
+% give all combination for not so hungry with many dish from maindish and (starter or desert)
 find_item_complex(notSoHungry,1,1,0,K,R) :- subset(L,K,C,80),C>0, subset(X,R,M,80-C), M>0, write("Items: "), writer2(L),write(" , "),writer2(X),writeln("").
 find_item_complex(notSoHungry,0,1,1,K,R) :- subset(L,K,C,80),C>0, subset(X,R,M,80-C), M>0 , write("Items: "), writer2(L), write(" , "),writer2(X),writeln("").
-
 find_items_complex(notSoHungry,1,1,0) :- findall([I,J],mainDish(I,J),K), findall([A,Y],starter(A,Y),R),findall(_,find_item_complex(notSoHungry,0,1,1,K,R),_).
 find_items_complex(notSoHungry,0,1,1) :- findall([I,J],mainDish(I,J),K), findall([A,Y],desert(A,Y),R),findall(_,find_item_complex(notSoHungry,0,1,1,K,R),_).
