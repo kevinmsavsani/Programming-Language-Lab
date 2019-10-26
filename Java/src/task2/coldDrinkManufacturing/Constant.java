@@ -15,9 +15,9 @@ public class Constant {
 
     public static int packagingB1TraySize=2;      // contains total B1 bottles in packaging tray
     public static int packagingB2TraySize=3;    // contains total B2 bottles in packaging tray
-    public static int unfinishedTrayPackagingInput = 1;   // contains current priority for packaging which picking from UF tray
+    public static int unfinishedTrayPackagingInput = 2;   // contains current priority for packaging which picking from UF tray
     public static int trayPackagingInput = 1;      // contains current priority for Packaging tray while picking from packaging tray
-    public static int unfinishedTraySealingInput = 2;  // contains current priority for sealing which picking from UF tray
+    public static int unfinishedTraySealingInput = 1;  // contains current priority for sealing which picking from UF tray
     public static int packagedB1Bottles=0;        // contains total B1 bottles packed
     public static int packagedB2Bottles=0;     // contains total B2 bottles packed
     public static int sealedB1Bottles=0;        // contains total B1 bottles sealed

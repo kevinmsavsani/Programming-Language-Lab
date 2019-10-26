@@ -58,7 +58,9 @@ public class Manufacturer {
 
         Manufacturer manufacturer = new Manufacturer();
 
-        manufacturer.startMachine();
+        if(Constant.observationTime >= 0 ){
+            manufacturer.startMachine();
+        }
 
         manufacturer.printOutput();
     }

@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f2ea95af-2551-4bf6-8703-4babf6e17654" name="Default Changelist" comment="Task 3 - Comment added">
+    <list default="true" id="f2ea95af-2551-4bf6-8703-4babf6e17654" name="Default Changelist" comment="Task 3 - Readme updated">
+      <change afterPath="$PROJECT_DIR$/Concurrent Programming.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JAVA tutorial.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/.idea/Prolog.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/2.pl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Prolog/Assignment 2.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Merchandise.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Merchandise.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task1/merchandise/Order.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Java/task1/merchandise/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task1/merchandise/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/Constant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/Constant.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/Manufacturer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/Manufacturer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/Packaging.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/Packaging.class" afterDir="false" />
@@ -11,19 +24,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/SealingThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/SealingThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/SynchronizedCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/SynchronizedCounter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task2/coldDrinkManufacturing/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/Constant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/Constant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/LightSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/LightSystem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/Signal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TimeThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TimeThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TrafficLight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TrafficLight.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TrafficLightGui$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TrafficLightGui$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TrafficLightGui.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/TrafficLightGui.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserGUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserInterface$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserInterface$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserInterface$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserInterface$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserInterface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Java/task3/trafficLightSystem/UserThread.class" afterDir="false" />
     </list>
     <list id="380b45be-5ab2-4b06-b3c2-2d1f3b3133f2" name="Task 2 - Approach Changed" comment="" />
     <list id="d40f8df4-daba-42a2-b9de-1deac714e122" name="Task 2 - Bug Fixes" comment="" />
@@ -59,7 +60,7 @@
     <property name="Repository.Attach.JavaDocs" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/programming.java" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Group_17/Java" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -412,7 +413,21 @@
       <option name="project" value="LOCAL" />
       <updated>1568546891958</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Task 3 - Readme updated">
+      <created>1568553878530</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1568553878530</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Assignment 1 Final">
+      <created>1569516244073</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1569516244073</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -429,8 +444,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Changed User Update Timing" />
-    <MESSAGE value="Added Extra Wait Time" />
     <MESSAGE value="Bug Fixes - Task 2" />
     <MESSAGE value="Queue Data Structure added" />
     <MESSAGE value="Godown count synchronized" />
@@ -454,6 +467,8 @@
     <MESSAGE value="Task 3 - Bug Fix" />
     <MESSAGE value="Task 3 - fixed bug" />
     <MESSAGE value="Task 3 - Synchronization changed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Task 3 - Synchronization changed" />
+    <MESSAGE value="Task 3 - Readme updated" />
+    <MESSAGE value="Assignment 1 Final" />
+    <option name="LAST_COMMIT_MESSAGE" value="Assignment 1 Final" />
   </component>
 </project>

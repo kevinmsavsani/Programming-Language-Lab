@@ -65,6 +65,8 @@ public class Merchandise{
         Merchandise merchandise = new Merchandise();
 
         /********* To start processing each order ************/
-        merchandise.startMachine();
+        if (Constant.numberOfOrder > 0) {
+            merchandise.startMachine();
+        }
     }
 }

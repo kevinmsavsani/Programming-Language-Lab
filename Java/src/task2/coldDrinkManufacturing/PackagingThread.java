@@ -18,6 +18,8 @@ public class PackagingThread extends Thread {
             if (Constant.observationTime<SynchronizedCounter.getTimeCounterValue()+2
                     || (Constant.totalB1Bottles == SynchronizedCounter.getGodownB1Value()
                     && Constant.totalB2Bottles == SynchronizedCounter.getGodownB2Value())) {
+                SynchronizedCounter.incrementPackingTimeCounter();
+                SynchronizedCounter.updateTimeCounter();
                 stop();
             }
             if (SynchronizedCounter.getPackingTimeCounterValue()<=SynchronizedCounter.getTimeCounterValue()) {
