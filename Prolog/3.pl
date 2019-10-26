@@ -67,14 +67,14 @@ path_without_cycle_undirected(X,Y,R):-path_without_cycle_undirected(X,Y,[],R),wr
 
 
 % it give path with cycle considering given edge are undirected
-path_undirected(FromCity, ToCity, [FromCity, ToCity]) :- edge(FromCity, ToCity, _).
-path_undirected(FromCity, ToCity, [FromCity|Connections]) :- (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
-                                                             path_undirected(ToConnection, ToCity, Connections).
+path_undirected(Start, End, [Start, End]) :- edge(Start, End, _).
+path_undirected(Start, End, [Start|Connections]) :- (edge(Start, ToConnection, _);edge(ToConnection, Start, _)),
+                                                             path_undirected(ToConnection, End, Connections).
 
 % it give path with cycle considering given edge are directed
-path_directed(FromCity, ToCity, [FromCity, ToCity]) :- edge(FromCity, ToCity, _).
-path_directed(FromCity, ToCity, [FromCity|Connections]) :- edge(FromCity, ToConnection, _),
-                                                           path_directed(ToConnection, ToCity, Connections).
+path_directed(Start, End, [Start, End]) :- edge(Start, End, _).
+path_directed(Start, End, [Start|Connections]) :- edge(Start, ToConnection, _),
+                                                           path_directed(ToConnection, End, Connections).
 
 % print all path from jail to exit
 all_path :-
@@ -116,37 +116,12 @@ valid_check_endpoints([X|Xs]) :-
     valid_check_endpoints(Xs),
     check_endpoints(X,Xs).
 
-
-
+% find a path between X and Y and return weight with path
 findapath(X, Y, W, [X,Y], _) :- edge(X, Y, W).
 findapath(X, Y, W, [X|P], V) :- \+ member(X, V),
                                  edge(X, Z, W1),
                                  findapath(Z, Y, W2, P, [X|V]),
                                  W is W1 + W2.
-
-:-dynamic(solution/2).
-findminpath(X, Y, W, P) :- \+ solution(_, _),
-                           findapath(X, Y, W1, P1, []),
-                           assertz(solution(W1, P1)),
-                           !,
-                           findminpath(X,Y,W,P).
-
-findminpath(X, Y, _, _) :- findapath(X, Y, W1, P1, []),
-                           solution(W2, P2),
-                           W1 < W2,
-                           retract(solution(W2, P2)),
-                           asserta(solution(W1, P1)),
-                           fail.
-
-findminpath(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
-
-all_shortest_path(Weight,Path) :-
-    all_shortest_path(_,_, Weight,Path).
-all_shortest_path(Start,End,Weight,Path) :-
-    start(Start),
-    end(End),
-    findminpath(Start, End, Weight, Path).
-
 
 find_shortest_path([], _, MinPath, MinPath).
 
@@ -159,7 +134,7 @@ find_shortest_path([(C, _)|Paths], MinLen, MinPath, Output) :-
     find_shortest_path(Paths, MinLen, MinPath, Output).
 
 optimal(X) :-
-    findall((W1,P1),(start(X),end(Y),findapath(X, Y, W1, P1, [])), R),
+    findall((W,P),(start(X),end(Y),findapath(X, Y, W, P, [])), R),
     findall(W, edge(_, _, W), L),
     sumlist(L, Sum),
     find_shortest_path(R, Sum, [], X).
