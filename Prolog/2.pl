@@ -76,19 +76,19 @@ combine([],L,L).            % base case when it pass whole second list to result
 combine([H|T],L1,[H|L2])  :-  combine(T,L1,L2).     % it recursively pass head from first list to resulting list till first list become empty
 
 % for allowing repeatation here we are considering all subsets with head being fixed
-subset_repe([], [],0,_).            % terminating case for recursion when input become empty
-subset_repe(L, [_|T],S,M) :- subset_repe(L, T , S1,M), S = S1.      % remove head from list recursively till it become empty
-subset_repe(R, [[H,A]|T2],S,M) :- subset_repe(T1, T2, S1,M-A),  N is div((M-S1),A), N>0, fill(R2,[H,A],N,N,S4),S is S4+S1,combine(R2,T1,R).     %   take head and get subset from remaining list, then add head number of time it can be added
+subset_repetition([], [],0,_).            % terminating case for recursion when input become empty
+subset_repetition(L, [_|T],S,M) :- subset_repetition(L, T , S1,M), S = S1.      % remove head from list recursively till it become empty
+subset_repetition(R, [[H,A]|T2],S,M) :- subset_repetition(T1, T2, S1,M-A),  N is div((M-S1),A), N>0, fill(R2,[H,A],N,N,S4),S is S4+S1,combine(R2,T1,R).     %   take head and get subset from remaining list, then add head number of time it can be added
 
 % find item for diet with repetition allowed
-find_item_repe(diet,0,0,1,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
-find_item_repe(diet,0,1,0,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
-find_item_repe(diet,1,0,0,R) :- subset_repe(X,R,M,40), M > 0,writer(X).
+find_item_repetition(diet,0,0,1,R) :- subset_repetition(X,R,M,40), M > 0,writer(X).
+find_item_repetition(diet,0,1,0,R) :- subset_repetition(X,R,M,40), M > 0,writer(X).
+find_item_repetition(diet,1,0,0,R) :- subset_repetition(X,R,M,40), M > 0,writer(X).
 
 % it help to get all possible combination for diet with repetition
-find_items_repe(diet,0,0,1) :- findall([A,Y],(desert(A,Y),Y=<40),R), findall(_,find_item_repe(diet,0,0,1,R),_).
-find_items_repe(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), findall(_,find_item_repe(diet,0,1,0,R),_).
-find_items_repe(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), findall(_,find_item_repe(diet,1,0,0,R),_).
+find_items_repetition(diet,0,0,1) :- findall([A,Y],(desert(A,Y),Y=<40),R), findall(_,find_item_repetition(diet,0,0,1,R),_).
+find_items_repetition(diet,0,1,0) :- findall([A,Y],(mainDish(A,Y),Y=<40),R), findall(_,find_item_repetition(diet,0,1,0,R),_).
+find_items_repetition(diet,1,0,0) :- findall([A,Y],(starter(A,Y),Y=<40),R), findall(_,find_item_repetition(diet,1,0,0,R),_).
 
 % used to print the list by getting head and printing it
 writer3([]) :- write("").
