@@ -117,7 +117,7 @@ valid_check_endpoints([X|Xs]) :-
     check_endpoints(X,Xs).
 
 
-
+% recursion to get path and weight without cycle
 path_find(X, Y, W, [X,Y], _) :- edge(X, Y, W).
 path_find(X, Y, W, [X|P], V) :- \+ member(X, V),
                                  edge(X, Z, W1),
