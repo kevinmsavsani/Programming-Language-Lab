@@ -1,4 +1,4 @@
-% fact containing all edges with start,end ,weight of edge
+% fact containing all edges with start,end ,distance of edge
 edge(g1,g5,4).
 edge(g2,g5,6).
 edge(g3,g5,8).
@@ -53,95 +53,92 @@ print1([H|T]) :-  write(" , "),write(H),print1(T).
 print([H|T]) :- write("Path: "),write(H),print1(T).
 
 % it give path without cycle considering given edge are directed
-path_without_cycle_directed(X,Y,_,[X,Y]) :- edge(X,Y,_).
-path_without_cycle_directed(X,Y,L,[X|R]) :- edge(X,Z,_), \+member(Z,L),
-                          path_without_cycle_directed(Z,Y,[Z|L],R), \+member(X,R).
-path_without_cycle_directed(X,Y,R):-path_without_cycle_directed(X,Y,[],R),writer(R).
+path_without_cycle_directed(Start,End,_,[Start,End]) :- edge(Start,End,_).
+path_without_cycle_directed(Start,End,Path,[Start|R]) :- edge(Start,Mid,_), \+member(Mid,Path),
+                          path_without_cycle_directed(Mid,End,[Mid|Path],R), \+member(Start,R).
+path_without_cycle_directed(Start,End,R):-path_without_cycle_directed(Start,End,[],R),writer(R).
 
 
 % it give path without cycle considering given edge are undirected
-path_without_cycle_undirected(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
-path_without_cycle_undirected(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
-                          path_without_cycle_undirected(Z,Y,[Z|L],R), \+member(X,R).
-path_without_cycle_undirected(X,Y,R):-path_without_cycle_undirected(X,Y,[],R),writer(R).
+path_without_cycle_undirected(Start,End,_,[Start,End]) :- (edge(Start,End,_);edge(End,Start,_)).
+path_without_cycle_undirected(Start,End,Path,[Start|R]) :- (edge(Start,Mid,_);edge(Mid,Start,_)), \+member(Mid,Path),
+                          path_without_cycle_undirected(Mid,End,[Mid|Path],R), \+member(Start,R).
+path_without_cycle_undirected(Start,End,R):-path_without_cycle_undirected(Start,End,[],R),writer(R).
 
 
 % it give path with cycle considering given edge are undirected
 path_undirected(Start, End, [Start, End]) :- edge(Start, End, _).
-path_undirected(Start, End, [Start|Connections]) :- (edge(Start, ToConnection, _);edge(ToConnection, Start, _)),
-                                                             path_undirected(ToConnection, End, Connections).
+path_undirected(Start, End, [Start|Path]) :- (edge(Start, Mid, _);edge(Mid, Start, _)),
+                                                             path_undirected(Mid, End, Path).
 
 % it give path with cycle considering given edge are directed
 path_directed(Start, End, [Start, End]) :- edge(Start, End, _).
-path_directed(Start, End, [Start|Connections]) :- edge(Start, ToConnection, _),
-                                                           path_directed(ToConnection, End, Connections).
+path_directed(Start, End, [Start|Path]) :- edge(Start, Mid, _),
+                                                           path_directed(Mid, End, Path).
 
 % print all path from jail to exit
 get_all_path :-
     findall(_,get_all_path(_,_,_),_).
-get_all_path(Start,End,L) :-
+get_all_path(Start,End,Path) :-
     start(Start),
     end(End),
-    path_directed(Start, End, L),print(L).
+    path_directed(Start, End, Path),print(Path).
 
 
 % check if edge exist
 check(_,[]).
-check(X,[Xt|_]) :- edge(X,Xt,_).
-check(X,[Xt|_]) :- edge(Xt,X,_).
+check(Gi,[Gj|_]) :- edge(Gi,Gj,_).
+check(Gi,[Gj|_]) :- edge(Gj,Gi,_).
 
 % recursively go to end of list then check each pair that edge exist or not
 valid([]).
-valid([X|Xs]) :-
-    valid(Xs),
-    check(X,Xs).
+valid([Gi|Path]) :-
+    valid(Path),
+    check(Gi,Path).
 
 
 % check if edge exist and check last gate is exit
-check_endpoints(X,[]) :- end(X).
-check_endpoints(X,[Xt|_]) :- edge(X,Xt,_).
-check_endpoints(X,[Xt|_]) :- edge(Xt,X,_).
+check_endpoints(Gi,[]) :- end(Gi).
+check_endpoints(Gi,[Gj|_]) :- edge(Gi,Gj,_).
+check_endpoints(Gi,[Gj|_]) :- edge(Gj,Gi,_).
 
 % check if starting vertex is jail
-check_start([X|_]) :- start(X).
+check_start([Gi|_]) :- start(Gi).
 
 % check if starting vertex is jail and then validate all other pair to have an edge
 valid_endpoints([]).
-valid_endpoints(Xs) :-
-    check_start(Xs),valid_check_endpoints(Xs).
+valid_endpoints(Path) :-
+    check_start(Path),valid_check_endpoints(Path).
 
 % recursively go to end of list and check end to be exit and then check between each pair of path that edge exist or not
 valid_check_endpoints([]).
-valid_check_endpoints([X|Xs]) :-
-    valid_check_endpoints(Xs),
-    check_endpoints(X,Xs).
+valid_check_endpoints([Gi|Path]) :-
+    valid_check_endpoints(Path),
+    check_endpoints(Gi,Path).
 
 
-% recursion to get path and weight without cycle
-path_find(X, Y, W, [X,Y], _) :- edge(X, Y, W).
-path_find(X, Y, W, [X|P], V) :- \+ member(X, V),
-                                 edge(X, Z, W1),
-                                 path_find(Z, Y, W2, P, [X|V]),
-                                 W is W1 + W2.
+% recursion to get all path and distance without cycle
+path_find(Start, End, Distance, [Start,End], _) :- edge(Start, End, Distance).
+path_find(Start, End, Distance, [Start|Path], Visited) :- \+ member(Start, Visited),
+                                 edge(Start, Mid, Distance1),
+                                 path_find(Mid, End, Distance2, Path, [Start|Visited]),
+                                 Distance is Distance1 + Distance2.
 
-%recursion to return shortest path when
-%list is empty
+% recursion to return shortest path when list is empty
 min_dist_path([], _, MinPath, MinPath).
 
-%recurion to update min path
-%when curr path smaller than min path found
-min_dist_path([(C, Path)|Paths], MinLen, _, Output) :-
-    C < MinLen,
-    min_dist_path(Paths, C, Path, Output).
+% recurion to update min path, when current path smaller than min path found
+min_dist_path([(Distance, Path)|Paths], MinDistance, _, Output) :-
+    Distance < MinDistance,
+    min_dist_path(Paths, Distance, Path, Output).
 
-%recursion , keep searching for path
-%when curr path is greater than curr min
-min_dist_path([(C, _)|Paths], MinLen, MinPath, Output) :-
-    C >= MinLen,
-    min_dist_path(Paths, MinLen, MinPath, Output).
+% recursion , keep searching for path and when current path is not less than current min
+min_dist_path([(Distance, _)|Paths], MinDistance, MinPath, Output) :-
+    Distance >= MinDistance,
+    min_dist_path(Paths, MinDistance, MinPath, Output).
 
-%starting of search for min path
+% starting of search for min path by getting all path and then getting min from it
 optimal(X) :-
-    findall((W,P),(start(X),end(Y),path_find(X, Y, W, P, [])), R),
-    aggregate_all(sum(X),edge(_,_,X),Sum),
+    findall((Distance,Path),(start(Start),end(End),path_find(Start, End, Distance, Path, [])), R),
+    aggregate_all(sum(Distance),edge(_,_,Distance),Sum),
     min_dist_path(R, Sum, [], X).
