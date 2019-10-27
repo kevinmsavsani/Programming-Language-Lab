@@ -40,7 +40,7 @@ edge(g14,g17,5).
 edge(g14,g18,4).
 edge(g17,g18,8).
 
-% start cantaing gate name for entry and end cantaing gate name for exit
+% start cantaining gate name for entry and end containing gate name for exit
 start(g1).
 start(g2).
 start(g3).
@@ -49,29 +49,39 @@ end(g17).
 
 % print list of path by taking head out recursively and printing it
 print1([]) :- writeln("").
-print1([H|T]) :-  write(" , "),write(H),print1(T).
+print1([H|T]) :-  write(" -> "),write(H),print1(T).
 print([H|T]) :- write("Path: "),write(H),print1(T).
 
 % it give path without cycle considering given edge are directed
+% it check if edge exist between start and end if it does not exist it take mid gate and try to get path from mid to end
+% while adding start and mid to path it checks that it is not visited so cycle is avoided
+% edges are considered directed
 path_without_cycle_directed(Start,End,_,[Start,End]) :- edge(Start,End,_).
 path_without_cycle_directed(Start,End,Path,[Start|R]) :- edge(Start,Mid,_), \+member(Mid,Path),
                           path_without_cycle_directed(Mid,End,[Mid|Path],R), \+member(Start,R).
-path_without_cycle_directed(Start,End,R):-path_without_cycle_directed(Start,End,[],R),writer(R).
+path_without_cycle_directed(Start,End,R):-path_without_cycle_directed(Start,End,[],R).
 
 
 % it give path without cycle considering given edge are undirected
+% it check if edge exist between start and end if it does not exist it take mid gate and try to get path from mid to end
+% while adding start and mid to path it checks that it is not visited so cycle is avoided
+% edges are considered undirected
 path_without_cycle_undirected(Start,End,_,[Start,End]) :- (edge(Start,End,_);edge(End,Start,_)).
 path_without_cycle_undirected(Start,End,Path,[Start|R]) :- (edge(Start,Mid,_);edge(Mid,Start,_)), \+member(Mid,Path),
                           path_without_cycle_undirected(Mid,End,[Mid|Path],R), \+member(Start,R).
-path_without_cycle_undirected(Start,End,R):-path_without_cycle_undirected(Start,End,[],R),writer(R).
+path_without_cycle_undirected(Start,End,R):-path_without_cycle_undirected(Start,End,[],R).
 
 
 % it give path with cycle considering given edge are undirected
+% it check if edge exist between start and end if it does not exist it take mid gate and try to get path from mid to end
+% edges are considered undirected
 path_undirected(Start, End, [Start, End]) :- edge(Start, End, _).
 path_undirected(Start, End, [Start|Path]) :- (edge(Start, Mid, _);edge(Mid, Start, _)),
                                                              path_undirected(Mid, End, Path).
 
 % it give path with cycle considering given edge are directed
+% it check if edge exist between start and end if it does not exist it take mid gate and try to get path from mid to end
+% edges are considered directed
 path_directed(Start, End, [Start, End]) :- edge(Start, End, _).
 path_directed(Start, End, [Start|Path]) :- edge(Start, Mid, _),
                                                            path_directed(Mid, End, Path).
@@ -82,10 +92,10 @@ get_all_path :-
 get_all_path(Start,End,Path) :-
     start(Start),
     end(End),
-    path_directed(Start, End, Path),print(Path).
+    path_without_cycle_undirected(Start, End, Path),print(Path).
 
 
-% check if edge exist
+% check if edge exist between Gi and Gj
 check(_,[]).
 check(Gi,[Gj|_]) :- edge(Gi,Gj,_).
 check(Gi,[Gj|_]) :- edge(Gj,Gi,_).
@@ -118,6 +128,10 @@ valid_check_endpoints([Gi|Path]) :-
 
 
 % recursion to get all path and distance without cycle
+% it check if edge exist between start and end if it does not exist it take mid gate and try to get path from mid to end
+% distance of path is distance from start to mid + distance from mid to end
+% while adding start to path it checks that it is not visited so cycle is avoided
+% edges are considered undirected
 path_find(Start, End, Distance, [Start,End], _) :- edge(Start, End, Distance).
 path_find(Start, End, Distance, [Start|Path], Visited) :- \+ member(Start, Visited),
                                  edge(Start, Mid, Distance1),
@@ -127,7 +141,7 @@ path_find(Start, End, Distance, [Start|Path], Visited) :- \+ member(Start, Visit
 % recursion to return shortest path when list is empty
 min_dist_path([], _, MinPath, MinPath).
 
-% recurion to update min path, when current path smaller than min path found
+% recursion to update min path, when current path smaller than min path found
 min_dist_path([(Distance, Path)|Paths], MinDistance, _, Output) :-
     Distance < MinDistance,
     min_dist_path(Paths, Distance, Path, Output).

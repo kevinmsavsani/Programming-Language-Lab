@@ -26,9 +26,9 @@ test cases execute  - decode(“7”).
  
  Problem statement 3 --
   run command -  swipl -s 3.pl
-  test cases execute -  all_path.
+  test cases execute -  get_all_path.
                         path_undirected(g1,g17,P).
-                        path_without_cycle_undirected(g1,g17,P).
+                        path_directed(g1,g17,P).
                         path_without_cycle_directed(g1,g17,P).
                         valid([g1, g6, g8, g9, g10, g15, g13, g14, g17]).
                         valid_endpoints([g1, g6, g8, g9, g10, g15, g13, g14, g17]).
