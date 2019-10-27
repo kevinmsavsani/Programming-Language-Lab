@@ -135,6 +135,5 @@ find_shortest_path([(C, _)|Paths], MinLen, MinPath, Output) :-
 
 optimal(X) :-
     findall((W,P),(start(X),end(Y),findapath(X, Y, W, P, [])), R),
-    findall(W, edge(_, _, W), L),
-    sumlist(L, Sum),
+    aggregate_all(sum(X),edge(_,_,X),Sum),
     find_shortest_path(R, Sum, [], X).
