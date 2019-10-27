@@ -53,28 +53,28 @@ print1([H|T]) :-  write(" , "),write(H),print1(T).
 print([H|T]) :- write("Path: "),write(H),print1(T).
 
 % it give path without cycle considering given edge are directed
-directedG_no_cycle_path(X,Y,_,[X,Y]) :- edge(X,Y,_).
-directedG_no_cycle_path(X,Y,L,[X|R]) :- edge(X,Z,_), \+member(Z,L),
-                          directedG_no_cycle_path(Z,Y,[Z|L],R), \+member(X,R).
-directedG_no_cycle_path(X,Y,R):-directedG_no_cycle_path(X,Y,[],R),print(R).
+path_without_cycle_directed(X,Y,_,[X,Y]) :- edge(X,Y,_).
+path_without_cycle_directed(X,Y,L,[X|R]) :- edge(X,Z,_), \+member(Z,L),
+                          path_without_cycle_directed(Z,Y,[Z|L],R), \+member(X,R).
+path_without_cycle_directed(X,Y,R):-path_without_cycle_directed(X,Y,[],R),writer(R).
 
 
 % it give path without cycle considering given edge are undirected
-undirectedG_no_cycle_path(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
-undirectedG_no_cycle_path(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
-                          undirectedG_no_cycle_path(Z,Y,[Z|L],R), \+member(X,R).
-undirectedG_no_cycle_path(X,Y,R):-undirectedG_no_cycle_path(X,Y,[],R),print(R).
+path_without_cycle_undirected(X,Y,_,[X,Y]) :- (edge(X,Y,_);edge(Y,X,_)).
+path_without_cycle_undirected(X,Y,L,[X|R]) :- (edge(X,Z,_);edge(Z,X,_)), \+member(Z,L),
+                          path_without_cycle_undirected(Z,Y,[Z|L],R), \+member(X,R).
+path_without_cycle_undirected(X,Y,R):-path_without_cycle_undirected(X,Y,[],R),writer(R).
 
 
 % it give path with cycle considering given edge are undirected
-path_undirected(FromCity, ToCity, [FromCity, ToCity]) :- edge(FromCity, ToCity, _).
-path_undirected(FromCity, ToCity, [FromCity|Connections]) :- (edge(FromCity, ToConnection, _);edge(ToConnection, FromCity, _)),
-                                                             path_undirected(ToConnection, ToCity, Connections).
+path_undirected(Start, End, [Start, End]) :- edge(Start, End, _).
+path_undirected(Start, End, [Start|Connections]) :- (edge(Start, ToConnection, _);edge(ToConnection, Start, _)),
+                                                             path_undirected(ToConnection, End, Connections).
 
 % it give path with cycle considering given edge are directed
-path_directed(FromCity, ToCity, [FromCity, ToCity]) :- edge(FromCity, ToCity, _).
-path_directed(FromCity, ToCity, [FromCity|Connections]) :- edge(FromCity, ToConnection, _),
-                                                           path_directed(ToConnection, ToCity, Connections).
+path_directed(Start, End, [Start, End]) :- edge(Start, End, _).
+path_directed(Start, End, [Start|Connections]) :- edge(Start, ToConnection, _),
+                                                           path_directed(ToConnection, End, Connections).
 
 % print all path from jail to exit
 get_all_path :-
@@ -91,9 +91,9 @@ check(X,[Xt|_]) :- edge(X,Xt,_).
 check(X,[Xt|_]) :- edge(Xt,X,_).
 
 % recursively go to end of list then check each pair that edge exist or not
-valid_check([]).
-valid_check([X|Xs]) :-
-    valid_check(Xs),
+valid([]).
+valid([X|Xs]) :-
+    valid(Xs),
     check(X,Xs).
 
 
@@ -124,29 +124,6 @@ path_find(X, Y, W, [X|P], V) :- \+ member(X, V),
                                  path_find(Z, Y, W2, P, [X|V]),
                                  W is W1 + W2.
 
-:-dynamic(solution/2).
-min_path_find(X, Y, W, P) :- \+ solution(_, _),
-                           path_find(X, Y, W1, P1, []),
-                           assertz(solution(W1, P1)),
-                           !,
-                           min_path_find(X,Y,W,P).
-
-min_path_find(X, Y, _, _) :- path_find(X, Y, W1, P1, []),
-                           solution(W2, P2),
-                           W1 < W2,
-                           retract(solution(W2, P2)),
-                           asserta(solution(W1, P1)),
-                           fail.
-
-min_path_find(_, _, W, P) :- solution(W,P), retract(solution(W,P)).
-
-get_all_min_path(Weight,Path) :-
-    get_all_min_path(_,_, Weight,Path).
-get_all_min_path(Start,End,Weight,Path) :-
-    start(Start),
-    end(End),
-    min_path_find(Start, End, Weight, Path).
-
 %recursion to return shortest path when
 %list is empty
 min_dist_path([], _, MinPath, MinPath).
@@ -165,7 +142,6 @@ min_dist_path([(C, _)|Paths], MinLen, MinPath, Output) :-
 
 %starting of search for min path
 optimal(X) :-
-    findall((D,P),get_all_min_path(D,P), R),
-    findall(W, edge(_, _, W), L),
-    sumlist(L, Sum),
+    findall((W,P),(start(X),end(Y),path_find(X, Y, W, P, [])), R),
+    aggregate_all(sum(X),edge(_,_,X),Sum),
     min_dist_path(R, Sum, [], X).
