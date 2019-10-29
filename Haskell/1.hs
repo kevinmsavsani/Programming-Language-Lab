@@ -1,28 +1,51 @@
 {-
     run command - ghci -W 1.hs
-                  palindrome "pqqp"
+                  m [[1,2],[3,5]]
                   :quit
+                      or
+                  ghci
+                  :l 1
+                  m [[1,2],[3,5]]
+                  :r for reload
+                  :t m give m :: [[Int]] -> Int
 -}
 import Data.List
-import Data.Char
-import Data.String
 import Data.Ord
 
-{-
-    absValue
-    @param n input number
-    outputs the absolute value of the input
--}
-absValue :: Int -> Int
-absValue n = if n >= 0 then n else -n
+m :: [[Int]] -> Int
+m [] = 1
+m (x:xs) = sum x * m xs
 
-{-
-	palindrome
-	If empty input, then output 0
-	If only one character in the input, then again output 0
-	Otherwise, take the first and last character, calculate the difference between them, and recurse into the remaining string in between.
--}
-palindrome :: String -> Int
-palindrome [] = 0
-palindrome [singleChar] = 0
-palindrome input = absValue((ord (head input)) - (ord (last input)))  + (palindrome (tail (init input)))
+
+greatest f xss = snd $ maximum $ [(f xs, xs) | xs <- xss]
+
+printElements [] =  putStrLn ""
+printElements (x:xs) = putStrLn x >> printElements xs
+
+toList xs = do
+            printList xs
+            putStrLn ""
+
+printList [] = do
+               putStr " Empty "
+               return()
+printList [x] = do
+                putStr "Cons "
+                putStr . show $ x
+                putStr " Empty "
+printList (x:xs) = do
+  putStr " Cons "
+  putStr . show $ x
+  putStr " ("
+  printList xs
+  putStr ")"
+
+
+data List a = Empty | Cons a (List a) deriving Show
+
+toHaskellList :: (List e) -> [e]
+toHaskellList Empty = []
+toHaskellList (Cons el rem) = el : toHaskellList rem
+
+
+
