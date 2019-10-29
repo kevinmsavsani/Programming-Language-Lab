@@ -23,7 +23,8 @@ decode_sum([X|Xs], Sum, Ci) :-
         Sum is 0
     ;   % If this digit is 1 or If digit is smaller than 2 and next digit is smaller than 7, then this digits form a valid character
         (N =:= 1 ; N =:= 2, is_next_less_than_seven(Xs) )->
-        Sum is S0 +C0
+        Sum is S0 + C0
     ;   % If this digit is greater than 2 or If digit is 2 and next digit is greater than 6, then this digit can be used as character
         Sum is S0
-    ).
+    )
+    .
