@@ -4,10 +4,10 @@
                   :quit
                       or
                   ghci
-                  :l 1
-                  m [[1,2],[3,5]]
-                  :r for reload
-                  :t m give m :: [[Int]] -> Int
+                  :l 1        -- for loading 1.hs
+                  m [[1,2],[3,5]]       -- m is function name and other is argument
+                  :r                for reload
+                  :t m              give m :: [[Int]] -> Int
 -}
 import Data.List
 import Data.Ord
