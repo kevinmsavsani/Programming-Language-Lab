@@ -26,7 +26,7 @@ saveArr xs = do
 
 --main :: IO ()
 main = do
-  let list = ["A","B","C","D","E","F","G","H","I","J","K","L"]
+  let list = ["BS","CM","CH","CV","CS","DS","EE","HU","MA","ME","PH","ST"]
   ranl <- randomize list
   let (list1,list2) = splitAt 6 ranl
   let list3 = combine list1 list2
