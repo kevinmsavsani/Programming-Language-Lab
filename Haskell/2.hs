@@ -1,21 +1,25 @@
+module Anagram where
 
 import Data.List
 
 anagrams x y = sort x == sort y && length x == length y
 
-printAnagram t [] = 0
+printAnagram t [] = (0,[])
 printAnagram t (x:xs) = do if anagrams t x
-                              then do let z = printAnagram t xs in z+1
-                              else let z = printAnagram t xs in z
+                              then do let (z,a) = printAnagram t xs in (z+1,a ++ [(t,x)])
+                              else let (z,a) = printAnagram t xs in (z,a)
 
 
-printElements [] = 0
-printElements (x:xs) = do let y = printAnagram x xs
-                          let z = printElements xs in z+y
+printElements [] = (0,[])
+printElements (x:xs) = do let (y,a) = printAnagram x xs
+                          let (z,b) = printElements xs
+                          (z+y,a++b)
 
 continuousSubSeqs = filter (not . null) . concatMap inits . tails
 
 
 check x = do let m = concat x
              let t = continuousSubSeqs m
-             printElements t
+             let (a,b) = printElements t
+             print a
+             print b
