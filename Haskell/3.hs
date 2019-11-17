@@ -77,10 +77,10 @@ fixture team = do
      else match team
 
 checkmatchString x date time = do
-                                if time < 9.5
+                                if time <= 9.5
                                      then do let m = "9:30"
                                              checkdatematchString x date m
-                                     else if time < 19.5
+                                     else if time <= 19.5
                                           then do let m = "7:30"
                                                   checkdatematchString x date m
                                           else if time < 24
