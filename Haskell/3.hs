@@ -26,21 +26,14 @@ saveArr xs = do
 
 --main :: IO ()
 main = do
-  putStrLn "not randomized"
   let list = ["A","B","C","D","E","F","G","H","I","J","K","L"]
   ranl <- randomize list
   let (list1,list2) = splitAt 6 ranl
-  print list1
-  print list2
   let list3 = combine list1 list2
-  print list3
   let date = ["1-11 9:30 AM","1-11 7:30 PM","2-11 9:30 AM","2-11 7:30 PM","3-11 9:30 AM","3-11 7:30 PM"]
-  print date
-  putStrLn "randomized"
   bar <- randomize list3
   randate <- randomize date
   let list4 = combine1 bar randate
-  print list4
   saveArr list4
 
 
