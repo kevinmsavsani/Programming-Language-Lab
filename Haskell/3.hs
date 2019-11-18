@@ -7,6 +7,8 @@ import Data.List     (sortBy)
 import System.Random (randomRIO)
 import Control.Applicative((<$>))
 
+list = ["BS","CM","CH","CV","CS","DS","EE","HU","MA","ME","PH","ST"]
+
 combine [] _ = []
 combine _ [] = []
 combine (x:xs) (y:ys) = (x ++ " vs " ++ y) : combine xs ys
@@ -26,7 +28,6 @@ saveArr xs = do
 
 --main :: IO ()
 main = do
-  let list = ["BS","CM","CH","CV","CS","DS","EE","HU","MA","ME","PH","ST"]
   ranl <- randomize list
   let (list1,list2) = splitAt 6 ranl
   let list3 = combine list1 list2
@@ -71,10 +72,13 @@ match team = do
    let linesOfFiles = lines content
    checkElements linesOfFiles team
 
+
 fixture team = do
    if team == "all"
      then do allMatch
-     else match team
+     else if team `elem` list
+             then do match team
+             else putStrLn "Please enter correct team"
 
 checkmatchString x date time = do
                                 if time <= 9.5
@@ -105,9 +109,13 @@ checkmatch (x:xs) date time = do checkmatchString x date time
                                  checkmatch xs date time
 
 nextmatch date time = do
-   content <- readFile "test.txt"
-   let linesOfFiles = lines content
-   let s = show date
-   let b = s ++ "-11"
-   checkmatch linesOfFiles b time
+   if date < 1 || date > 31 || time < 0 || time >= 24
+         then putStrLn "Please Enter date time in correct format"
+         else if date > 3 || (date == 3 && time > 19.50)
+                  then putStrLn "All Matches are Over"
+                  else do content <- readFile "test.txt"
+                          let linesOfFiles = lines content
+                          let s = show date
+                          let b = s ++ "-11"
+                          checkmatch linesOfFiles b time
 

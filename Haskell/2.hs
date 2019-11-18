@@ -17,9 +17,14 @@ printElements (x:xs) = do let (y,a) = printAnagram x xs
 
 continuousSubSeqs = filter (not . null) . concatMap inits . tails
 
+check x = do if (length x) /= 2
+                 then do print "Please enter string in valid format"
+                 else do let m = concat x
+                         let t = continuousSubSeqs m
+                         let (a,b) = printElements t
+                         print a
+                         print b
 
-check x = do let m = concat x
-             let t = continuousSubSeqs m
-             let (a,b) = printElements t
-             print a
-             print b
+flatten [] = []
+flatten ([]:vs) = flatten vs
+flatten ((x:xs):vs) = x:flatten (xs:vs)
