@@ -4,7 +4,7 @@ import System.IO
 import Control.Monad (replicateM)
 import Data.Function (on)
 import Data.List     (sortBy)
-import System.Random (randomRIO)
+import System.Random (randomRIO,randomRs,mkStdGen)
 import Control.Applicative((<$>))
 
 list = ["BS","CM","CH","CV","CS","DS","EE","HU","MA","ME","PH","ST"]
@@ -19,8 +19,8 @@ combine1 (x:xs) (y:ys) = (x ++ " " ++ y) : combine1 xs ys
 
 --randomize :: [a] -> IO [a]
 randomize xs = do
-  ys <- replicateM (length xs) $ randomRIO (1 :: Int, 100000)
-  pure $ map fst $ sortBy (compare `on` snd) (zip xs ys)
+  ys <- replicateM (length xs)  (randomRIO (1 :: Int, 100000))
+  pure $ map fst ( sortBy (compare `on` snd) (zip xs ys))
 
 
 saveArr xs = do
@@ -33,8 +33,7 @@ main = do
   let list3 = combine list1 list2
   let date = ["1-11 9:30 AM","1-11 7:30 PM","2-11 9:30 AM","2-11 7:30 PM","3-11 9:30 AM","3-11 7:30 PM"]
   bar <- randomize list3
-  randate <- randomize date
-  let list4 = combine1 bar randate
+  let list4 = combine1 bar date
   saveArr list4
 
 
@@ -119,3 +118,10 @@ nextmatch date time = do
                           let b = s ++ "-11"
                           checkmatch linesOfFiles b time
 
+
+--raandom xs = do let x = take xs $ randomRs ((1 :: Int), 100000) (mkStdGen 42)
+--                pure $ x
+--
+--rrr = do r <- raandom 5
+--         let a = r
+--         a
