@@ -16,7 +16,7 @@ printElements (x:xs) = do let (y,a) = printAnagram x xs
                           (z+y,a++b)
 
 nonEmptySubstrings :: [a] -> [[a]]
-nonEmptySubstrings = concatMap (tail . inits) . tails
+nonEmptySubstrings x = concatMap  (tail . inits) ( tails x)
 
 check x = do if (length x) /= 2
                  then do print "Please enter string in valid format"
