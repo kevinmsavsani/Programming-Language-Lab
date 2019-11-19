@@ -129,11 +129,3 @@ nextmatch date time = do
                           let s = show date
                           let b = s ++ "-11"              -- concatenate month with data
                           checkmatch linesOfFiles b time  --function call to check the match
-
-
---raandom xs = do let x = take xs $ randomRs ((1 :: Int), 100000) (mkStdGen 42)
---                pure $ x
---
---rrr = do r <- raandom 5
---         let a = r
---         a

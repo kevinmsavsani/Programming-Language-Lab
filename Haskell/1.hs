@@ -1,44 +1,37 @@
-{-
-    run command - ghci -W 1.hs
-                  m [[1,2],[3,5]]
-                  :quit
-                      or
-                  ghci
-                  :l 1        -- for loading 1.hs
-                  m [[1,2],[3,5]]       -- m is function name and other is argument
-                  :r                for reload
-                  :t m              give m :: [[Int]] -> Int
--}
 
 import Data.List
 import Data.Ord
 
--- Function m for task a
+
 m :: [[Int]] -> Int
 m [] = 1                -- if list is empty return 1
 m (x:xs) = sum x * m xs -- sums elements in list x and calls m for next list recursively and multiply all of them
 
 
 
-greatest f xss = snd $ maximum $ [(f xs, xs) | xs <- xss]
+
+greatest :: (Ord a, Ord b) => (b -> a) -> [b] -> b
+greatest f xss = snd $ maximum $ [(f xs, xs) | xs <- xss]   -- form tuple of element of list with f and get maximum of it
 
 
-printElements [] =  putStrLn ""
-printElements (x:xs) = putStrLn x >> printElements xs
 
 
--- Function toList for task b
-toList xs = do
+
+toList :: Show a => [a] -> IO ()
+toList xs = do                       -- Print list in Cons format
             printList xs
             putStrLn ""
 
+printList :: Show a => [a] -> IO ()
 printList [] = do                    -- If list is empty
                putStr " Empty "
                return()
+
 printList [x] = do                    -- If list have only one list
                 putStr "Cons "
                 putStr . show $ x
                 putStr " Empty "
+
 printList (x:xs) = do                -- If list have one than one list
   putStr " Cons "
   putStr . show $ x
@@ -47,11 +40,7 @@ printList (x:xs) = do                -- If list have one than one list
   putStr ")"
 
 
-
 data List a = Empty | Cons a (List a) deriving Show  --Haskell list declaration
-
-
--- Function for task c
 
 toHaskellList :: (List e) -> [e]            -- add e in list
 toHaskellList Empty = []                    -- if input is empty create empty Haskell list
