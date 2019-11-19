@@ -4,8 +4,11 @@ import Data.Ord
 
 
 m :: [[Int]] -> Int
-m [] = 1                -- if list is empty return 1
-m (x:xs) = sum x * m xs -- sums elements in list x and calls m for next list recursively and multiply all of them
+m [] = 0
+m xs = sm xs
+
+sm [] = 1                -- if list is empty return 1
+sm (x:xs) = sum x * sm xs -- sums elements in list x and calls m for next list recursively and multiply all of them
 
 
 
