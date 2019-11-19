@@ -127,7 +127,7 @@ nextmatch date time = do
                   else do content <- readFile "test.txt"
                           let linesOfFiles = lines content
                           let s = show date
-                          let b = s ++ "-11"
+                          let b = s ++ "-11"              -- concatenate month with data
                           checkmatch linesOfFiles b time  --function call to check the match
 
 
