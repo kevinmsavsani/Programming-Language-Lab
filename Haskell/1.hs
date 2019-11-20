@@ -1,22 +1,21 @@
 
 import Data.List
 import Data.Ord
-
+import System.IO
 
 m :: [[Int]] -> Int
-m [] = 0                -- if input is empty
+m [] = 0
 m xs = sm xs
 
-sm [] = 1                -- when  list is empty return 1
+sm [] = 1                -- if list is empty return 1
 sm (x:xs) = sum x * sm xs -- sums elements in list x and calls m for next list recursively and multiply all of them
 
 
 
 
 greatest :: (Ord a, Ord b) => (b -> a) -> [b] -> b
+freatest f [] = error "Error"
 greatest f xs = snd $ maximum $ [(f x, x) | x <- xs]   -- form tuple of element of list with f and get maximum of it
-
-
 
 
 
@@ -35,7 +34,7 @@ printList [x] = do                    -- If list have only one list
                 putStr . show $ x
                 putStr " Empty "
 
-printList (x:xs) = do                -- If list have more than one or equal to one element in list
+printList (x:xs) = do                -- If list have one than one list
   putStr " Cons "
   putStr . show $ x
   putStr " ("
@@ -45,9 +44,9 @@ printList (x:xs) = do                -- If list have more than one or equal to o
 
 data List a = Empty | Cons a (List a) deriving Show  --Haskell list declaration
 
-toHaskellList :: (List e) -> [e]
+toHaskellList :: (List e) -> [e]            -- add e in list
 toHaskellList Empty = []                    -- if input is empty create empty Haskell list
-toHaskellList (Cons el rem) = el : toHaskellList rem     --get input in given format store first element after "Cons" i.e., el
+toHaskellList (Cons el rem) = el : toHaskellList rem     --get input in given format store first element after "Cons" in el
                                                         -- add el into list
 
 
