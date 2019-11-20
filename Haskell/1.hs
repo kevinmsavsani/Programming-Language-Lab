@@ -14,7 +14,7 @@ sm (x:xs) = sum x * sm xs -- sums elements in list x and calls m for next list r
 
 
 greatest :: (Ord a, Ord b) => (b -> a) -> [b] -> b
-greatest f xss = snd $ maximum $ [(f xs, xs) | xs <- xss]   -- form tuple of element of list with f and get maximum of it
+greatest f xs = snd $ maximum $ [(f x, x) | x <- xs]   -- form tuple of element of list with f and get maximum of it
 
 
 

@@ -11,19 +11,19 @@ teams :: [[Char]]
 teams = ["BS","CM","CH","CV","CS","DS","EE","HU","MA","ME","PH","ST"]      -- initial team list
 
 --Function to combine two team list
-combine :: [[Char]] -> [[Char]] -> [[Char]]
-combine [] _ = []
-combine _ [] = []
-combine (x:xs) (y:ys) = (x ++ " vs " ++ y) : combine xs ys
+combineTeams :: [[Char]] -> [[Char]] -> [[Char]]
+combineTeams [] _ = []
+combineTeams _ [] = []
+combineTeams (x:xs) (y:ys) = (x ++ " vs " ++ y) : combineTeams xs ys
 
 --function to combine team list and time list
-combine1 :: [[Char]] -> [[Char]] -> [[Char]]
-combine1 [] _ = []
-combine1 _ [] = []
-combine1 (x:xs) (y:ys) = (x ++ " " ++ y) : combine1 xs ys
+combineTeamAndTime :: [[Char]] -> [[Char]] -> [[Char]]
+combineTeamAndTime [] _ = []
+combineTeamAndTime _ [] = []
+combineTeamAndTime (x:xs) (y:ys) = (x ++ " " ++ y) : combineTeamAndTime xs ys
 
-randomize :: [a] -> IO [a]
-randomize xs = do
+shuffle :: [a] -> IO [a]
+shuffle xs = do
   ys <- replicateM (length xs)  (randomRIO (1 :: Int, 100000))  --generate list of random numbers map them with list of teams sort according to random numbers
   pure $ map fst ( sortBy (compare `on` snd) (zip xs ys))       -- this will shuffle the team list in random order every time
 
@@ -33,12 +33,12 @@ saveArr xs = do
 
 main :: IO ()
 main = do
-  ranl <- randomize teams   -- Randomly change order of elements of the teams
+  ranl <- shuffle teams   -- Randomly change order of elements of the teams
   let (list1,list2) = splitAt 6 ranl          --split teams into two equal half
-  let list3 = combine list1 list2             -- combine both half to make pair of corresponding indexes
+  let list3 = combineTeams list1 list2             -- combine both half to make pair of corresponding indexes
   let date = ["1-11 9:30 AM","1-11 7:30 PM","2-11 9:30 AM","2-11 7:30 PM","3-11 9:30 AM","3-11 7:30 PM"]  --teams of available time slots
-  bar <- randomize list3                      --Randomly change order of elements of the teams
-  let list4 = combine1 bar date               -- combine team pair and time slots lists
+  bar <- shuffle list3                      --Randomly change order of elements of the teams
+  let list4 = combineTeamAndTime bar date               -- combine team pair and time slots lists
   saveArr list4                               --function call to save the final schedule
 
 
@@ -50,8 +50,8 @@ printElements (x:xs) = do putStrLn x
                           printElements xs
 
 -- function to split line on space
-split :: Eq a => a -> [a] -> [[a]]
-split x y = func x y [[]]
+splitBySpace :: Eq a => a -> [a] -> [[a]]
+splitBySpace x y = func x y [[]]
     where
         func x [] z = reverse $ map (reverse) z
         func x (y:ys) (z:zs) = if y==x then
@@ -60,7 +60,7 @@ split x y = func x y [[]]
             func x ys ((y:z):zs)
 
 checkString :: String -> [Char] -> IO ()
-checkString x team = do let a = split ' ' x    -- split line on space and get first element i.e. team name
+checkString x team = do let a = splitBySpace ' ' x    -- split line on space and get first element i.e. team name
                         if team == a!!0        -- if team in query equals first team in team teams pair
                              then do putStrLn x  -- print the fixture of that team
                              else if team == a!!2  --if team in query equals second team in team teams pair
@@ -76,15 +76,15 @@ checkElements (x:xs) team = do checkString x team
 allMatch :: IO ()
 allMatch = do
    content <- readFile "test.txt"     --read the stored schedule line by line
-   let linesOfFiles = lines content
-   printElements linesOfFiles          -- print line on console
+   let fileLines = lines content
+   printElements fileLines          -- print line on console
 
 -- function to get fixture of requested team
 match :: [Char] -> IO ()
 match team = do
    content <- readFile "test.txt"
-   let linesOfFiles = lines content
-   checkElements linesOfFiles team            -- function call for checkElements
+   let fileLines = lines content
+   checkElements fileLines team            -- function call for checkElements
 
 fixture :: [Char] -> IO ()
 fixture team = do          --function to get fixture
@@ -96,8 +96,8 @@ fixture team = do          --function to get fixture
 
 
 -- function to get next match
-checkmatchString:: (Ord a, Fractional a) => String -> [Char] -> a -> IO ()
-checkmatchString x date time = do
+checkThis:: (Ord a, Fractional a) => String -> [Char] -> a -> IO ()
+checkThis x date time = do
                                 if time <= 9.5                     -- if time is less than 9.5 than next match will be at 9:30
                                      then do let m = "9:30"
                                              checkdatematchString x date m  -- function call
@@ -116,7 +116,7 @@ checkmatchString x date time = do
 
 -- function call to get match with time and time of argument
 checkdatematchString :: String -> [Char] -> [Char] -> IO ()
-checkdatematchString x date time = do let a = split ' ' x  -- split line by space
+checkdatematchString x date time = do let a = splitBySpace ' ' x  -- split line by space
                                       if date == a!!3       -- check for date match
                                            then do if time == a!!4   -- check for time match
                                                         then putStrLn x
@@ -126,7 +126,7 @@ checkdatematchString x date time = do let a = split ' ' x  -- split line by spac
 
 checkmatch:: (Ord t, Fractional t) => [String] -> [Char] -> t -> IO ()
 checkmatch [] date time = return ()    -- if teams is empty return
-checkmatch (x:xs) date time = do checkmatchString x date time     -- function call
+checkmatch (x:xs) date time = do checkThis x date time     -- function call
                                  checkmatch xs date time
 
 
@@ -138,7 +138,7 @@ nextmatch date time = do
          else if date > 3 || (date == 3 && time > 19.50)     --check if any match left
                   then putStrLn "All Matches are Over"
                   else do content <- readFile "test.txt"
-                          let linesOfFiles = lines content
+                          let fileLines = lines content
                           let s = show date
                           let b = s ++ "-11"              -- concatenate month with data
-                          checkmatch linesOfFiles b time  --function call to check the match
+                          checkmatch fileLines b time  --function call to check the match
