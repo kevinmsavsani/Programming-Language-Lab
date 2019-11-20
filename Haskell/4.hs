@@ -1,14 +1,12 @@
 import Data.Array
 
 -- dimensions of grids
-n = 9
+n = 4
 s = floor . sqrt . fromIntegral $ n
 
 -- int values for all objects
 type Symbols = Int
-
-type Coordinate = (Int, Int)          -- row and col
-
+type Coordinate = (Int, Int)
 type Grid = Array Coordinate Symbols
 
 puzzleGrid :: Grid
@@ -20,8 +18,7 @@ convertInput :: [[Symbols]] -> [(Coordinate, Symbols)]
 convertInput = concatMap convertRow . zip [0..n-1]
   where
     convertRow :: (Int, [Symbols]) -> [((Int, Int), Symbols)]
-    convertRow (x, marks) = convertCol x $ zip [0..n-1] marks
-
+    convertRow (x, ms) = convertCol x $ zip [0..n-1] ms
 
     convertCol :: Int -> [(Int, Symbols)] -> [((Int, Int), Symbols)]
     convertCol x cols = map (\(y, m) -> ((x, y), m)) cols
@@ -31,8 +28,7 @@ convertInput = concatMap convertRow . zip [0..n-1]
 initialPuzzle :: (Eq a, Num a, Num t) => a -> [[t]]
 initialPuzzle 4 = [[1, 2, 0,  0],
                    [0, 0, 0,  1],
-
-                   [2, 0, 1,  0],
+                   [0, 0, 0,  0],
                    [4, 0, 0,  2]]
 
 
@@ -40,11 +36,9 @@ initialPuzzle 4 = [[1, 2, 0,  0],
 initialPuzzle 9 = [[5, 3, 0,  0, 7, 0,  0, 0, 0],
                    [6, 0, 0,  1, 9, 5,  0, 0, 0],
                    [0, 9, 8,  0, 0, 0,  0, 6, 0],
-
                    [8, 0, 0,  0, 6, 0,  0, 0, 3],
                    [4, 0, 0,  8, 0, 3,  0, 0, 1],
                    [7, 0, 0,  0, 2, 0,  0, 0, 6],
-
                    [0, 6, 0,  0, 0, 0,  2, 8, 0],
                    [0, 0, 0,  4, 1, 9,  0, 0, 5],
                    [0, 0, 0,  0, 8, 0,  0, 7, 0]]
