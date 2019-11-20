@@ -1,32 +1,35 @@
-
 import Data.Array
 
--- dimentions of grids
+-- dimensions of grids
 n = 9
 s = floor . sqrt . fromIntegral $ n
 
--- starting function to find solution
-main = do
-    if list_lengths
-        then do let solution = solve puzzleBoard
-                printBoard solution             -- function call to print solution
-        else putStrLn "Invalid Input Format"
-
-
 -- int values for all objects
-type Mark = Int
+type Symbols = Int
 
-type Location = (Int, Int)          -- row and col
+type Coordinate = (Int, Int)          -- row and col
 
-type Board = Array Location Mark
+type Grid = Array Coordinate Symbols
 
-puzzleBoard :: Board
-puzzleBoard = array ((0, 0), (n-1, n-1)) $ puzzleAssocs $ examplePuzzle n   -- function call to convert 2D puzzleboard to array
+puzzleGrid :: Grid
+puzzleGrid = array ((0, 0), (n-1, n-1)) $ convertInput $ initialPuzzle n   -- function call to convert 2D puzzleboard to array
+
+
+-- convert 2D array into 1D array
+convertInput :: [[Symbols]] -> [(Coordinate, Symbols)]
+convertInput = concatMap convertRow . zip [0..n-1]
+  where
+    convertRow :: (Int, [Symbols]) -> [((Int, Int), Symbols)]
+    convertRow (x, marks) = convertCol x $ zip [0..n-1] marks
+
+
+    convertCol :: Int -> [(Int, Symbols)] -> [((Int, Int), Symbols)]
+    convertCol x cols = map (\(y, m) -> ((x, y), m)) cols
 
 
 -- initial puzzle box for 4x4
-examplePuzzle :: (Eq a, Num a, Num t) => a -> [[t]]
-examplePuzzle 4 = [[1, 2, 0,  0],
+initialPuzzle :: (Eq a, Num a, Num t) => a -> [[t]]
+initialPuzzle 4 = [[1, 2, 0,  0],
                    [0, 0, 0,  1],
 
                    [2, 0, 1,  0],
@@ -34,7 +37,7 @@ examplePuzzle 4 = [[1, 2, 0,  0],
 
 
 -- initial puzzle box for 9x9
-examplePuzzle 9 = [[5, 3, 0,  0, 7, 0,  0, 0, 0],
+initialPuzzle 9 = [[5, 3, 0,  0, 7, 0,  0, 0, 0],
                    [6, 0, 0,  1, 9, 5,  0, 0, 0],
                    [0, 9, 8,  0, 0, 0,  0, 6, 0],
 
@@ -46,87 +49,82 @@ examplePuzzle 9 = [[5, 3, 0,  0, 7, 0,  0, 0, 0],
                    [0, 0, 0,  4, 1, 9,  0, 0, 5],
                    [0, 0, 0,  0, 8, 0,  0, 7, 0]]
 
-solve :: Board -> Maybe Board
-solve = headOrNothing . solutions
 
-solutions :: Board -> [Board]
-solutions b = solutions' (emptyLocations b) b       -- function call to get all empty cell location and try to fill them
+getSol :: Grid -> Maybe Grid
+getSol = finalOut . getAllSols
+
+getAllSols :: Grid -> [Grid]
+getAllSols b = getAllSols' (emptyCoordinates b) b       -- function call to get all empty cell location and try to fill them
   where
-    solutions' :: [Location] -> Board -> [Board]
-    solutions' []     b = [b]                                         -- when list is empty return b
-    solutions' (x:xs) b = concatMap (solutions' xs) candidateBoards    --recursive call to reach end of list and start marking from bottom to top
+    getAllSols' :: [Coordinate] -> Grid -> [Grid]
+    getAllSols' []     b = [b]                                         -- when list is empty return b
+    getAllSols' (x:xs) b = concatMap (getAllSols' xs) candidateBoards    --recursive call to reach end of list and start marking from bottom to top
       where
-        candidateMarks  = [m | m <- [1..n], isPossibleMark m x b]   -- try to put all values and check if it's possible
-        candidateBoards = map (\m -> copyWithMark m x b) candidateMarks   -- copy the marked puzzle box to original puzzle board
+        candidateMarks  = [m | m <- [1..n], ifPossible m x b]   -- try to put all values and check if it's possible
+        candidateBoards = map (\m -> updateGrid m x b) candidateMarks   -- copy the marked puzzle box to original puzzle board
 
 -- Function to get all empty cell locations
-emptyLocations :: Board -> [Location]
-emptyLocations b = [(row, col) | row <- [0..n-1], col <- [0..n-1], b ! (row, col) == 0]   --check cell with value equal to 0
+emptyCoordinates :: Grid -> [Coordinate]
+emptyCoordinates b = [(x, y) | x <- [0..n-1], y <- [0..n-1], b ! (x, y) == 0]   --check cell with value equal to 0
 
 -- function to check validation of assigned value
-isPossibleMark :: Mark -> Location -> Board -> Bool
-isPossibleMark m (row, col) b = notInRow && notInColumn && notInBox    -- check if value is already in same row, col or box
+ifPossible :: Symbols -> Coordinate -> Grid -> Bool
+ifPossible m (x, y) b = notInRow && notInColumn && notInBox    -- check if value is already in same row, col or box
   where
-    notInRow    = notElem m $ b `marksInRow` row                      -- Move in whole row and check for marked value if present return false
-    notInColumn = notElem m $ b `marksInColumn` col                   -- Move in whole col and check for marked value if present return false
-    notInBox    = notElem m $ b `marksIn3x3Box` (row, col)            -- Move in whole box and check for marked value if present return false
+    notInRow    = notElem m $ b `elemsInRow` x                      -- Move in whole row and check for marked value if present return false
+    notInColumn = notElem m $ b `elemsInCol` y                   -- Move in whole col and check for marked value if present return false
+    notInBox    = notElem m $ b `elemsInBox` (x, y)            -- Move in whole box and check for marked value if present return false
 
-copyWithMark :: Mark -> Location -> Board -> Board
-copyWithMark mark (row, col) b = b // [((row, col), mark)]            -- function to copy marked board to original board
+updateGrid :: Symbols -> Coordinate -> Grid -> Grid
+updateGrid mark (x, y) b = b // [((x, y), mark)]            -- function to copy marked board to original board
 
-marksInRow :: Board -> Int -> [Mark]
-b `marksInRow` row = [b ! loc | loc <- range((row, 0), (row, n-1))]         -- function to check if current mark is present in the same row
+elemsInRow :: Grid -> Int -> [Symbols]
+b `elemsInRow` x = [b ! loc | loc <- range((x, 0), (x, n-1))]         -- function to check if current mark is present in the same row
 
-marksInColumn ::  Board -> Int -> [Mark]
-b `marksInColumn` col = [b ! loc | loc <- range((0, col), (n-1, col))]      -- function to check if current mark is present in the same col
+elemsInCol ::  Grid -> Int -> [Symbols]
+b `elemsInCol` y = [b ! loc | loc <- range((0, y), (n-1, y))]      -- function to check if current mark is present in the same col
 
-marksIn3x3Box :: Board -> Location -> [Mark]
-b `marksIn3x3Box` (row, col) = [b ! loc | loc <- locations]               -- function to check if current mark is present in the same box
+elemsInBox :: Grid -> Coordinate -> [Symbols]
+b `elemsInBox` (x, y) = [b ! loc | loc <- locations]               -- function to check if current mark is present in the same box
   where
-    row' = (row `div` s) * s
-    col' = (col `div` s) * s
-    locations = range((row', col'), (row' + 1, col' + 1))                -- For loop to travel in all rows and cols in current box of size s
+    x' = (x `div` s) * s
+    y' = (y `div` s) * s
+    locations = range((x', y'), (x' + 1, y' + 1))                -- For loop to travel in all rows and cols in current box of size s
 
 
--- convert 2D array into 1D array
-puzzleAssocs :: [[Mark]] -> [(Location, Mark)]
-puzzleAssocs = concatMap rowAssocs . zip [0..n-1]
-  where
-    rowAssocs :: (Int, [Mark]) -> [((Int, Int), Mark)]
-    rowAssocs (row, marks) = colAssocs row $ zip [0..n-1] marks
+finalOut :: [a] -> Maybe a
+finalOut []     = Nothing              -- return nothing if no output
+finalOut (x:xs) = Just x               -- return head if output possible
+
+printGrid :: Maybe Grid -> IO ()
+printGrid Nothing  = putStrLn "Not solvable"      -- if nothing is return then print no output
+printGrid (Just b) = do mapM_ putStrLn [show $ b `elemsInRow` x | x <- [0..n-1]]    --else print output
+                        putStrLn ""
 
 
-    colAssocs :: Int -> [(Int, Mark)] -> [((Int, Int), Mark)]
-    colAssocs row cols = map (\(col, m) -> ((row, col), m)) cols
-
-
-headOrNothing :: [a] -> Maybe a
-headOrNothing []     = Nothing              -- return nothing if no solution
-headOrNothing (x:xs) = Just x               -- return head if solution possible
-
-printBoard :: Maybe Board -> IO ()
-printBoard Nothing  = putStrLn "Not solvable"      -- if nothing is return then print no solution
-printBoard (Just b) = mapM_ putStrLn [show $ b `marksInRow` row | row <- [0..n-1]]    --else print solution
-
-
-printBoards :: Maybe Board -> IO ()
-printBoards Nothing  = putStrLn "Not solvable"      -- if nothing is return then print no solution
-printBoards (Just b) = do mapM_ putStrLn [show $ b `marksInRow` row | row <- [0..n-1]] --else print solution
-                          putStrLn ""
--- function to print all solutions
-printAll :: [Board] -> IO ()
+-- function to print all getAllSols
+printAll :: [Grid] -> IO ()
 printAll [] = return ()
-printAll (x:xs) = do printBoards (Just x)
+printAll (x:xs) = do printGrid (Just x)
                      printAll xs
 
-printcheck :: [Board] -> IO ()
-printcheck [] = printBoards Nothing
+printcheck :: [Grid] -> IO ()
+printcheck [] = printGrid Nothing
 printcheck (xs) = printAll xs
 
 allSolutions :: IO ()
 allSolutions = do
                  if list_lengths
-                     then do printcheck $ solutions puzzleBoard
+                     then do printcheck $ getAllSols puzzleGrid
                      else putStrLn "Invalid Input Format"
 
-list_lengths = (map length (examplePuzzle n)) == (replicate n n)
+list_lengths :: Bool
+list_lengths = (map length (initialPuzzle n)) == (replicate n n)
+
+
+-- starting function to find output
+main = do
+    if list_lengths
+        then do let output = getSol puzzleGrid
+                printGrid output             -- function call to print output
+        else putStrLn "Invalid Input Format"
