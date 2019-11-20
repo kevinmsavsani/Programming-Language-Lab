@@ -5,11 +5,12 @@ import Data.Array
 n = 9
 s = floor . sqrt . fromIntegral $ n
 
-
 -- starting function to find solution
 main = do
-    let solution = solve puzzleBoard   -- function call
-    printBoard solution                -- function call to print solution
+    if list_lengths
+        then do let solution = solve puzzleBoard
+                printBoard solution             -- function call to print solution
+        else putStrLn "Invalid Input Format"
 
 
 -- int values for all objects
@@ -123,4 +124,9 @@ printcheck [] = printBoards Nothing
 printcheck (xs) = printAll xs
 
 allSolutions :: IO ()
-allSolutions = printcheck $ solutions puzzleBoard
+allSolutions = do
+                 if list_lengths
+                     then do printcheck $ solutions puzzleBoard
+                     else putStrLn "Invalid Input Format"
+
+list_lengths = (map length (examplePuzzle n)) == (replicate n n)
