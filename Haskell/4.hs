@@ -123,6 +123,7 @@ list_lengths = (map length (initialPuzzle n)) == (replicate n n)
 
 
 -- starting function to find output
+main :: IO ()
 main = do
     if list_lengths
         then do let output = getSol puzzleGrid
