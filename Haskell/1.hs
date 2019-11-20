@@ -4,10 +4,10 @@ import Data.Ord
 
 
 m :: [[Int]] -> Int
-m [] = 0
+m [] = 0                -- if input is empty
 m xs = sm xs
 
-sm [] = 1                -- if list is empty return 1
+sm [] = 1                -- when  list is empty return 1
 sm (x:xs) = sum x * sm xs -- sums elements in list x and calls m for next list recursively and multiply all of them
 
 
@@ -35,7 +35,7 @@ printList [x] = do                    -- If list have only one list
                 putStr . show $ x
                 putStr " Empty "
 
-printList (x:xs) = do                -- If list have one than one list
+printList (x:xs) = do                -- If list have more than one or equal to one element in list
   putStr " Cons "
   putStr . show $ x
   putStr " ("
@@ -45,9 +45,9 @@ printList (x:xs) = do                -- If list have one than one list
 
 data List a = Empty | Cons a (List a) deriving Show  --Haskell list declaration
 
-toHaskellList :: (List e) -> [e]            -- add e in list
+toHaskellList :: (List e) -> [e]
 toHaskellList Empty = []                    -- if input is empty create empty Haskell list
-toHaskellList (Cons el rem) = el : toHaskellList rem     --get input in given format store first element after "Cons" in el
+toHaskellList (Cons el rem) = el : toHaskellList rem     --get input in given format store first element after "Cons" i.e., el
                                                         -- add el into list
 
 
