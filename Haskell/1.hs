@@ -4,10 +4,9 @@ import Data.Ord
 import System.IO
 
 m :: [[Int]] -> Int
-m [] = 0                  -- if list is empty
+m [] = 0
 m xs = sm xs
 
-sm :: (Num t1, Foldable t) => [t t1] -> t1
 sm [] = 1                -- if list is empty return 1
 sm (x:xs) = sum x * sm xs -- sums elements in list x and calls m for next list recursively and multiply all of them
 
@@ -15,7 +14,7 @@ sm (x:xs) = sum x * sm xs -- sums elements in list x and calls m for next list r
 
 
 greatest :: (Ord a, Ord b) => (b -> a) -> [b] -> b
-greatest f [] = error "Error"
+freatest f [] = error "Error"
 greatest f xs = snd $ maximum $ [(f x, x) | x <- xs]   -- form tuple of element of list with f and get maximum of it
 
 

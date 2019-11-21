@@ -29,7 +29,7 @@ shuffle xs = do
 
 saveArr :: [String] -> IO ()
 saveArr xs = do
-          writeFile "Fixtures.txt" (unlines xs)
+          writeFile "test.txt" (unlines xs)
 
 main :: IO ()
 main = do
@@ -75,14 +75,14 @@ checkElements (x:xs) team = do checkString x team
 --function to get fixture of all teams
 allMatch :: IO ()
 allMatch = do
-   content <- readFile "Fixtures.txt"     --read the stored schedule line by line
+   content <- readFile "test.txt"     --read the stored schedule line by line
    let fileLines = lines content
    printElements fileLines          -- print line on console
 
 -- function to get fixture of requested team
 match :: [Char] -> IO ()
 match team = do
-   content <- readFile "Fixtures.txt"
+   content <- readFile "test.txt"
    let fileLines = lines content
    checkElements fileLines team            -- function call for checkElements
 
@@ -137,7 +137,7 @@ nextmatch date time = do
          then putStrLn "Please Enter date time in correct format"
          else if date > 3 || (date == 3 && time > 19.50)     --check if any match left
                   then putStrLn "All Matches are Over"
-                  else do content <- readFile "Fixtures.txt"
+                  else do content <- readFile "test.txt"
                           let fileLines = lines content
                           let s = show date
                           let b = s ++ "-11"              -- concatenate month with data
